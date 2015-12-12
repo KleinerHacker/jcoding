@@ -2,17 +2,10 @@ package org.pcsoft.framework.jcoding.processor;
 
 import org.apache.commons.lang.SystemUtils;
 import org.pcsoft.framework.jcoding.exception.JCodingException;
-import org.pcsoft.framework.jcoding.jobject.JAnnotationDescriptor;
-import org.pcsoft.framework.jcoding.jobject.JAnnotationMethodDescriptor;
-import org.pcsoft.framework.jcoding.jobject.JClassDescriptor;
-import org.pcsoft.framework.jcoding.jobject.JEnumerationDescriptor;
-import org.pcsoft.framework.jcoding.jobject.JFileDescriptor;
-import org.pcsoft.framework.jcoding.jobject.JInterfaceDescriptor;
-import org.pcsoft.framework.jcoding.jobject.JMethodBodyDescriptor;
-import org.pcsoft.framework.jcoding.jobject.JMethodDescriptor;
-import org.pcsoft.framework.jcoding.jobject.JStandardMethodDescriptor;
-import org.pcsoft.framework.jcoding.jobject.JTypeDescriptor;
+import org.pcsoft.framework.jcoding.jobject.*;
 import org.pcsoft.framework.jcoding.management.ImportManagement;
+import org.pcsoft.framework.jcoding.type.JBrace;
+import org.pcsoft.framework.jcoding.type.JClassNamePresentation;
 
 /**
  * Basic implementation for code generation
@@ -21,15 +14,16 @@ public abstract class JCodingProcessorBase implements JCodingProcessor {
     private static final String IMPORT_PLACEHOLDER = "$$IMPORT$$";
 
     /**
-     * Callback for Body Generation
+     * Callback for Generation
      */
     @FunctionalInterface
-    public static interface JBodyBuilderCallback {
+    public static interface JBuildCallback {
         /**
-         * Call this method on a callback object to build the body on this position in string builder.
+         * Call this method on a callback object to build on this position in string builder.
+         *
          * @throws JCodingException
          */
-        void buildBody() throws JCodingException;
+        void build() throws JCodingException;
     }
 
     @Override
@@ -64,7 +58,24 @@ public abstract class JCodingProcessorBase implements JCodingProcessor {
     private void buildType(final int level, final StringBuilder sb, final ImportManagement importManagement, final JTypeDescriptor typeDescriptor) throws JCodingException {
         typeDescriptor.validate();
 
-        final JBodyBuilderCallback bodyBuilder = () -> {
+        final JBuildCallback superClassBuilder = () -> {
+            if (typeDescriptor instanceof JClassDescriptor) {
+                buildSuperClassExtension(sb, importManagement, ((JClassDescriptor)typeDescriptor).getSuperClass());
+            }
+        };
+        final JBuildCallback interfacesBuilder = () -> {
+            if (typeDescriptor instanceof JClassDescriptor) {
+                buildInterfacesImplementation(sb, importManagement, ((JClassDescriptor)typeDescriptor).getInterfaces());
+            } else if (typeDescriptor instanceof JInterfaceDescriptor) {
+                buildInterfacesImplementation(sb, importManagement, ((JInterfaceDescriptor)typeDescriptor).getInterfaces());
+            }
+        };
+        final JBuildCallback genericBuilder = () -> {
+            if (typeDescriptor instanceof JInheritableTypeDescriptor) {
+                buildGenerics(sb, importManagement, ((JInheritableTypeDescriptor)typeDescriptor).getGenerics());
+            }
+        };
+        final JBuildCallback bodyBuilder = () -> {
             buildTypes(level + 1, sb, importManagement, typeDescriptor.getChildTypes());
             buildMethods(level + 1, sb, importManagement, typeDescriptor.getMethods());
         };
@@ -74,11 +85,33 @@ public abstract class JCodingProcessorBase implements JCodingProcessor {
         } else if (typeDescriptor instanceof JEnumerationDescriptor) {
             buildEnumerationType(level, sb, importManagement, (JEnumerationDescriptor) typeDescriptor, bodyBuilder);
         } else if (typeDescriptor instanceof JInterfaceDescriptor) {
-            buildInterfaceType(level, sb, importManagement, (JInterfaceDescriptor) typeDescriptor, bodyBuilder);
+            buildInterfaceType(level, sb, importManagement, (JInterfaceDescriptor) typeDescriptor, bodyBuilder, genericBuilder, interfacesBuilder);
         } else if (typeDescriptor instanceof JClassDescriptor) {
-            buildClassType(level, sb, importManagement, (JClassDescriptor) typeDescriptor, bodyBuilder);
+            buildClassType(level, sb, importManagement, (JClassDescriptor) typeDescriptor, bodyBuilder, genericBuilder, superClassBuilder, interfacesBuilder);
         } else
             throw new RuntimeException();
+    }
+    //endregion
+
+    //region Generics
+    private void buildGenerics(final StringBuilder sb, final ImportManagement importManagement, final JGenericDescriptor[] descriptors) throws JCodingException {
+        sb.append(getGenericBrace(JBrace.Open));
+        for (final JGenericDescriptor descriptor : descriptors) {
+            _buildGeneric(sb, importManagement, descriptor);
+        }
+        sb.append(getGenericBrace(JBrace.Close));
+    }
+
+    private void _buildGeneric(final StringBuilder sb, final ImportManagement importManagement, final JGenericDescriptor descriptor) throws JCodingException {
+        descriptor.validate();
+        if (descriptor.getClassExtension() != null) {
+            importManagement.add(descriptor.getClassExtension().getFullClassName(JClassNamePresentation.Canonical));
+        }
+        for (final JTypeReferenceDescriptor referenceDescriptor : descriptor.getInterfaceExtensions()) {
+            importManagement.add(referenceDescriptor.getFullClassName(JClassNamePresentation.Canonical));
+        }
+
+        buildGeneric(sb, importManagement, descriptor);
     }
     //endregion
 
@@ -95,7 +128,7 @@ public abstract class JCodingProcessorBase implements JCodingProcessor {
             buildAnnotationMethod(level, sb, importManagement, (JAnnotationMethodDescriptor) methodDescriptor);
         } else if (methodDescriptor instanceof JStandardMethodDescriptor) {
             buildStandardMethod(level, sb, importManagement, (JStandardMethodDescriptor) methodDescriptor,
-                    () -> buildMethodBody(level + 1, sb, importManagement, ((JStandardMethodDescriptor)methodDescriptor).getBody()));
+                    () -> buildMethodBody(level + 1, sb, importManagement, ((JStandardMethodDescriptor) methodDescriptor).getBody()));
         } else
             throw new RuntimeException();
     }
@@ -107,17 +140,28 @@ public abstract class JCodingProcessorBase implements JCodingProcessor {
 
     /**
      * Build namespace or package name
+     *
      * @param fileDescriptor
      * @return
      * @throws JCodingException
      */
     protected abstract String buildNamespace(JFileDescriptor fileDescriptor) throws JCodingException;
 
-    protected abstract void buildClassType(int level, StringBuilder sb, ImportManagement importManagement, JClassDescriptor typeDescriptor, JBodyBuilderCallback buildBody)  throws JCodingException ;
-    protected abstract void buildInterfaceType(int level, StringBuilder sb, ImportManagement importManagement, JInterfaceDescriptor typeDescriptor, JBodyBuilderCallback buildBody) throws JCodingException;
-    protected abstract void buildEnumerationType(int level, StringBuilder sb, ImportManagement importManagement, JEnumerationDescriptor typeDescriptor, JBodyBuilderCallback buildBody) throws JCodingException;
-    protected abstract void buildAnnotationType(int level, StringBuilder sb, ImportManagement importManagement, JAnnotationDescriptor typeDescriptor, JBodyBuilderCallback buildBody) throws JCodingException;
+    protected abstract void buildSuperClassExtension(StringBuilder sb, ImportManagement importManagement, JClassReferenceDescriptor referenceDescriptor);
+    protected abstract void buildInterfacesImplementation(StringBuilder sb, ImportManagement importManagement, JInterfaceReferenceDescriptor[] referenceDescriptors);
+    protected abstract void buildClassType(int level, StringBuilder sb, ImportManagement importManagement, JClassDescriptor typeDescriptor, JBuildCallback bodyBuilderCallback, JBuildCallback genericBuilderCallback, JBuildCallback superClassBuilderCallback, JBuildCallback interfacesBuilderCallback) throws JCodingException;
 
-    protected abstract void buildStandardMethod(int level, StringBuilder sb, ImportManagement importManagement, JStandardMethodDescriptor methodDescriptor, JBodyBuilderCallback callback) throws JCodingException;
+    protected abstract void buildInterfaceType(int level, StringBuilder sb, ImportManagement importManagement, JInterfaceDescriptor typeDescriptor, JBuildCallback bodyBuilderCallback, JBuildCallback genericBuilderCallback, JBuildCallback extensionBuilderCallback) throws JCodingException;
+
+    protected abstract void buildEnumerationType(int level, StringBuilder sb, ImportManagement importManagement, JEnumerationDescriptor typeDescriptor, JBuildCallback bodyBuilderCallback) throws JCodingException;
+
+    protected abstract void buildAnnotationType(int level, StringBuilder sb, ImportManagement importManagement, JAnnotationDescriptor typeDescriptor, JBuildCallback bodyBuilderCallback) throws JCodingException;
+
+    protected abstract void buildStandardMethod(int level, StringBuilder sb, ImportManagement importManagement, JStandardMethodDescriptor methodDescriptor, JBuildCallback callback) throws JCodingException;
+
     protected abstract void buildAnnotationMethod(int level, StringBuilder sb, ImportManagement importManagement, JAnnotationMethodDescriptor methodDescriptor) throws JCodingException;
+
+    protected abstract String getGenericBrace(JBrace brace) throws JCodingException;
+
+    protected abstract void buildGeneric(StringBuilder sb, ImportManagement importManagement, JGenericDescriptor genericDescriptor) throws JCodingException;
 }

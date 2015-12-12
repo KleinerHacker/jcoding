@@ -21,7 +21,7 @@ public final class JAnnotationMethodDescriptor extends JMethodDescriptor {
                     !fullClassName.equals(long.class.getCanonicalName()) && !fullClassName.equals(double.class.getCanonicalName()) &&
                     !fullClassName.equals(float.class.getCanonicalName()) && !fullClassName.equals(boolean.class.getCanonicalName()) &&
                     !fullClassName.equals(char.class.getCanonicalName()) &&
-                    getReturnTypeDescriptor().getTypeReference() != null && !(getReturnTypeDescriptor().getTypeReference() instanceof JEnumerationDescriptor))
+                    (getReturnTypeDescriptor() == null || !(getReturnTypeDescriptor() instanceof JEnumerationReferenceDescriptor)))
                 throw new JCodingDescriptorValidationException("Wrong return type in annotation method '" + getName() + "': " + fullClassName);
         }
         if (getReturnTypeDescriptor() == null)

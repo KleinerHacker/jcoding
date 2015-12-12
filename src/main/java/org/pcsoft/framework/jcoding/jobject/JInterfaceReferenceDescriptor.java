@@ -1,10 +1,7 @@
 package org.pcsoft.framework.jcoding.jobject;
 
 /**
- * Represent an interface reference descriptor. To create use {@link JInterfaceReferenceBuilder}.
+ * Created by Christoph on 12.12.2015.
  */
-public final class JInterfaceReferenceDescriptor extends JTypeReferenceDescriptor<JInterfaceDescriptor> {
-
-    JInterfaceReferenceDescriptor() {
-    }
+public interface JInterfaceReferenceDescriptor extends IJTypeReferenceDescriptor, JObjectDescriptor {
 }

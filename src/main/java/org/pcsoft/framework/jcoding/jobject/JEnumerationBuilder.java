@@ -5,7 +5,7 @@ import org.pcsoft.framework.jcoding.type.JVisibility;
 /**
  * Created by pfeifchr on 10.12.2015.
  */
-public final class JEnumerationBuilder extends JInheritableTypeBuilder<JEnumerationDescriptor, JEnumerationBuilder> {
+public final class JEnumerationBuilder extends JExtensibleTypeBuilder<JEnumerationDescriptor, JEnumerationBuilder> {
     public static JEnumerationBuilder create(final JVisibility visibility, final String name) {
         return new JEnumerationBuilder().withVisibility(visibility).withName(name);
     }

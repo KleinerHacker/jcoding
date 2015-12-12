@@ -4,23 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by pfeifchr on 10.12.2015.
+ * Created by Christoph on 12.12.2015.
  */
-public abstract class JInheritableTypeDescriptor extends JTypeDescriptor<JStandardMethodDescriptor> {
-    private final List<JInterfaceReferenceDescriptor> interfaceList = new ArrayList<>();
+public abstract class JInheritableTypeDescriptor extends JExtensibleTypeDescriptor {
+    private final List<JGenericDescriptor> genericList = new ArrayList<>();
 
-    JInheritableTypeDescriptor() {
+    public JInheritableTypeDescriptor() {
     }
 
-    public JInterfaceReferenceDescriptor[] getInterfaces() {
-        return interfaceList.toArray(new JInterfaceReferenceDescriptor[interfaceList.size()]);
+    public JGenericDescriptor[] getGenerics() {
+        return genericList.toArray(new JGenericDescriptor[genericList.size()]);
     }
 
-    void addInterface(final JInterfaceReferenceDescriptor $interface) {
-        interfaceList.add($interface);
+    void addGeneric(final JGenericDescriptor generic) {
+        genericList.add(generic);
     }
 
-    void removeInterface(final JInterfaceReferenceDescriptor $interface) {
-        interfaceList.remove($interface);
+    void removeGeneric(final JGenericDescriptor generic) {
+        genericList.remove(generic);
     }
 }

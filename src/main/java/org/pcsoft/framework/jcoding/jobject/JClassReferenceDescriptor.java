@@ -1,10 +1,7 @@
 package org.pcsoft.framework.jcoding.jobject;
 
 /**
- * Represent a java class descriptor. To create use {@link JClassReferenceBuilder}.
+ * Created by Christoph on 12.12.2015.
  */
-public final class JClassReferenceDescriptor extends JTypeReferenceDescriptor<JClassDescriptor> {
-
-    JClassReferenceDescriptor() {
-    }
+public interface JClassReferenceDescriptor extends IJTypeReferenceDescriptor, JObjectDescriptor {
 }

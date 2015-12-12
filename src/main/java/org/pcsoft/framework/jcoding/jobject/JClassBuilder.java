@@ -30,7 +30,7 @@ public final class JClassBuilder extends JInheritableTypeBuilder<JClassDescripto
     }
 
     public JClassBuilder withSuperClass(final JClassReferenceBuilder superClass) throws JCodingBuilderException {
-        return withSuperClass(superClass.build());
+        return withSuperClass((JClassReferenceDescriptor) superClass.build());
     }
 
     public JClassBuilder withSuperClass(final JClassReferenceDescriptor superClass) {

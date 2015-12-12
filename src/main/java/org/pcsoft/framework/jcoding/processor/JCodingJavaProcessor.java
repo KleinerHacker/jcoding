@@ -2,14 +2,9 @@ package org.pcsoft.framework.jcoding.processor;
 
 import org.apache.commons.lang.SystemUtils;
 import org.pcsoft.framework.jcoding.exception.JCodingException;
-import org.pcsoft.framework.jcoding.jobject.JAnnotationDescriptor;
-import org.pcsoft.framework.jcoding.jobject.JAnnotationMethodDescriptor;
-import org.pcsoft.framework.jcoding.jobject.JClassDescriptor;
-import org.pcsoft.framework.jcoding.jobject.JEnumerationDescriptor;
-import org.pcsoft.framework.jcoding.jobject.JFileDescriptor;
-import org.pcsoft.framework.jcoding.jobject.JInterfaceDescriptor;
-import org.pcsoft.framework.jcoding.jobject.JStandardMethodDescriptor;
+import org.pcsoft.framework.jcoding.jobject.*;
 import org.pcsoft.framework.jcoding.management.ImportManagement;
+import org.pcsoft.framework.jcoding.type.JBrace;
 
 /**
  * Represent the core of java cosing framework. In this class all the java code is generated with help of much methods.
@@ -27,7 +22,7 @@ final class JCodingJavaProcessor extends JCodingProcessorBase {
 
     //region Types
     @Override
-    protected void buildAnnotationType(final int level, final StringBuilder sb, final ImportManagement importManagement, final JAnnotationDescriptor annotationDescriptor, JBodyBuilderCallback callback) throws JCodingException {
+    protected void buildAnnotationType(final int level, final StringBuilder sb, final ImportManagement importManagement, final JAnnotationDescriptor annotationDescriptor, JBuildCallback callback) throws JCodingException {
         sb.append(JCodingProcessorUtils.buildIndent(level));
         sb.append(JCodingJavaProcessorUtils.convert(annotationDescriptor.getVisibility())).append(" ");
         if (annotationDescriptor.isStatic()) {
@@ -35,14 +30,14 @@ final class JCodingJavaProcessor extends JCodingProcessorBase {
         }
         sb.append("@interface ").append(annotationDescriptor.getName()).append(" {").append(SystemUtils.LINE_SEPARATOR);
 
-        callback.buildBody();
+        callback.build();
 
         sb.append(JCodingProcessorUtils.buildIndent(level));
         sb.append("}").append(SystemUtils.LINE_SEPARATOR);
     }
 
     @Override
-    protected void buildEnumerationType(final int level, final StringBuilder sb, final ImportManagement importManagement, final JEnumerationDescriptor enumerationDescriptor, JBodyBuilderCallback callback) throws JCodingException {
+    protected void buildEnumerationType(final int level, final StringBuilder sb, final ImportManagement importManagement, final JEnumerationDescriptor enumerationDescriptor, JBuildCallback callback) throws JCodingException {
         sb.append(JCodingProcessorUtils.buildIndent(level));
         sb.append(JCodingJavaProcessorUtils.convert(enumerationDescriptor.getVisibility())).append(" ");
         if (enumerationDescriptor.isStatic()) {
@@ -50,29 +45,39 @@ final class JCodingJavaProcessor extends JCodingProcessorBase {
         }
         sb.append("enum ").append(enumerationDescriptor.getName()).append(" {").append(SystemUtils.LINE_SEPARATOR);
 
-        callback.buildBody();
+        callback.build();
 
         sb.append(JCodingProcessorUtils.buildIndent(level));
         sb.append("}").append(SystemUtils.LINE_SEPARATOR);
     }
 
     @Override
-    protected void buildInterfaceType(final int level, final StringBuilder sb, final ImportManagement importManagement, final JInterfaceDescriptor interfaceDescriptor, JBodyBuilderCallback callback) throws JCodingException {
+    protected void buildInterfaceType(final int level, final StringBuilder sb, final ImportManagement importManagement,
+                                      final JInterfaceDescriptor interfaceDescriptor, JBuildCallback bodyBuildCallback,
+                                      JBuildCallback genericBuilderCallback,
+                                      JBuildCallback interfacesBuilderCallback) throws JCodingException {
         sb.append(JCodingProcessorUtils.buildIndent(level));
         sb.append(JCodingJavaProcessorUtils.convert(interfaceDescriptor.getVisibility())).append(" ");
         if (interfaceDescriptor.isStatic()) {
             sb.append("static ");
         }
-        sb.append("interface ").append(interfaceDescriptor.getName()).append(" {").append(SystemUtils.LINE_SEPARATOR);
+        sb.append("interface ").append(interfaceDescriptor.getName());
+        genericBuilderCallback.build();
+        sb.append(" ");
+        interfacesBuilderCallback.build();
+        sb.append(" {").append(SystemUtils.LINE_SEPARATOR);
 
-        callback.buildBody();
+        bodyBuildCallback.build();
 
         sb.append(JCodingProcessorUtils.buildIndent(level));
         sb.append("}").append(SystemUtils.LINE_SEPARATOR);
     }
 
     @Override
-    protected void buildClassType(final int level, final StringBuilder sb, final ImportManagement importManagement, final JClassDescriptor classDescriptor, JBodyBuilderCallback callback) throws JCodingException {
+    protected void buildClassType(final int level, final StringBuilder sb, final ImportManagement importManagement,
+                                  final JClassDescriptor classDescriptor, JBuildCallback bodyBuildCallback,
+                                  JBuildCallback genericBuilderCallback, JBuildCallback superClassBuilderCallback,
+                                  JBuildCallback interfacesBuilderCallback) throws JCodingException {
         sb.append(JCodingProcessorUtils.buildIndent(level));
         sb.append(JCodingJavaProcessorUtils.convert(classDescriptor.getVisibility())).append(" ");
         if (classDescriptor.isStatic()) {
@@ -83,13 +88,34 @@ final class JCodingJavaProcessor extends JCodingProcessorBase {
         } else if (classDescriptor.isFinal()) {
             sb.append("final ");
         }
-        sb.append("class ").append(classDescriptor.getName()).append(" {").append(SystemUtils.LINE_SEPARATOR);
+        sb.append("class ").append(classDescriptor.getName());
+        genericBuilderCallback.build();
+        sb.append(" ");
+        superClassBuilderCallback.build();
+        sb.append(" ");
+        interfacesBuilderCallback.build();
+        sb.append(" {").append(SystemUtils.LINE_SEPARATOR);
 
-        callback.buildBody();
+        bodyBuildCallback.build();
 
         sb.append(JCodingProcessorUtils.buildIndent(level));
         sb.append("}").append(SystemUtils.LINE_SEPARATOR);
     }
+
+    @Override
+    protected void buildSuperClassExtension(StringBuilder sb, ImportManagement importManagement, JClassReferenceDescriptor referenceDescriptor) {
+        sb.append("extends ").append(referenceDescriptor.getSimpleClassName());
+    }
+
+    @Override
+    protected void buildInterfacesImplementation(StringBuilder sb, ImportManagement importManagement, JInterfaceReferenceDescriptor[] referenceDescriptors) {
+        sb.append("implements ");
+        for (final JInterfaceReferenceDescriptor descriptor : referenceDescriptors) {
+            sb.append(descriptor.getSimpleClassName()).append(", ");
+        }
+        sb.delete(sb.length() - 2, sb.length());
+    }
+
     //endregion
 
     //region Methods
@@ -108,7 +134,7 @@ final class JCodingJavaProcessor extends JCodingProcessorBase {
     }
 
     @Override
-    protected void buildStandardMethod(final int level, final StringBuilder sb, final ImportManagement importManagement, final JStandardMethodDescriptor methodDescriptor, final JBodyBuilderCallback callback) throws JCodingException {
+    protected void buildStandardMethod(final int level, final StringBuilder sb, final ImportManagement importManagement, final JStandardMethodDescriptor methodDescriptor, final JBuildCallback callback) throws JCodingException {
         importManagement.add(methodDescriptor.getReturnTypeDescriptor().getFullClassName());
 
         sb.append(JCodingProcessorUtils.buildIndent(level));
@@ -123,10 +149,44 @@ final class JCodingJavaProcessor extends JCodingProcessorBase {
         //TODO: Parameter
         sb.append(") {").append(SystemUtils.LINE_SEPARATOR);
 
-        callback.buildBody();
+        callback.build();
 
         sb.append(JCodingProcessorUtils.buildIndent(level));
         sb.append("}").append(SystemUtils.LINE_SEPARATOR);
+    }
+    //endregion
+
+    //region Generics
+    @Override
+    protected String getGenericBrace(JBrace brace) throws JCodingException {
+        switch (brace) {
+            case Open:
+                return "<";
+            case Close:
+                return ">";
+            default:
+                throw new RuntimeException();
+        }
+    }
+
+    @Override
+    protected void buildGeneric(StringBuilder sb, ImportManagement importManagement, JGenericDescriptor genericDescriptor) throws JCodingException {
+        sb.append(genericDescriptor.getName());
+        if (genericDescriptor.getClassExtension() != null || genericDescriptor.getInterfaceExtensions().length > 0) {
+            sb.append(" extends ");
+            if (genericDescriptor.getClassExtension() != null) {
+                sb.append(genericDescriptor.getClassExtension().getSimpleClassName());
+                if (genericDescriptor.getInterfaceExtensions().length > 0) {
+                    sb.append(" & ");
+                }
+            }
+            if (genericDescriptor.getInterfaceExtensions().length > 0) {
+                for (final JTypeReferenceDescriptor referenceDescriptor : genericDescriptor.getInterfaceExtensions()) {
+                    sb.append(referenceDescriptor.getSimpleClassName()).append(" &");
+                }
+                sb.delete(sb.length() - 2, sb.length());
+            }
+        }
     }
     //endregion
 }
