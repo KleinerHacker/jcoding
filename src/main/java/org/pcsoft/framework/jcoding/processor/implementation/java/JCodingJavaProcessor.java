@@ -1,15 +1,20 @@
-package org.pcsoft.framework.jcoding.processor;
+package org.pcsoft.framework.jcoding.processor.implementation.java;
 
 import org.apache.commons.lang.SystemUtils;
 import org.pcsoft.framework.jcoding.exception.JCodingException;
 import org.pcsoft.framework.jcoding.jobject.*;
-import org.pcsoft.framework.jcoding.management.ImportManagement;
+import org.pcsoft.framework.jcoding.processor.JCodingProcessorBase;
+import org.pcsoft.framework.jcoding.processor.JCodingProcessorUtils;
 import org.pcsoft.framework.jcoding.type.JBrace;
 
 /**
  * Represent the core of java cosing framework. In this class all the java code is generated with help of much methods.
  */
 final class JCodingJavaProcessor extends JCodingProcessorBase {
+
+    public JCodingJavaProcessor() {
+        super(JCodingJavaImportManager.class);
+    }
 
     @Override
     protected String buildNamespace(JFileDescriptor fileDescriptor) {
@@ -22,7 +27,7 @@ final class JCodingJavaProcessor extends JCodingProcessorBase {
 
     //region Types
     @Override
-    protected void buildAnnotationType(final int level, final StringBuilder sb, final ImportManagement importManagement, final JAnnotationDescriptor annotationDescriptor, JBuildCallback callback) throws JCodingException {
+    protected void buildAnnotationType(final int level, final StringBuilder sb, final JAnnotationDescriptor annotationDescriptor, JBuildCallback callback) throws JCodingException {
         sb.append(JCodingProcessorUtils.buildIndent(level));
         sb.append(JCodingJavaProcessorUtils.convert(annotationDescriptor.getVisibility())).append(" ");
         if (annotationDescriptor.isStatic()) {
@@ -37,7 +42,7 @@ final class JCodingJavaProcessor extends JCodingProcessorBase {
     }
 
     @Override
-    protected void buildEnumerationType(final int level, final StringBuilder sb, final ImportManagement importManagement, final JEnumerationDescriptor enumerationDescriptor, JBuildCallback callback) throws JCodingException {
+    protected void buildEnumerationType(final int level, final StringBuilder sb, final JEnumerationDescriptor enumerationDescriptor, JBuildCallback callback) throws JCodingException {
         sb.append(JCodingProcessorUtils.buildIndent(level));
         sb.append(JCodingJavaProcessorUtils.convert(enumerationDescriptor.getVisibility())).append(" ");
         if (enumerationDescriptor.isStatic()) {
@@ -52,7 +57,7 @@ final class JCodingJavaProcessor extends JCodingProcessorBase {
     }
 
     @Override
-    protected void buildInterfaceType(final int level, final StringBuilder sb, final ImportManagement importManagement,
+    protected void buildInterfaceType(final int level, final StringBuilder sb,
                                       final JInterfaceDescriptor interfaceDescriptor, JBuildCallback bodyBuildCallback,
                                       JBuildCallback genericBuilderCallback,
                                       JBuildCallback interfacesBuilderCallback) throws JCodingException {
@@ -74,7 +79,7 @@ final class JCodingJavaProcessor extends JCodingProcessorBase {
     }
 
     @Override
-    protected void buildClassType(final int level, final StringBuilder sb, final ImportManagement importManagement,
+    protected void buildClassType(final int level, final StringBuilder sb,
                                   final JClassDescriptor classDescriptor, JBuildCallback bodyBuildCallback,
                                   JBuildCallback genericBuilderCallback, JBuildCallback superClassBuilderCallback,
                                   JBuildCallback interfacesBuilderCallback) throws JCodingException {
@@ -103,12 +108,12 @@ final class JCodingJavaProcessor extends JCodingProcessorBase {
     }
 
     @Override
-    protected void buildSuperClassExtension(StringBuilder sb, ImportManagement importManagement, JClassReferenceDescriptor referenceDescriptor) {
+    protected void buildSuperClassExtension(StringBuilder sb, JClassReferenceDescriptor referenceDescriptor) {
         sb.append("extends ").append(referenceDescriptor.getSimpleClassName());
     }
 
     @Override
-    protected void buildInterfacesImplementation(StringBuilder sb, ImportManagement importManagement, JInterfaceReferenceDescriptor[] referenceDescriptors) {
+    protected void buildInterfacesImplementation(StringBuilder sb, JInterfaceReferenceDescriptor[] referenceDescriptors) {
         sb.append("implements ");
         for (final JInterfaceReferenceDescriptor descriptor : referenceDescriptors) {
             sb.append(descriptor.getSimpleClassName()).append(", ");
@@ -120,8 +125,7 @@ final class JCodingJavaProcessor extends JCodingProcessorBase {
 
     //region Methods
     @Override
-    protected void buildAnnotationMethod(final int level, final StringBuilder sb, final ImportManagement importManagement, final JAnnotationMethodDescriptor methodDescriptor) {
-        importManagement.add(methodDescriptor.getReturnTypeDescriptor().getFullClassName());
+    protected void buildAnnotationMethod(final int level, final StringBuilder sb, final JAnnotationMethodDescriptor methodDescriptor) {
 
         sb.append(JCodingProcessorUtils.buildIndent(level));
         sb.append(methodDescriptor.getReturnTypeDescriptor() != null ? methodDescriptor.getReturnTypeDescriptor().getSimpleClassName() : "void").append(" ");
@@ -134,9 +138,7 @@ final class JCodingJavaProcessor extends JCodingProcessorBase {
     }
 
     @Override
-    protected void buildStandardMethod(final int level, final StringBuilder sb, final ImportManagement importManagement, final JStandardMethodDescriptor methodDescriptor, final JBuildCallback callback) throws JCodingException {
-        importManagement.add(methodDescriptor.getReturnTypeDescriptor().getFullClassName());
-
+    protected void buildStandardMethod(final int level, final StringBuilder sb, final JStandardMethodDescriptor methodDescriptor, final JBuildCallback bodyBuildCallback, final JBuildCallback parameterBuildCallback) throws JCodingException {
         sb.append(JCodingProcessorUtils.buildIndent(level));
         sb.append(JCodingJavaProcessorUtils.convert(methodDescriptor.getVisibility())).append(" ");
         if (methodDescriptor.isStatic()) {
@@ -145,20 +147,52 @@ final class JCodingJavaProcessor extends JCodingProcessorBase {
             sb.append("abstract ");
         }
         sb.append(methodDescriptor.getReturnTypeDescriptor() != null ? methodDescriptor.getReturnTypeDescriptor().getSimpleClassName() : "void").append(" ");
-        sb.append(methodDescriptor.getName()).append("(");
-        //TODO: Parameter
-        sb.append(") {").append(SystemUtils.LINE_SEPARATOR);
+        sb.append(methodDescriptor.getName());
+        parameterBuildCallback.build();
+        if (!methodDescriptor.isAbstract()) {
+            sb.append(" {").append(SystemUtils.LINE_SEPARATOR);
 
-        callback.build();
+            bodyBuildCallback.build();
 
-        sb.append(JCodingProcessorUtils.buildIndent(level));
-        sb.append("}").append(SystemUtils.LINE_SEPARATOR);
+            sb.append(JCodingProcessorUtils.buildIndent(level));
+            sb.append("}").append(SystemUtils.LINE_SEPARATOR);
+        } else {
+            sb.append(";").append(SystemUtils.LINE_SEPARATOR);
+        }
+    }
+    //endregion
+
+
+    //region Method Parameter
+    @Override
+    protected void buildParameter(StringBuilder sb, JParameterDescriptor parameterDescriptor) throws JCodingException {
+        if (parameterDescriptor.isFinal()) {
+            sb.append("final ");
+        }
+        sb.append(parameterDescriptor.getType().getSimpleClassName()).append(" ").append(parameterDescriptor.getName());
+    }
+
+    @Override
+    protected String getMethodParameterSeparator() {
+        return ", ";
+    }
+
+    @Override
+    protected String getMethodParameterBrace(JBrace brace) {
+        switch (brace) {
+            case Open:
+                return "(";
+            case Close:
+                return ")";
+            default:
+                throw new RuntimeException();
+        }
     }
     //endregion
 
     //region Generics
     @Override
-    protected String getGenericBrace(JBrace brace) throws JCodingException {
+    protected String getGenericBrace(JBrace brace) {
         switch (brace) {
             case Open:
                 return "<";
@@ -170,7 +204,12 @@ final class JCodingJavaProcessor extends JCodingProcessorBase {
     }
 
     @Override
-    protected void buildGeneric(StringBuilder sb, ImportManagement importManagement, JGenericDescriptor genericDescriptor) throws JCodingException {
+    protected String getGenericSeparator() {
+        return ",";
+    }
+
+    @Override
+    protected void buildGeneric(StringBuilder sb, JGenericDescriptor genericDescriptor) throws JCodingException {
         sb.append(genericDescriptor.getName());
         if (genericDescriptor.getClassExtension() != null || genericDescriptor.getInterfaceExtensions().length > 0) {
             sb.append(" extends ");

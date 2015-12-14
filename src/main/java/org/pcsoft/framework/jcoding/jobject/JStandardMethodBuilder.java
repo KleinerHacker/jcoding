@@ -41,7 +41,6 @@ public final class JStandardMethodBuilder extends JParametrizedMethodBuilder<JSt
 
     public JStandardMethodBuilder withBody(final JMethodBodyDescriptor body) {
         value.setBody(body);
-        value.setAbstract(body == null);
         return this;
     }
 

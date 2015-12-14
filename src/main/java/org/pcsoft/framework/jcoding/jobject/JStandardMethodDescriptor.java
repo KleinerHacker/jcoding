@@ -8,7 +8,7 @@ import org.pcsoft.framework.jcoding.type.JVisibility;
  */
 public final class JStandardMethodDescriptor extends JParametrizedMethodDescriptor {
     private JMethodBodyDescriptor body;
-    private boolean $abstract, $static;
+    private boolean $static;
 
     JStandardMethodDescriptor() {
     }
@@ -16,22 +16,14 @@ public final class JStandardMethodDescriptor extends JParametrizedMethodDescript
     @Override
     public void validate() throws JCodingDescriptorValidationException {
         super.validate();
-        if (body == null && !$abstract)
-            throw new JCodingDescriptorValidationException("Body of standard method '" + getName() + "' not set, but is not abstract!");
-        if (body != null && $abstract)
-            throw new JCodingDescriptorValidationException("Boy of standard method '" + getName() + "' is set, but it is abstract!");
-        if ($abstract && getVisibility() == JVisibility.Private)
+        if (isAbstract() && getVisibility() == JVisibility.Private)
             throw new JCodingDescriptorValidationException("Method '" + getName() + "' cannot be abstract and private!");
-        if ($abstract && $static)
+        if (isAbstract() && $static)
             throw new JCodingDescriptorValidationException("Method '" + getName() + "' cannot be abstract and static!");
     }
 
     public boolean isAbstract() {
-        return $abstract;
-    }
-
-    void setAbstract(boolean $abstract) {
-        this.$abstract = $abstract;
+        return body == null;
     }
 
     public JMethodBodyDescriptor getBody() {

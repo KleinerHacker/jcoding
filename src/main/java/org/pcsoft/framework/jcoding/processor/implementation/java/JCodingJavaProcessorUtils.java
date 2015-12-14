@@ -1,4 +1,4 @@
-package org.pcsoft.framework.jcoding.processor;
+package org.pcsoft.framework.jcoding.processor.implementation.java;
 
 import org.pcsoft.framework.jcoding.type.JVisibility;
 

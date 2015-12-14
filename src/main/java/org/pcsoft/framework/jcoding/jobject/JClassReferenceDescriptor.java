@@ -3,5 +3,5 @@ package org.pcsoft.framework.jcoding.jobject;
 /**
  * Created by Christoph on 12.12.2015.
  */
-public interface JClassReferenceDescriptor extends IJTypeReferenceDescriptor, JObjectDescriptor {
+public interface JClassReferenceDescriptor extends JReferenceDescriptor, JObjectDescriptor {
 }

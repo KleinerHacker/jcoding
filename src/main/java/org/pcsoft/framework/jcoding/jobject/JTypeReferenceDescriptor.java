@@ -1,23 +1,16 @@
 package org.pcsoft.framework.jcoding.jobject;
 
 import org.apache.commons.lang.ClassUtils;
-import org.pcsoft.framework.jcoding.exception.JCodingDescriptorValidationException;
-import org.pcsoft.framework.jcoding.exception.JCodingGenerationException;
-import org.pcsoft.framework.jcoding.jobject.JFileDescriptor;
-import org.pcsoft.framework.jcoding.jobject.JParent;
-import org.pcsoft.framework.jcoding.jobject.JReferenceDescriptorBase;
-import org.pcsoft.framework.jcoding.jobject.JTypeDescriptor;
-import org.pcsoft.framework.jcoding.management.ImportManagement;
 import org.pcsoft.framework.jcoding.type.JClassNamePresentation;
 
 /**
  * Represent the descriptor for a java type reference base to use e. g. for parameters or field declarations.
  */
-public abstract class JTypeReferenceDescriptor extends JReferenceDescriptorBase implements IJTypeReferenceDescriptor {
+public abstract class JTypeReferenceDescriptor extends JReferenceDescriptorBase {
 
 
     /**
-     * Get the full class name as canonical for this type reference representation or NULL if no {@link JFileDescriptor} was found for the contained type reference, see {@link #getTypeReference()}.
+     * Get the full class name as canonical for this type reference representation or NULL if no {@link JFileDescriptor} was found for the contained type reference.
      * @return
      */
     @Override
@@ -26,7 +19,7 @@ public abstract class JTypeReferenceDescriptor extends JReferenceDescriptorBase 
     }
 
     /**
-     * Returns the simple class name for this type reference representation or NULL if no {@link JFileDescriptor} was found for the contained type reference, see {@link #getTypeReference()}.
+     * Returns the simple class name for this type reference representation or NULL if no {@link JFileDescriptor} was found for the contained type reference.
      * @return
      */
     @Override
