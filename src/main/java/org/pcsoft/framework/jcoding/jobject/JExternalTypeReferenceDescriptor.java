@@ -6,7 +6,7 @@ import org.pcsoft.framework.jcoding.type.JClassNamePresentation;
 /**
  * Created by Christoph on 12.12.2015.
  */
-public abstract class JExternalTypeReferenceDescriptor extends JTypeReferenceDescriptor {
+public abstract class JExternalTypeReferenceDescriptor extends JTypeReferenceDescriptorBase {
     private static final String CLASS_SEPARATOR = "$";
 
     private String fullReferenceClassName;

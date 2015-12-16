@@ -7,7 +7,7 @@ import org.pcsoft.framework.jcoding.type.JVisibility;
  * Created by pfeifchr on 10.12.2015.
  */
 public final class JAnnotationMethodBuilder extends JMethodBuilder<JAnnotationMethodDescriptor, JAnnotationMethodBuilder> {
-    public static JAnnotationMethodBuilder create(final JVisibility visibility, final String name, final JTypeReferenceDescriptor returnType) {
+    public static JAnnotationMethodBuilder create(final JVisibility visibility, final String name, final JTypeReferenceDescriptorBase returnType) {
         return new JAnnotationMethodBuilder().withVisibility(visibility).withName(name).withReturnType(returnType);
     }
 
@@ -15,7 +15,7 @@ public final class JAnnotationMethodBuilder extends JMethodBuilder<JAnnotationMe
         return create(visibility, name, null);
     }
 
-    public static JAnnotationMethodBuilder create(final String name, final JTypeReferenceDescriptor returnType) {
+    public static JAnnotationMethodBuilder create(final String name, final JTypeReferenceDescriptorBase returnType) {
         return create(JVisibility.Public, name, returnType);
     }
 

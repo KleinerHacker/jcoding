@@ -6,7 +6,7 @@ import org.pcsoft.framework.jcoding.type.JClassNamePresentation;
 /**
  * Created by Christoph on 12.12.2015.
  */
-public abstract class JInternalTypeReferenceDescriptor<T extends JTypeDescriptor> extends JTypeReferenceDescriptor {
+public abstract class JInternalTypeReferenceDescriptor<T extends JTypeDescriptor> extends JTypeReferenceDescriptorBase {
     private T typeReference;
 
     /**

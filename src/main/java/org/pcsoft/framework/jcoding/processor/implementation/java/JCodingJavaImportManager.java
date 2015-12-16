@@ -1,5 +1,6 @@
 package org.pcsoft.framework.jcoding.processor.implementation.java;
 
+import org.apache.commons.lang.ClassUtils;
 import org.apache.commons.lang.SystemUtils;
 import org.pcsoft.framework.jcoding.exception.JCodingException;
 import org.pcsoft.framework.jcoding.jobject.JExternalTypeReferenceDescriptor;
@@ -30,6 +31,14 @@ public final class JCodingJavaImportManager extends JCodingImportManagement {
 
     @Override
     protected boolean needImport(String newNamespace, String currentNamespace) {
+        if (newNamespace == null || newNamespace.trim().isEmpty())
+            return false;
+
+        final String packageCanonicalName = ClassUtils.getPackageCanonicalName(newNamespace);
+        if (packageCanonicalName == null || packageCanonicalName.trim().isEmpty()) {
+            return false;
+        }
+
         return !newNamespace.equals(currentNamespace);
     }
 

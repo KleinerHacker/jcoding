@@ -10,7 +10,7 @@ import java.util.List;
  */
 public final class JGenericDescriptor extends JObjectDescriptorBase {
     private String name;
-    private JTypeReferenceDescriptor classExtension;
+    private JTypeReferenceDescriptorBase classExtension;
     private final List<JInternalInterfaceReferenceDescriptor> interfaceExtensionList = new ArrayList<>();
 
     public String getName() {
@@ -21,11 +21,11 @@ public final class JGenericDescriptor extends JObjectDescriptorBase {
         this.name = name;
     }
 
-    public JTypeReferenceDescriptor getClassExtension() {
+    public JTypeReferenceDescriptorBase getClassExtension() {
         return classExtension;
     }
 
-    void setClassExtension(JTypeReferenceDescriptor classExtension) {
+    void setClassExtension(JTypeReferenceDescriptorBase classExtension) {
         this.classExtension = classExtension;
     }
 

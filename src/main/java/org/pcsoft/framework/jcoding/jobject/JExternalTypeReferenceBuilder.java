@@ -3,7 +3,7 @@ package org.pcsoft.framework.jcoding.jobject;
 /**
  * Created by Christoph on 12.12.2015.
  */
-public abstract class JExternalTypeReferenceBuilder<T extends JExternalTypeReferenceDescriptor, S extends JExternalTypeReferenceBuilder> extends JTypeReferenceBuilder<T, S> {
+public abstract class JExternalTypeReferenceBuilder<T extends JExternalTypeReferenceDescriptor, S extends JExternalTypeReferenceBuilder> extends JTypeReferenceBuilderBase<T, S> {
     public JExternalTypeReferenceBuilder(Class<T> clazz) {
         super(clazz);
     }

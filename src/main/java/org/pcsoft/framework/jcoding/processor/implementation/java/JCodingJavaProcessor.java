@@ -220,7 +220,7 @@ final class JCodingJavaProcessor extends JCodingProcessorBase {
                 }
             }
             if (genericDescriptor.getInterfaceExtensions().length > 0) {
-                for (final JTypeReferenceDescriptor referenceDescriptor : genericDescriptor.getInterfaceExtensions()) {
+                for (final JTypeReferenceDescriptorBase referenceDescriptor : genericDescriptor.getInterfaceExtensions()) {
                     sb.append(referenceDescriptor.getSimpleClassName()).append(" &");
                 }
                 sb.delete(sb.length() - 2, sb.length());

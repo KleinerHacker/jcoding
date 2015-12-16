@@ -3,7 +3,7 @@ package org.pcsoft.framework.jcoding.jobject;
 /**
  * Created by Christoph on 12.12.2015.
  */
-public abstract class JInternalTypeReferenceBuilder<C extends JTypeDescriptor, T extends JInternalTypeReferenceDescriptor, S extends JInternalTypeReferenceBuilder> extends JTypeReferenceBuilder<T, S> {
+public abstract class JInternalTypeReferenceBuilder<C extends JTypeDescriptor, T extends JInternalTypeReferenceDescriptor, S extends JInternalTypeReferenceBuilder> extends JTypeReferenceBuilderBase<T, S> {
 
     public JInternalTypeReferenceBuilder(Class<T> clazz) {
         super(clazz);

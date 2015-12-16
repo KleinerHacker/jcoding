@@ -10,7 +10,7 @@ public final class JGenericBuilder extends JObjectBuilderBase<JGenericDescriptor
         return new JGenericBuilder().withName(name);
     }
 
-    public static JGenericBuilder create(final String name, final JTypeReferenceBuilder classExtension) throws JCodingBuilderException {
+    public static JGenericBuilder create(final String name, final JTypeReferenceBuilderBase classExtension) throws JCodingBuilderException {
         return create(name).withClassExtension(classExtension);
     }
 
@@ -23,11 +23,11 @@ public final class JGenericBuilder extends JObjectBuilderBase<JGenericDescriptor
         return this;
     }
 
-    public JGenericBuilder withClassExtension(final JTypeReferenceBuilder classExtension) throws JCodingBuilderException {
-        return withClassExtension((JTypeReferenceDescriptor) classExtension.build());
+    public JGenericBuilder withClassExtension(final JTypeReferenceBuilderBase classExtension) throws JCodingBuilderException {
+        return withClassExtension((JTypeReferenceDescriptorBase) classExtension.build());
     }
 
-    public JGenericBuilder withClassExtension(final JTypeReferenceDescriptor classExtension) {
+    public JGenericBuilder withClassExtension(final JTypeReferenceDescriptorBase classExtension) {
         value.setClassExtension(classExtension);
         return this;
     }

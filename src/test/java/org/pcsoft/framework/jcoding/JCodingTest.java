@@ -17,7 +17,7 @@ public class JCodingTest {
     @Test
     public void test() throws JCodingException {
         final JClassDescriptor testClass = JClassBuilder.create("TestClass").withAbstract(true)
-                .withGeneric(JGenericBuilder.create("T").withClassExtension(JTypeReferenceBuilder.create(String.class)))
+                .withGeneric(JGenericBuilder.create("T").withClassExtension(JTypeReferenceBuilderBase.create(String.class)))
                 .withSuperClass(JExternalClassReferenceBuilder.create(ArrayList.class))
                 .withInterface(JExternalInterfaceReferenceBuilder.create(Serializable.class))
                 .withMethods(
@@ -31,7 +31,7 @@ public class JCodingTest {
                                 .withBody(JMethodBodyBuilder.create()),
                         JStandardMethodBuilder.create("getValue", JExternalClassReferenceBuilder.create(int.class))
                                 .withBody(JMethodBodyBuilder.create()),
-                        JStandardMethodBuilder.create(JVisibility.Protected, "validate", (JTypeReferenceDescriptor) null)
+                        JStandardMethodBuilder.create(JVisibility.Protected, "validate", (JTypeReferenceDescriptorBase) null)
                 )
                 .build();
 
