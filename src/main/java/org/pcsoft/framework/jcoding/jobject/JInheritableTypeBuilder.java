@@ -33,9 +33,4 @@ public abstract class JInheritableTypeBuilder<T extends JInheritableTypeDescript
         }
         return (S) this;
     }
-
-    public S withoutGeneric(final JGenericDescriptor generic) {
-        value.removeGeneric(generic);
-        return (S) this;
-    }
 }

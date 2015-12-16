@@ -11,7 +11,7 @@ public final class JParameterDescriptor extends JDefinitionDescriptor {
         return $final;
     }
 
-    void setFinal(boolean $final) {
+    public void setFinal(boolean $final) {
         this.$final = $final;
     }
 
@@ -19,7 +19,7 @@ public final class JParameterDescriptor extends JDefinitionDescriptor {
         return type;
     }
 
-    void setType(JTypeReferenceDescriptorBase type) {
+    public void setType(JTypeReferenceDescriptorBase type) {
         this.type = type;
     }
 }

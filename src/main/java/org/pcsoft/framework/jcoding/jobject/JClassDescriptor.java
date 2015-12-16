@@ -25,7 +25,7 @@ public final class JClassDescriptor extends JInheritableTypeDescriptor {
         return $final;
     }
 
-    void setFinal(boolean $final) {
+    public void setFinal(boolean $final) {
         this.$final = $final;
     }
 
@@ -37,7 +37,7 @@ public final class JClassDescriptor extends JInheritableTypeDescriptor {
         return $abstract;
     }
 
-    void setAbstract(boolean $abstract) {
+    public void setAbstract(boolean $abstract) {
         this.$abstract = $abstract;
     }
 
@@ -49,7 +49,7 @@ public final class JClassDescriptor extends JInheritableTypeDescriptor {
         return superClass;
     }
 
-    void setSuperClass(JClassReferenceDescriptor superClass) {
+    public void setSuperClass(JClassReferenceDescriptor superClass) {
         this.superClass = superClass;
     }
 }

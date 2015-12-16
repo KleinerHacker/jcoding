@@ -6,12 +6,16 @@ import org.pcsoft.framework.jcoding.exception.JCodingBuilderException;
  * Created by pfeifchr on 10.12.2015.
  */
 public final class JParameterBuilder extends JDefinitionBuilder<JParameterDescriptor, JParameterBuilder> {
+    public static JParameterBuilder create() {
+        return new JParameterBuilder();
+    }
+
     public static JParameterBuilder create(final String name, final JTypeReferenceBuilderBase type) throws JCodingBuilderException {
-        return new JParameterBuilder().withName(name).withType(type);
+        return create().withName(name).withType(type);
     }
 
     public static JParameterBuilder create(final String name, final JTypeReferenceDescriptorBase type) {
-        return new JParameterBuilder().withName(name).withType(type);
+        return create().withName(name).withType(type);
     }
 
     private JParameterBuilder() {

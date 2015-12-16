@@ -36,7 +36,7 @@ public final class JFileDescriptor extends JObjectDescriptorBase implements JPar
         return filename;
     }
 
-    void setFilename(String filename) {
+    public void setFilename(String filename) {
         this.filename = filename;
     }
 
@@ -44,7 +44,7 @@ public final class JFileDescriptor extends JObjectDescriptorBase implements JPar
         return packageName;
     }
 
-    void setPackageName(String packageName) {
+    public void setPackageName(String packageName) {
         this.packageName = packageName;
     }
 
@@ -52,12 +52,12 @@ public final class JFileDescriptor extends JObjectDescriptorBase implements JPar
         return classDescriptorList.toArray(new JTypeDescriptor[classDescriptorList.size()]);
     }
 
-    void addJavaType(final JTypeDescriptor typeDescriptor) {
+    public void addJavaType(final JTypeDescriptor typeDescriptor) {
         typeDescriptor.setParent(this);
         classDescriptorList.add(typeDescriptor);
     }
 
-    void removeJavaType(final JTypeDescriptor typeDescriptor) {
+    public void removeJavaType(final JTypeDescriptor typeDescriptor) {
         typeDescriptor.setParent(null);
         classDescriptorList.remove(typeDescriptor);
     }

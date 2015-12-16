@@ -1,6 +1,7 @@
 package org.pcsoft.framework.jcoding.jobject;
 
 import org.pcsoft.framework.jcoding.exception.JCodingDescriptorValidationException;
+import org.pcsoft.framework.jcoding.type.JClassNamePresentation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ public final class JGenericDescriptor extends JObjectDescriptorBase {
         return name;
     }
 
-    void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -25,7 +26,7 @@ public final class JGenericDescriptor extends JObjectDescriptorBase {
         return classExtension;
     }
 
-    void setClassExtension(JTypeReferenceDescriptorBase classExtension) {
+    public void setClassExtension(JTypeReferenceDescriptorBase classExtension) {
         this.classExtension = classExtension;
     }
 
@@ -33,11 +34,11 @@ public final class JGenericDescriptor extends JObjectDescriptorBase {
         return interfaceExtensionList.toArray(new JInternalInterfaceReferenceDescriptor[interfaceExtensionList.size()]);
     }
 
-    void addInterfaceExtension(final JInternalInterfaceReferenceDescriptor interfaceExtension) {
+    public void addInterfaceExtension(final JInternalInterfaceReferenceDescriptor interfaceExtension) {
         interfaceExtensionList.add(interfaceExtension);
     }
 
-    void removeInterfaceExtension(final JInternalInterfaceReferenceDescriptor interfaceExtension) {
+    public void removeInterfaceExtension(final JInternalInterfaceReferenceDescriptor interfaceExtension) {
         interfaceExtensionList.remove(interfaceExtension);
     }
 
@@ -45,5 +46,13 @@ public final class JGenericDescriptor extends JObjectDescriptorBase {
     public void validate() throws JCodingDescriptorValidationException {
         if (name == null || name.trim().isEmpty())
             throw new JCodingDescriptorValidationException("Name of generic not set!");
+
+        try {
+            final Class<?> aClass = Class.forName(classExtension.getFullClassName(JClassNamePresentation.Reference));
+            if (aClass.isPrimitive())
+                throw new JCodingDescriptorValidationException("No primitive type is allowed for generic class extension");
+        } catch (ClassNotFoundException e) {
+            //Ignore
+        }
     }
 }

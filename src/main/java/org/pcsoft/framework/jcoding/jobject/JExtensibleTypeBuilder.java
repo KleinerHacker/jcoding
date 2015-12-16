@@ -33,9 +33,4 @@ public abstract class JExtensibleTypeBuilder<T extends JExtensibleTypeDescriptor
         }
         return (S) this;
     }
-
-    public S withoutInterface(final JInterfaceReferenceDescriptor $interface) {
-        value.removeInterface($interface);
-        return (S) this;
-    }
 }

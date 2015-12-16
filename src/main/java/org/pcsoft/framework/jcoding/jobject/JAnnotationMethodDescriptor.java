@@ -32,7 +32,7 @@ public final class JAnnotationMethodDescriptor extends JMethodDescriptor {
         return defaultValue;
     }
 
-    void setDefaultValue(JValueDescriptor defaultValue) {
+    public void setDefaultValue(JValueDescriptor defaultValue) {
         this.defaultValue = defaultValue;
     }
 }

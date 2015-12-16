@@ -7,8 +7,12 @@ import org.pcsoft.framework.jcoding.type.JVisibility;
  * Represent a java class builder to generate a {@link JClassDescriptor} object.
  */
 public final class JClassBuilder extends JInheritableTypeBuilder<JClassDescriptor, JClassBuilder> {
+    public static JClassBuilder create() {
+        return new JClassBuilder();
+    }
+
     public static JClassBuilder create(final JVisibility visibility, final String name) {
-        return new JClassBuilder().withVisibility(visibility).withName(name);
+        return create().withVisibility(visibility).withName(name);
     }
 
     public static JClassBuilder create(final String name) {

@@ -6,13 +6,18 @@ import org.pcsoft.framework.jcoding.exception.JCodingBuilderException;
  * Represent the java file builder to create (as base) a java file, see {@link JFileDescriptor}.
  */
 public final class JFileBuilder extends JObjectBuilderBase<JFileDescriptor> {
+
+    public static JFileBuilder create() {
+        return new JFileBuilder();
+    }
+
     /**
      * Creates a java file builder with given filename as initial value.
      * @param filename
      * @return
      */
     public static JFileBuilder create(final String filename) {
-        return new JFileBuilder().withFilename(filename);
+        return create().withFilename(filename);
     }
 
     private JFileBuilder() {
@@ -49,11 +54,6 @@ public final class JFileBuilder extends JObjectBuilderBase<JFileDescriptor> {
         for (final JTypeDescriptor typeDescriptor : typeDescriptors) {
             value.addJavaType(typeDescriptor);
         }
-        return this;
-    }
-
-    public JFileBuilder withoutJavaType(final JTypeDescriptor typeDescriptor) {
-        value.removeJavaType(typeDescriptor);
         return this;
     }
 }

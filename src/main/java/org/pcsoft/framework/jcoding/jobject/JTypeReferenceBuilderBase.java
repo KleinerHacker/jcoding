@@ -3,7 +3,7 @@ package org.pcsoft.framework.jcoding.jobject;
 /**
  * Represent a Java Type Reference base in e. g. a parameter or field declaration
  */
-public abstract class JTypeReferenceBuilderBase<T extends JTypeReferenceDescriptorBase, S extends JTypeReferenceBuilderBase> extends JObjectBuilderBase<T> {
+public abstract class JTypeReferenceBuilderBase<T extends JTypeReferenceDescriptorBase, S extends JTypeReferenceBuilderBase> extends JReferenceBuilderBase<T, S> {
     /**
      * Creates this builder based on the type descriptor to build reference for
      * @param descriptor

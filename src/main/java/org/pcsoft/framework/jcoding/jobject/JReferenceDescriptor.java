@@ -5,6 +5,4 @@ package org.pcsoft.framework.jcoding.jobject;
  */
 public interface JReferenceDescriptor extends JObjectDescriptor {
 
-
-
 }

@@ -39,11 +39,6 @@ public abstract class JTypeBuilder<M extends JMethodDescriptor, MB extends JMeth
         return (S) this;
     }
 
-    public S withoutChildType(final JTypeDescriptor typeDescriptor) {
-        value.removeChildType(typeDescriptor);
-        return (S) this;
-    }
-
     public S withMethod(final M method) {
         value.addMethod(method);
         return (S) this;
@@ -64,11 +59,6 @@ public abstract class JTypeBuilder<M extends JMethodDescriptor, MB extends JMeth
         for (final MB method : methods) {
             value.addMethod((M) method.build());
         }
-        return (S) this;
-    }
-
-    public S withoutMethod(final M method) {
-        value.removeMethod(method);
         return (S) this;
     }
 

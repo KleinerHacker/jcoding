@@ -30,7 +30,7 @@ public final class JStandardMethodDescriptor extends JParametrizedMethodDescript
         return body;
     }
 
-    void setBody(JMethodBodyDescriptor body) {
+    public void setBody(JMethodBodyDescriptor body) {
         this.body = body;
     }
 
@@ -38,7 +38,7 @@ public final class JStandardMethodDescriptor extends JParametrizedMethodDescript
         return $static;
     }
 
-    void setStatic(boolean $static) {
+    public void setStatic(boolean $static) {
         this.$static = $static;
     }
 }

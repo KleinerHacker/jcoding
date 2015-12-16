@@ -22,7 +22,7 @@ public final class JNumberValueDescriptor extends JPrimitiveValueDescriptor<Numb
         return number;
     }
 
-    void setNumber(JNumberType number) {
+    public void setNumber(JNumberType number) {
         this.number = number;
     }
 }

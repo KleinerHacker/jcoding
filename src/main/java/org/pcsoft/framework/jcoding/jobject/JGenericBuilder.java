@@ -6,8 +6,12 @@ import org.pcsoft.framework.jcoding.exception.JCodingBuilderException;
  * Created by Christoph on 12.12.2015.
  */
 public final class JGenericBuilder extends JObjectBuilderBase<JGenericDescriptor> {
+    public static JGenericBuilder create() {
+        return new JGenericBuilder();
+    }
+
     public static JGenericBuilder create(final String name) {
-        return new JGenericBuilder().withName(name);
+        return create().withName(name);
     }
 
     public static JGenericBuilder create(final String name, final JTypeReferenceBuilderBase classExtension) throws JCodingBuilderException {
@@ -52,11 +56,6 @@ public final class JGenericBuilder extends JObjectBuilderBase<JGenericDescriptor
         for (final JInternalInterfaceReferenceDescriptor interfaceExtension : interfaceExtensions) {
             value.addInterfaceExtension(interfaceExtension);
         }
-        return this;
-    }
-
-    public JGenericBuilder withoutInterfaceExtension(final JInternalInterfaceReferenceDescriptor interfaceExtension) {
-        value.removeInterfaceExtension(interfaceExtension);
         return this;
     }
 }
