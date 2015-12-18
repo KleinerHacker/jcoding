@@ -1,18 +1,20 @@
 package org.pcsoft.framework.jcoding.jobject;
 
+import org.pcsoft.framework.jcoding.jobject.type.JClassReference;
+
 /**
- * Created by Christoph on 12.12.2015.
+ * Builder to create {@link JClassReferenceDescriptor}, based on {@link JClassReference}
  */
-public interface JClassReferenceBuilder<T extends JClassReferenceDescriptor> extends JObjectBuilder<T> {
-    public static JExternalClassReferenceBuilder create(String fullClassName) {
-        return JExternalClassReferenceBuilder.create(fullClassName);
+public final class JClassReferenceBuilder extends JInheritableReferenceBuilder<JClassReference, JClassReferenceDescriptor, JClassReferenceBuilder> {
+    public static JClassReferenceBuilder create() {
+        return new JClassReferenceBuilder();
     }
 
-    public static JExternalClassReferenceBuilder create(Class referenceClass) {
-        return JExternalClassReferenceBuilder.create(referenceClass);
+    public static JClassReferenceBuilder create(final JClassReference classReference) {
+        return create().withTypeReference(classReference);
     }
 
-    public static JInternalClassReferenceBuilder create(JClassDescriptor classDescriptor) {
-        return JInternalClassReferenceBuilder.create(classDescriptor);
+    private JClassReferenceBuilder() {
+        super(JClassReferenceDescriptor.class);
     }
 }

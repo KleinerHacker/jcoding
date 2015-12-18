@@ -1,18 +1,20 @@
 package org.pcsoft.framework.jcoding.jobject;
 
+import org.pcsoft.framework.jcoding.jobject.type.JAnnotationReference;
+
 /**
- * Created by Christoph on 12.12.2015.
+ * Builder to create a {@link JAnnotationDescriptor}, based on a {@link JAnnotationReference}.
  */
-public interface JAnnotationReferenceBuilder<T extends JAnnotationReferenceDescriptor> extends JObjectBuilder<T> {
-    public static JExternalAnnotationReferenceBuilder create(String fullClassName) {
-        return JExternalAnnotationReferenceBuilder.create(fullClassName);
+public final class JAnnotationReferenceBuilder extends JTypeReferenceBuilder<JAnnotationReference, JAnnotationReferenceDescriptor, JAnnotationReferenceBuilder> {
+    public static JAnnotationReferenceBuilder create() {
+        return new JAnnotationReferenceBuilder();
     }
 
-    public static JExternalAnnotationReferenceBuilder create(Class referenceClass) {
-        return JExternalAnnotationReferenceBuilder.create(referenceClass);
+    public static JAnnotationReferenceBuilder create(final JAnnotationReference annotationReference) {
+        return create().withTypeReference(annotationReference);
     }
 
-    public static JInternalAnnotationReferenceBuilder create(JAnnotationDescriptor annotationDescriptor) {
-        return JInternalAnnotationReferenceBuilder.create(annotationDescriptor);
+    private JAnnotationReferenceBuilder() {
+        super(JAnnotationReferenceDescriptor.class);
     }
 }

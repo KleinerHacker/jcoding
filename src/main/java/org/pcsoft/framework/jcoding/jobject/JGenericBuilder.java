@@ -14,7 +14,7 @@ public final class JGenericBuilder extends JObjectBuilderBase<JGenericDescriptor
         return create().withName(name);
     }
 
-    public static JGenericBuilder create(final String name, final JTypeReferenceBuilderBase classExtension) throws JCodingBuilderException {
+    public static JGenericBuilder create(final String name, final JTypeReferenceBuilder classExtension) throws JCodingBuilderException {
         return create(name).withClassExtension(classExtension);
     }
 
@@ -27,33 +27,33 @@ public final class JGenericBuilder extends JObjectBuilderBase<JGenericDescriptor
         return this;
     }
 
-    public JGenericBuilder withClassExtension(final JTypeReferenceBuilderBase classExtension) throws JCodingBuilderException {
-        return withClassExtension((JTypeReferenceDescriptorBase) classExtension.build());
+    public JGenericBuilder withClassExtension(final JTypeReferenceBuilder classExtension) throws JCodingBuilderException {
+        return withClassExtension((JTypeReferenceDescriptor) classExtension.build());
     }
 
-    public JGenericBuilder withClassExtension(final JTypeReferenceDescriptorBase classExtension) {
+    public JGenericBuilder withClassExtension(final JTypeReferenceDescriptor classExtension) {
         value.setClassExtension(classExtension);
         return this;
     }
 
-    public JGenericBuilder withInterfaceExtension(final JInternalInterfaceReferenceBuilder interfaceExtension) throws JCodingBuilderException {
+    public JGenericBuilder withInterfaceExtension(final JInterfaceReferenceBuilder interfaceExtension) throws JCodingBuilderException {
         return withInterfaceExtension(interfaceExtension.build());
     }
 
-    public JGenericBuilder withInterfaceExtension(final JInternalInterfaceReferenceDescriptor interfaceExtension) {
+    public JGenericBuilder withInterfaceExtension(final JInterfaceReferenceDescriptor interfaceExtension) {
         value.addInterfaceExtension(interfaceExtension);
         return this;
     }
 
-    public JGenericBuilder withInterfaceExtensions(final JInternalInterfaceReferenceBuilder... interfaceExtensions) throws JCodingBuilderException {
-        for (final JInternalInterfaceReferenceBuilder interfaceExtension : interfaceExtensions) {
+    public JGenericBuilder withInterfaceExtensions(final JInterfaceReferenceBuilder... interfaceExtensions) throws JCodingBuilderException {
+        for (final JInterfaceReferenceBuilder interfaceExtension : interfaceExtensions) {
             value.addInterfaceExtension(interfaceExtension.build());
         }
         return this;
     }
 
-    public JGenericBuilder withInterfaceExtensions(final JInternalInterfaceReferenceDescriptor... interfaceExtensions) {
-        for (final JInternalInterfaceReferenceDescriptor interfaceExtension : interfaceExtensions) {
+    public JGenericBuilder withInterfaceExtensions(final JInterfaceReferenceDescriptor... interfaceExtensions) {
+        for (final JInterfaceReferenceDescriptor interfaceExtension : interfaceExtensions) {
             value.addInterfaceExtension(interfaceExtension);
         }
         return this;

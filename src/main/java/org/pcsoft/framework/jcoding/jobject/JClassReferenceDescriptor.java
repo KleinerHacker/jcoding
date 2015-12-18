@@ -1,7 +1,12 @@
 package org.pcsoft.framework.jcoding.jobject;
 
+import org.pcsoft.framework.jcoding.jobject.type.JClassReference;
+
 /**
- * Created by Christoph on 12.12.2015.
+ * Descriptor for a class reference. Build it with {@link JClassReferenceBuilder}.
  */
-public interface JClassReferenceDescriptor extends JTypeReferenceDescriptor {
+public final class JClassReferenceDescriptor extends JInheritableReferenceDescriptor<JClassReference> {
+
+    JClassReferenceDescriptor() {
+    }
 }

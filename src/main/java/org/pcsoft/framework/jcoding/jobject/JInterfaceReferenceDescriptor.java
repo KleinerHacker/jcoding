@@ -1,7 +1,12 @@
 package org.pcsoft.framework.jcoding.jobject;
 
+import org.pcsoft.framework.jcoding.jobject.type.JInterfaceReference;
+
 /**
- * Created by Christoph on 12.12.2015.
+ * Descriptor for an interface reference, build with {@link JInterfaceReferenceBuilder}
  */
-public interface JInterfaceReferenceDescriptor extends JTypeReferenceDescriptor {
+public final class JInterfaceReferenceDescriptor extends JInheritableReferenceDescriptor<JInterfaceReference> {
+
+    JInterfaceReferenceDescriptor() {
+    }
 }

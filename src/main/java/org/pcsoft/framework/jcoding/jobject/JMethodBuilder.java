@@ -11,11 +11,11 @@ public abstract class JMethodBuilder<T extends JMethodDescriptor, S extends JMet
         super(clazz);
     }
 
-    public S withReturnType(final JTypeReferenceBuilderBase typeReferenceBuilder) throws JCodingBuilderException {
-        return withReturnType((JTypeReferenceDescriptorBase) typeReferenceBuilder.build());
+    public S withReturnType(final JTypeReferenceBuilder typeReferenceBuilder) throws JCodingBuilderException {
+        return withReturnType((JTypeReferenceDescriptor) typeReferenceBuilder.build());
     }
 
-    public S withReturnType(final JTypeReferenceDescriptorBase typeReferenceDescriptor) {
+    public S withReturnType(final JTypeReferenceDescriptor typeReferenceDescriptor) {
         value.setReturnTypeDescriptor(typeReferenceDescriptor);
         return (S) this;
     }

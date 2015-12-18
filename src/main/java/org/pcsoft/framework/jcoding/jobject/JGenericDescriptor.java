@@ -11,8 +11,8 @@ import java.util.List;
  */
 public final class JGenericDescriptor extends JObjectDescriptorBase {
     private String name;
-    private JTypeReferenceDescriptorBase classExtension;
-    private final List<JInternalInterfaceReferenceDescriptor> interfaceExtensionList = new ArrayList<>();
+    private JTypeReferenceDescriptor classExtension;
+    private final List<JInterfaceReferenceDescriptor> interfaceExtensionList = new ArrayList<>();
 
     public String getName() {
         return name;
@@ -22,23 +22,23 @@ public final class JGenericDescriptor extends JObjectDescriptorBase {
         this.name = name;
     }
 
-    public JTypeReferenceDescriptorBase getClassExtension() {
+    public JTypeReferenceDescriptor getClassExtension() {
         return classExtension;
     }
 
-    public void setClassExtension(JTypeReferenceDescriptorBase classExtension) {
+    public void setClassExtension(JTypeReferenceDescriptor classExtension) {
         this.classExtension = classExtension;
     }
 
-    public JInternalInterfaceReferenceDescriptor[] getInterfaceExtensions() {
-        return interfaceExtensionList.toArray(new JInternalInterfaceReferenceDescriptor[interfaceExtensionList.size()]);
+    public JInterfaceReferenceDescriptor[] getInterfaceExtensions() {
+        return interfaceExtensionList.toArray(new JInterfaceReferenceDescriptor[interfaceExtensionList.size()]);
     }
 
-    public void addInterfaceExtension(final JInternalInterfaceReferenceDescriptor interfaceExtension) {
+    public void addInterfaceExtension(final JInterfaceReferenceDescriptor interfaceExtension) {
         interfaceExtensionList.add(interfaceExtension);
     }
 
-    public void removeInterfaceExtension(final JInternalInterfaceReferenceDescriptor interfaceExtension) {
+    public void removeInterfaceExtension(final JInterfaceReferenceDescriptor interfaceExtension) {
         interfaceExtensionList.remove(interfaceExtension);
     }
 

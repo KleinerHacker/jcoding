@@ -1,7 +1,12 @@
 package org.pcsoft.framework.jcoding.jobject;
 
+import org.pcsoft.framework.jcoding.jobject.type.JEnumerationReference;
+
 /**
- * Created by Christoph on 12.12.2015.
+ * Descriptor for enumeration reference, create with {@link JEnumerationReferenceBuilder}
  */
-public interface JEnumerationReferenceDescriptor extends JTypeReferenceDescriptor {
+public final class JEnumerationReferenceDescriptor extends JTypeReferenceDescriptor<JEnumerationReference> {
+
+    JEnumerationReferenceDescriptor() {
+    }
 }

@@ -1,7 +1,12 @@
 package org.pcsoft.framework.jcoding.jobject;
 
+import org.pcsoft.framework.jcoding.jobject.type.JAnnotationReference;
+
 /**
- * Created by Christoph on 12.12.2015.
+ * Descriptor for an annotation reference. Create it with {@link JAnnotationReferenceBuilder}
  */
-public interface JAnnotationReferenceDescriptor extends JTypeReferenceDescriptor {
+public final class JAnnotationReferenceDescriptor extends JTypeReferenceDescriptor<JAnnotationReference> {
+
+    JAnnotationReferenceDescriptor() {
+    }
 }

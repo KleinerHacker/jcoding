@@ -132,7 +132,7 @@ public abstract class JCodingProcessorBase implements JCodingProcessor {
         if (descriptor.getClassExtension() != null) {
             importManagement.registerType(descriptor.getClassExtension());
         }
-        for (final JTypeReferenceDescriptorBase referenceDescriptor : descriptor.getInterfaceExtensions()) {
+        for (final JTypeReferenceDescriptor referenceDescriptor : descriptor.getInterfaceExtensions()) {
             importManagement.registerType(referenceDescriptor);
         }
 

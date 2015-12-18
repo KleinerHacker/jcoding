@@ -1,18 +1,20 @@
 package org.pcsoft.framework.jcoding.jobject;
 
+import org.pcsoft.framework.jcoding.jobject.type.JEnumerationReference;
+
 /**
- * Created by Christoph on 12.12.2015.
+ * Builder to create {@link JEnumerationReferenceDescriptor}, based on {@link JEnumerationReference}
  */
-public interface JEnumerationReferenceBuilder<T extends JEnumerationReferenceDescriptor> extends JObjectBuilder<T> {
-    public static JExternalEnumerationReferenceBuilder create(String fullClassName) {
-        return JExternalEnumerationReferenceBuilder.create(fullClassName);
+public final class JEnumerationReferenceBuilder extends JTypeReferenceBuilder<JEnumerationReference, JEnumerationReferenceDescriptor, JEnumerationReferenceBuilder> {
+    public static JEnumerationReferenceBuilder create() {
+        return new JEnumerationReferenceBuilder();
     }
 
-    public static JExternalEnumerationReferenceBuilder create(Class referenceClass) {
-        return JExternalEnumerationReferenceBuilder.create(referenceClass);
+    public static JEnumerationReferenceBuilder create(final JEnumerationReference enumerationReference) {
+        return create().withTypeReference(enumerationReference);
     }
 
-    public static JInternalEnumerationReferenceBuilder create(JEnumerationDescriptor enumerationDescriptor) {
-        return JInternalEnumerationReferenceBuilder.create(enumerationDescriptor);
+    private JEnumerationReferenceBuilder() {
+        super(JEnumerationReferenceDescriptor.class);
     }
 }

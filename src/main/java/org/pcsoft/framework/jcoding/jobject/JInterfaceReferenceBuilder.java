@@ -1,18 +1,20 @@
 package org.pcsoft.framework.jcoding.jobject;
 
+import org.pcsoft.framework.jcoding.jobject.type.JInterfaceReference;
+
 /**
  * Created by Christoph on 12.12.2015.
  */
-public interface JInterfaceReferenceBuilder<T extends JInterfaceReferenceDescriptor> extends JObjectBuilder<T> {
-    public static JExternalInterfaceReferenceBuilder create(String fullClassName) {
-        return JExternalInterfaceReferenceBuilder.create(fullClassName);
+public final class JInterfaceReferenceBuilder extends JInheritableReferenceBuilder<JInterfaceReference, JInterfaceReferenceDescriptor, JInterfaceReferenceBuilder> {
+    public static JInterfaceReferenceBuilder create() {
+        return new JInterfaceReferenceBuilder();
     }
 
-    public static JExternalInterfaceReferenceBuilder create(Class referenceClass) {
-        return JExternalInterfaceReferenceBuilder.create(referenceClass);
+    public static JInterfaceReferenceBuilder create(final JInterfaceReference interfaceReference) {
+        return create().withTypeReference(interfaceReference);
     }
 
-    public static JInternalInterfaceReferenceBuilder create(JInterfaceDescriptor interfaceDescriptor) {
-        return JInternalInterfaceReferenceBuilder.create(interfaceDescriptor);
+    private JInterfaceReferenceBuilder() {
+        super(JInterfaceReferenceDescriptor.class);
     }
 }

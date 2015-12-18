@@ -10,11 +10,11 @@ public final class JParameterBuilder extends JDefinitionBuilder<JParameterDescri
         return new JParameterBuilder();
     }
 
-    public static JParameterBuilder create(final String name, final JTypeReferenceBuilderBase type) throws JCodingBuilderException {
+    public static JParameterBuilder create(final String name, final JTypeReferenceBuilder type) throws JCodingBuilderException {
         return create().withName(name).withType(type);
     }
 
-    public static JParameterBuilder create(final String name, final JTypeReferenceDescriptorBase type) {
+    public static JParameterBuilder create(final String name, final JTypeReferenceDescriptor type) {
         return create().withName(name).withType(type);
     }
 
@@ -27,11 +27,11 @@ public final class JParameterBuilder extends JDefinitionBuilder<JParameterDescri
         return this;
     }
 
-    public JParameterBuilder withType(final JTypeReferenceBuilderBase typeReferenceBuilder) throws JCodingBuilderException {
-        return withType((JTypeReferenceDescriptorBase) typeReferenceBuilder.build());
+    public JParameterBuilder withType(final JTypeReferenceBuilder typeReferenceBuilder) throws JCodingBuilderException {
+        return withType((JTypeReferenceDescriptor) typeReferenceBuilder.build());
     }
 
-    public JParameterBuilder withType(final JTypeReferenceDescriptorBase typeReferenceDescriptor) {
+    public JParameterBuilder withType(final JTypeReferenceDescriptor typeReferenceDescriptor) {
         value.setType(typeReferenceDescriptor);
         return this;
     }

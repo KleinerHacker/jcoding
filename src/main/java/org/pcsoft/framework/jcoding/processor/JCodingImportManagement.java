@@ -1,9 +1,8 @@
 package org.pcsoft.framework.jcoding.processor;
 
 import org.pcsoft.framework.jcoding.exception.JCodingException;
-import org.pcsoft.framework.jcoding.jobject.JExternalTypeReferenceDescriptor;
-import org.pcsoft.framework.jcoding.jobject.JInternalTypeReferenceDescriptor;
 import org.pcsoft.framework.jcoding.jobject.JReferenceDescriptor;
+import org.pcsoft.framework.jcoding.jobject.JTypeReferenceDescriptor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,10 +41,8 @@ public abstract class JCodingImportManagement {
             throw new IllegalArgumentException("descriptor must be set!");
 
         final String newNamespace;
-        if (referenceDescriptor instanceof JInternalTypeReferenceDescriptor) {
-            newNamespace = extractNamespaceFromInternalType((JInternalTypeReferenceDescriptor) referenceDescriptor);
-        } else if (referenceDescriptor instanceof JExternalTypeReferenceDescriptor) {
-            newNamespace = extractNamespaceFromExternalType((JExternalTypeReferenceDescriptor) referenceDescriptor);
+        if (referenceDescriptor instanceof JTypeReferenceDescriptor) {
+            newNamespace = extractNamespaceFromType((JTypeReferenceDescriptor) referenceDescriptor);
         } else
             throw new RuntimeException("Unknown reference class: " + referenceDescriptor.getClass());
 
@@ -62,13 +59,7 @@ public abstract class JCodingImportManagement {
      * @param referenceDescriptor
      * @return New namespace to import. Will be checked with {@link #needImport(String, String)}
      */
-    protected abstract String extractNamespaceFromInternalType(JInternalTypeReferenceDescriptor referenceDescriptor);
-    /**
-     * Extract a namespace from external type
-     * @param referenceDescriptor
-     * @return New namespace to import. Will be checked with {@link #needImport(String, String)}
-     */
-    protected abstract String extractNamespaceFromExternalType(JExternalTypeReferenceDescriptor referenceDescriptor);
+    protected abstract String extractNamespaceFromType(JTypeReferenceDescriptor referenceDescriptor);
 
     /**
      * Check that the new namespace is needed, based on current used namespace for this code file.

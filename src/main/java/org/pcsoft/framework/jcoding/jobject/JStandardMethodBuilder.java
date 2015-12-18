@@ -11,28 +11,28 @@ public final class JStandardMethodBuilder extends JParametrizedMethodBuilder<JSt
         return new JStandardMethodBuilder();
     }
 
-    public static JStandardMethodBuilder create(final JVisibility visibility, final String name, final JTypeReferenceBuilderBase returnType) throws JCodingBuilderException {
+    public static JStandardMethodBuilder create(final JVisibility visibility, final String name, final JTypeReferenceBuilder returnType) throws JCodingBuilderException {
         return create().withVisibility(visibility).withName(name).withReturnType(returnType);
     }
 
-    public static JStandardMethodBuilder create(final JVisibility visibility, final String name, final JTypeReferenceDescriptorBase returnType) {
+    public static JStandardMethodBuilder create(final JVisibility visibility, final String name, final JTypeReferenceDescriptor returnType) {
         return create().withVisibility(visibility).withName(name).withReturnType(returnType);
     }
 
     public static JStandardMethodBuilder create(final JVisibility visibility, final String name) {
-        return create(visibility, name, (JTypeReferenceDescriptorBase) null);
+        return create(visibility, name, (JTypeReferenceDescriptor) null);
     }
 
-    public static JStandardMethodBuilder create(final String name, final JTypeReferenceBuilderBase returnType) throws JCodingBuilderException {
+    public static JStandardMethodBuilder create(final String name, final JTypeReferenceBuilder returnType) throws JCodingBuilderException {
         return create(JVisibility.Public, name, returnType);
     }
 
-    public static JStandardMethodBuilder create(final String name, final JTypeReferenceDescriptorBase returnType) {
+    public static JStandardMethodBuilder create(final String name, final JTypeReferenceDescriptor returnType) {
         return create(JVisibility.Public, name, returnType);
     }
 
     public static JStandardMethodBuilder create(final String name) {
-        return create(name, (JTypeReferenceDescriptorBase) null);
+        return create(name, (JTypeReferenceDescriptor) null);
     }
 
     private JStandardMethodBuilder() {

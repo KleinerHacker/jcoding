@@ -11,7 +11,7 @@ public final class JAnnotationMethodBuilder extends JMethodBuilder<JAnnotationMe
         return new JAnnotationMethodBuilder();
     }
 
-    public static JAnnotationMethodBuilder create(final JVisibility visibility, final String name, final JTypeReferenceDescriptorBase returnType) {
+    public static JAnnotationMethodBuilder create(final JVisibility visibility, final String name, final JTypeReferenceDescriptor returnType) {
         return create().withVisibility(visibility).withName(name).withReturnType(returnType);
     }
 
@@ -19,7 +19,7 @@ public final class JAnnotationMethodBuilder extends JMethodBuilder<JAnnotationMe
         return create(visibility, name, null);
     }
 
-    public static JAnnotationMethodBuilder create(final String name, final JTypeReferenceDescriptorBase returnType) {
+    public static JAnnotationMethodBuilder create(final String name, final JTypeReferenceDescriptor returnType) {
         return create(JVisibility.Public, name, returnType);
     }
 

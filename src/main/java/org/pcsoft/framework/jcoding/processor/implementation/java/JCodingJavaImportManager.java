@@ -3,8 +3,7 @@ package org.pcsoft.framework.jcoding.processor.implementation.java;
 import org.apache.commons.lang.ClassUtils;
 import org.apache.commons.lang.SystemUtils;
 import org.pcsoft.framework.jcoding.exception.JCodingException;
-import org.pcsoft.framework.jcoding.jobject.JExternalTypeReferenceDescriptor;
-import org.pcsoft.framework.jcoding.jobject.JInternalTypeReferenceDescriptor;
+import org.pcsoft.framework.jcoding.jobject.JTypeReferenceDescriptor;
 import org.pcsoft.framework.jcoding.processor.JCodingImportManagement;
 import org.pcsoft.framework.jcoding.type.JClassNamePresentation;
 
@@ -20,12 +19,7 @@ public final class JCodingJavaImportManager extends JCodingImportManagement {
     }
 
     @Override
-    protected String extractNamespaceFromInternalType(JInternalTypeReferenceDescriptor referenceDescriptor) {
-        return referenceDescriptor.getFullClassName(JClassNamePresentation.Canonical);
-    }
-
-    @Override
-    protected String extractNamespaceFromExternalType(JExternalTypeReferenceDescriptor referenceDescriptor) {
+    protected String extractNamespaceFromType(JTypeReferenceDescriptor referenceDescriptor) {
         return referenceDescriptor.getFullClassName(JClassNamePresentation.Canonical);
     }
 

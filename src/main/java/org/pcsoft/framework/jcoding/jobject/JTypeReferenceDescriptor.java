@@ -1,29 +1,46 @@
 package org.pcsoft.framework.jcoding.jobject;
 
+import org.pcsoft.framework.jcoding.exception.JCodingDescriptorValidationException;
+import org.pcsoft.framework.jcoding.jobject.type.JTypeReference;
 import org.pcsoft.framework.jcoding.type.JClassNamePresentation;
 
 /**
- * Created by Christoph on 16.12.2015.
+ * Represent the descriptor for a java type reference base to use e. g. for parameters or field declarations.
  */
-public interface JTypeReferenceDescriptor extends JReferenceDescriptor {
-    /**
-     * Get the full class name for this type reference representation or NULL if no {@link JFileDescriptor} was found for the contained type reference, see {@link #getTypeReference()}.
-     * @param classNamePresentation Presentation type for class name
-     * @return
-     */
-    String getFullClassName(JClassNamePresentation classNamePresentation);
+public abstract class JTypeReferenceDescriptor<T extends JTypeReference> extends JReferenceDescriptorBase implements JReferenceDescriptor, JTypeReference {
+    private T typeReference;
 
-    /**
-     * Get the full class name as canonical for this type reference representation or NULL if no {@link JFileDescriptor} was found for the contained type reference.
-     * @return
-     */
-    String getFullClassName();
+    public T getTypeReference() {
+        return typeReference;
+    }
 
-    /**
-     * Returns the simple class name for this type reference representation or NULL if no {@link JFileDescriptor} was found for the contained type reference.
-     * @return
-     */
-    String getSimpleClassName();
+    public void setTypeReference(T typeReference) {
+        this.typeReference = typeReference;
+    }
 
-    String getPackageName();
+    @Override
+    public final String getFullClassName(JClassNamePresentation classNamePresentation) {
+        return typeReference.getFullClassName(classNamePresentation);
+    }
+
+    @Override
+    public final String getFullClassName() {
+        return typeReference.getFullClassName();
+    }
+
+    @Override
+    public final String getSimpleClassName() {
+        return typeReference.getSimpleClassName();
+    }
+
+    @Override
+    public final String getPackageName() {
+        return typeReference.getPackageName();
+    }
+
+    @Override
+    public void validate() throws JCodingDescriptorValidationException {
+        if (typeReference == null)
+            throw new JCodingDescriptorValidationException("No type reference was set");
+    }
 }
