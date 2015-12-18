@@ -5,6 +5,7 @@ import org.pcsoft.framework.jcoding.type.JVisibility;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * Created by pfeifchr on 10.12.2015.
@@ -24,6 +25,13 @@ public final class JStandardMethodDescriptor extends JParametrizedMethodDescript
             throw new JCodingDescriptorValidationException("Method '" + getName() + "' cannot be abstract and private!");
         if (isAbstract() && $static)
             throw new JCodingDescriptorValidationException("Method '" + getName() + "' cannot be abstract and static!");
+        if ($static && getReturnTypeDescriptor() instanceof JGenericReferenceDescriptor) {
+            final long count = Stream.of(getGenerics())
+                    .filter(item -> item.getName().equals(((JGenericReferenceDescriptor) getReturnTypeDescriptor()).getGenericReference().getName()))
+                    .count();
+            if (count <= 0)
+                throw new JCodingDescriptorValidationException("Static Method '" + getName() + "' has generic return value that is not a generic of this method!");
+        }
         for (final JClassReferenceDescriptor $throw : throwList) {
             if ($throw.getGenerics().length > 0)
                 throw new JCodingDescriptorValidationException("Exception '" + $throw.getSimpleClassName() + "' in throw list of method '" + getName() + "' has generics!");
