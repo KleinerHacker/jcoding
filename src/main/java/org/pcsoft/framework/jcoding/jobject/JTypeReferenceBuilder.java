@@ -5,7 +5,7 @@ import org.pcsoft.framework.jcoding.jobject.type.*;
 /**
  * Represent a Java Type Reference base in e. g. a parameter or field declaration
  */
-public abstract class JTypeReferenceBuilder<R extends JTypeReference, T extends JTypeReferenceDescriptor<R>, S extends JTypeReferenceBuilder> extends JReferenceBuilderBase<T, S> {
+public abstract class JTypeReferenceBuilder<R extends JTypeReference, T extends JTypeReferenceDescriptor<R>, S extends JTypeReferenceBuilder> extends JReferenceBuilder<T, S> {
     /**
      * Creates this builder based on the type descriptor to build reference for
      *

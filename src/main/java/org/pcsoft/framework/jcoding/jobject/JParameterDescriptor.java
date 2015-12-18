@@ -5,7 +5,7 @@ package org.pcsoft.framework.jcoding.jobject;
  */
 public final class JParameterDescriptor extends JDefinitionDescriptor {
     private boolean $final;
-    private JTypeReferenceDescriptor type;
+    private JReferenceDescriptor reference;
 
     public boolean isFinal() {
         return $final;
@@ -15,11 +15,11 @@ public final class JParameterDescriptor extends JDefinitionDescriptor {
         this.$final = $final;
     }
 
-    public JTypeReferenceDescriptor getType() {
-        return type;
+    public JReferenceDescriptor getReference() {
+        return reference;
     }
 
-    public void setType(JTypeReferenceDescriptor type) {
-        this.type = type;
+    public void setReference(JReferenceDescriptor reference) {
+        this.reference = reference;
     }
 }

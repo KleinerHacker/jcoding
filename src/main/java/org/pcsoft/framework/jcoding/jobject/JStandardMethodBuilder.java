@@ -11,11 +11,11 @@ public final class JStandardMethodBuilder extends JParametrizedMethodBuilder<JSt
         return new JStandardMethodBuilder();
     }
 
-    public static JStandardMethodBuilder create(final JVisibility visibility, final String name, final JTypeReferenceBuilder returnType) throws JCodingBuilderException {
+    public static JStandardMethodBuilder create(final JVisibility visibility, final String name, final JReferenceBuilder returnType) throws JCodingBuilderException {
         return create().withVisibility(visibility).withName(name).withReturnType(returnType);
     }
 
-    public static JStandardMethodBuilder create(final JVisibility visibility, final String name, final JTypeReferenceDescriptor returnType) {
+    public static JStandardMethodBuilder create(final JVisibility visibility, final String name, final JReferenceDescriptor returnType) {
         return create().withVisibility(visibility).withName(name).withReturnType(returnType);
     }
 
@@ -23,11 +23,11 @@ public final class JStandardMethodBuilder extends JParametrizedMethodBuilder<JSt
         return create(visibility, name, (JTypeReferenceDescriptor) null);
     }
 
-    public static JStandardMethodBuilder create(final String name, final JTypeReferenceBuilder returnType) throws JCodingBuilderException {
+    public static JStandardMethodBuilder create(final String name, final JReferenceBuilder returnType) throws JCodingBuilderException {
         return create(JVisibility.Public, name, returnType);
     }
 
-    public static JStandardMethodBuilder create(final String name, final JTypeReferenceDescriptor returnType) {
+    public static JStandardMethodBuilder create(final String name, final JReferenceDescriptor returnType) {
         return create(JVisibility.Public, name, returnType);
     }
 
@@ -50,6 +50,29 @@ public final class JStandardMethodBuilder extends JParametrizedMethodBuilder<JSt
 
     public JStandardMethodBuilder withStatic(final boolean flag) {
         value.setStatic(flag);
+        return this;
+    }
+
+    public JStandardMethodBuilder withThrow(final JClassReferenceBuilder $throw) throws JCodingBuilderException {
+        return withThrow($throw.build());
+    }
+
+    public JStandardMethodBuilder withThrow(final JClassReferenceDescriptor $throw) {
+        value.addThrow($throw);
+        return this;
+    }
+
+    public JStandardMethodBuilder withThrows(final JClassReferenceBuilder... $throws) throws JCodingBuilderException {
+        for (final JClassReferenceBuilder $throw : $throws) {
+            value.addThrow($throw.build());
+        }
+        return this;
+    }
+
+    public JStandardMethodBuilder withThrows(final JClassReferenceDescriptor... $throws) {
+        for (final JClassReferenceDescriptor $throw : $throws) {
+            value.addThrow($throw);
+        }
         return this;
     }
 }

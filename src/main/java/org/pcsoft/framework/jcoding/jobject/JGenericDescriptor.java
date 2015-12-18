@@ -47,12 +47,14 @@ public final class JGenericDescriptor extends JObjectDescriptorBase {
         if (name == null || name.trim().isEmpty())
             throw new JCodingDescriptorValidationException("Name of generic not set!");
 
-        try {
-            final Class<?> aClass = Class.forName(classExtension.getFullClassName(JClassNamePresentation.Reference));
-            if (aClass.isPrimitive())
-                throw new JCodingDescriptorValidationException("No primitive type is allowed for generic class extension");
-        } catch (ClassNotFoundException e) {
-            //Ignore
+        if (classExtension != null) {
+            try {
+                final Class<?> aClass = Class.forName(classExtension.getFullClassName(JClassNamePresentation.Reference));
+                if (aClass.isPrimitive())
+                    throw new JCodingDescriptorValidationException("No primitive type is allowed for generic class extension");
+            } catch (ClassNotFoundException e) {
+                //Ignore
+            }
         }
     }
 }

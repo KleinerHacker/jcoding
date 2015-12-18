@@ -1,8 +1,7 @@
 package org.pcsoft.framework.jcoding.jobject;
 
 /**
- * Represent the interface for a java reference object descriptor, based on {@link JObjectDescriptor}.
+ * Created by pfeifchr on 10.12.2015.
  */
-public interface JReferenceDescriptor extends JObjectDescriptor {
-
+public abstract class JReferenceDescriptor extends JObjectDescriptorBase implements JObjectDescriptor {
 }

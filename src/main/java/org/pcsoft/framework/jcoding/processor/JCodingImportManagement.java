@@ -1,8 +1,12 @@
 package org.pcsoft.framework.jcoding.processor;
 
+import org.apache.commons.lang.ClassUtils;
+import org.apache.commons.lang.SystemUtils;
 import org.pcsoft.framework.jcoding.exception.JCodingException;
+import org.pcsoft.framework.jcoding.jobject.JGenericReferenceDescriptor;
 import org.pcsoft.framework.jcoding.jobject.JReferenceDescriptor;
 import org.pcsoft.framework.jcoding.jobject.JTypeReferenceDescriptor;
+import org.pcsoft.framework.jcoding.type.JClassNamePresentation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,12 +14,12 @@ import java.util.List;
 /**
  * Represent the import manager vase implementation to handle all imports for a code file.
  */
-public abstract class JCodingImportManagement {
+public final class JCodingImportManagement {
     private final List<String> importList = new ArrayList<>();
-    private final String namespace;
+    private final String packageName;
 
-    public JCodingImportManagement(String namespace) {
-        this.namespace = namespace;
+    public JCodingImportManagement(String packageName) {
+        this.packageName = packageName;
     }
 
     public String buildImportList() throws JCodingException {
@@ -43,12 +47,14 @@ public abstract class JCodingImportManagement {
         final String newNamespace;
         if (referenceDescriptor instanceof JTypeReferenceDescriptor) {
             newNamespace = extractNamespaceFromType((JTypeReferenceDescriptor) referenceDescriptor);
+        } else if (referenceDescriptor instanceof JGenericReferenceDescriptor) {
+            newNamespace = null;
         } else
             throw new RuntimeException("Unknown reference class: " + referenceDescriptor.getClass());
 
-        if (importList.contains(newNamespace))
+        if (newNamespace == null || importList.contains(newNamespace))
             return;
-        if (!needImport(newNamespace, namespace))
+        if (!needImport(newNamespace, packageName))
             return;
 
         importList.add(newNamespace);
@@ -59,7 +65,9 @@ public abstract class JCodingImportManagement {
      * @param referenceDescriptor
      * @return New namespace to import. Will be checked with {@link #needImport(String, String)}
      */
-    protected abstract String extractNamespaceFromType(JTypeReferenceDescriptor referenceDescriptor);
+    private String extractNamespaceFromType(JTypeReferenceDescriptor referenceDescriptor) {
+        return referenceDescriptor.getFullClassName(JClassNamePresentation.Canonical);
+    }
 
     /**
      * Check that the new namespace is needed, based on current used namespace for this code file.
@@ -67,7 +75,24 @@ public abstract class JCodingImportManagement {
      * @param currentNamespace Current namespace in file
      * @return TRUE to add new namespace, otherwise FALSE
      */
-    protected abstract boolean needImport(final String newNamespace, final String currentNamespace);
+    private boolean needImport(final String newNamespace, final String currentNamespace) {
+        if (newNamespace == null || newNamespace.trim().isEmpty())
+            return false;
 
-    protected abstract String buildImportCode(final List<String> importList) throws JCodingException;
+        final String packageCanonicalName = ClassUtils.getPackageCanonicalName(newNamespace);
+        if (packageCanonicalName == null || packageCanonicalName.trim().isEmpty()) {
+            return false;
+        }
+
+        return !newNamespace.equals(currentNamespace);
+    }
+
+    private String buildImportCode(final List<String> importList) throws JCodingException {
+        final StringBuilder sb = new StringBuilder();
+        for (final String fullClassName : importList) {
+            sb.append("import ").append(fullClassName).append(";").append(SystemUtils.LINE_SEPARATOR);
+        }
+
+        return sb.toString();
+    }
 }

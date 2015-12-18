@@ -11,6 +11,29 @@ public abstract class JParametrizedMethodBuilder<T extends JParametrizedMethodDe
         super(clazz);
     }
 
+    public S withGeneric(final JGenericBuilder generic) throws JCodingBuilderException {
+        return withGeneric(generic.build());
+    }
+
+    public S withGeneric(final JGenericDescriptor generic) {
+        value.addGeneric(generic);
+        return (S) this;
+    }
+
+    public S withGenerics(final JGenericBuilder... generics) throws JCodingBuilderException {
+        for (final JGenericBuilder generic : generics) {
+            value.addGeneric(generic.build());
+        }
+        return (S) this;
+    }
+
+    public S withGenerics(final JGenericDescriptor... generics) {
+        for (final JGenericDescriptor generic : generics) {
+            value.addGeneric(generic);
+        }
+        return (S) this;
+    }
+
     public S withParameter(final JParameterBuilder parameter) throws JCodingBuilderException {
         return withParameter(parameter.build());
     }

@@ -14,8 +14,8 @@ public final class JAnnotationMethodDescriptor extends JMethodDescriptor {
     @Override
     public void validate() throws JCodingDescriptorValidationException {
         super.validate();
-        if (getReturnTypeDescriptor() != null) {
-            final String fullClassName = getReturnTypeDescriptor().getFullClassName();
+        if (getReturnTypeDescriptor() != null && getReturnTypeDescriptor() instanceof JTypeReferenceDescriptor) {
+            final String fullClassName = ((JTypeReferenceDescriptor) getReturnTypeDescriptor()).getFullClassName();
             if (!fullClassName.equals(String.class.getCanonicalName()) && !fullClassName.equals(byte.class.getCanonicalName()) &&
                     !fullClassName.equals(short.class.getCanonicalName()) && !fullClassName.equals(int.class.getCanonicalName()) &&
                     !fullClassName.equals(long.class.getCanonicalName()) && !fullClassName.equals(double.class.getCanonicalName()) &&
@@ -26,6 +26,8 @@ public final class JAnnotationMethodDescriptor extends JMethodDescriptor {
         }
         if (getReturnTypeDescriptor() == null)
             throw new JCodingDescriptorValidationException("Annotation method '" + getName() + "' must return a value");
+        if (getReturnTypeDescriptor() instanceof JGenericReferenceDescriptor)
+            throw new JCodingDescriptorValidationException("Annotation method '" + getName() + "' has a generic as return type");
     }
 
     public JValueDescriptor getDefaultValue() {

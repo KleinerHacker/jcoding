@@ -5,7 +5,7 @@ import org.pcsoft.framework.jcoding.exception.JCodingDescriptorValidationExcepti
 /**
  * Represent a generic reference, based on a {@link JGenericDescriptor}
  */
-public final class JGenericReferenceDescriptor extends JReferenceDescriptorBase {
+public final class JGenericReferenceDescriptor extends JReferenceDescriptor {
     private JGenericDescriptor genericReference;
 
     public JGenericDescriptor getGenericReference() {

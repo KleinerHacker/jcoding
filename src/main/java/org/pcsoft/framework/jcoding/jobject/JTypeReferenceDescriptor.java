@@ -7,7 +7,7 @@ import org.pcsoft.framework.jcoding.type.JClassNamePresentation;
 /**
  * Represent the descriptor for a java type reference base to use e. g. for parameters or field declarations.
  */
-public abstract class JTypeReferenceDescriptor<T extends JTypeReference> extends JReferenceDescriptorBase implements JReferenceDescriptor, JTypeReference {
+public abstract class JTypeReferenceDescriptor<T extends JTypeReference> extends JReferenceDescriptor implements JTypeReference, JObjectDescriptor {
     private T typeReference;
 
     public T getTypeReference() {
