@@ -6,6 +6,7 @@ import org.pcsoft.framework.jcoding.jobject.*;
 import org.pcsoft.framework.jcoding.jobject.type.JClassReference;
 import org.pcsoft.framework.jcoding.jobject.type.JInterfaceReference;
 import org.pcsoft.framework.jcoding.processor.JCodingProcessorFactory;
+import org.pcsoft.framework.jcoding.type.JNumberType;
 import org.pcsoft.framework.jcoding.type.JVisibility;
 
 import java.io.Serializable;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 /**
- * Created by pfeifchr on 10.12.2015.
+ * Simple Test for JCoding Framework
  */
 public class JCodingTest {
 
@@ -46,6 +47,15 @@ public class JCodingTest {
                         JStandardMethodBuilder.create("getValue", JGenericReferenceBuilder.create(myListGeneric))
                                 .withBody(JMethodBodyBuilder.create()),
                         JStandardMethodBuilder.create(JVisibility.Protected, "validate", (JTypeReferenceDescriptor) null)
+                )
+                .withFields(
+                        JFieldBuilder.create("DEFAULT", JTypeReferenceBuilder.create(JClassReference.create(int.class)))
+                                .withFinal(true).withStatic(true).withValue(JSimpleValueBuilder.create(99, JNumberType.Integer)),
+                        JFieldBuilder.create("UNKNOWN", JTypeReferenceBuilder.create(JClassReference.create(Integer.class)))
+                                .withFinal(true).withStatic(true).withValue(JPrimitiveValueBuilder.create(101, JNumberType.Integer)
+                                .withUsePrimitive(false)),
+                        JFieldBuilder.create("key", JTypeReferenceBuilder.create(JClassReference.create(String.class))),
+                        JFieldBuilder.create("value", JGenericReferenceBuilder.create(myListGeneric))
                 )
                 .build();
 

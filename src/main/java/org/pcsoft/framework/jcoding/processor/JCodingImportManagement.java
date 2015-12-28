@@ -60,6 +60,19 @@ public final class JCodingImportManagement {
         importList.add(newNamespace);
     }
 
+    public final void registerType(Class typeClass) {
+        if (typeClass == null)
+            throw new IllegalArgumentException("type class must be set!");
+
+        final String newNamespace = typeClass.getCanonicalName();
+        if (newNamespace == null || importList.contains(newNamespace))
+            return;
+        if (!needImport(newNamespace, packageName))
+            return;
+
+        importList.add(newNamespace);
+    }
+
     /**
      * Extract a namespace from internal type
      * @param referenceDescriptor

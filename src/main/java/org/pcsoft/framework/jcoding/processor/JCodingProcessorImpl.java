@@ -1,6 +1,10 @@
 package org.pcsoft.framework.jcoding.processor;
 
+import org.apache.commons.io.output.ByteArrayOutputStream;
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.SystemUtils;
+import org.apache.commons.lang.text.StrBuilder;
+import org.pcsoft.framework.jcoding.exception.JCodingDescriptorValidationException;
 import org.pcsoft.framework.jcoding.exception.JCodingException;
 import org.pcsoft.framework.jcoding.jobject.*;
 
@@ -94,6 +98,8 @@ final class JCodingProcessorImpl implements JCodingProcessor {
         }
         sb.append(" {").append(SystemUtils.LINE_SEPARATOR);
 
+        buildFields(level + 1, sb, importManagement, classDescriptor.getFields());
+        sb.append(SystemUtils.LINE_SEPARATOR);
         buildMethods(level + 1, sb, importManagement, classDescriptor.getMethods());
 
         sb.append(JCodingProcessorUtils.buildIndent(level));
@@ -116,6 +122,8 @@ final class JCodingProcessorImpl implements JCodingProcessor {
         }
         sb.append(" {").append(SystemUtils.LINE_SEPARATOR);
 
+        buildFields(level + 1, sb, importManagement, interfaceDescriptor.getFields());
+        sb.append(SystemUtils.LINE_SEPARATOR);
         buildMethods(level + 1, sb, importManagement, interfaceDescriptor.getMethods());
 
         sb.append(JCodingProcessorUtils.buildIndent(level));
@@ -131,6 +139,8 @@ final class JCodingProcessorImpl implements JCodingProcessor {
         }
         sb.append("enum ").append(enumerationDescriptor.getName()).append(" {").append(SystemUtils.LINE_SEPARATOR);
 
+        buildFields(level + 1, sb, importManagement, enumerationDescriptor.getFields());
+        sb.append(SystemUtils.LINE_SEPARATOR);
         buildMethods(level + 1, sb, importManagement, enumerationDescriptor.getMethods());
 
         sb.append(JCodingProcessorUtils.buildIndent(level));
@@ -163,26 +173,6 @@ final class JCodingProcessorImpl implements JCodingProcessor {
         sb.delete(sb.length() - 2, sb.length());
     }
     //endregion
-
-    private void buildReference(StringBuilder sb, JCodingImportManagement importManagement, JReferenceDescriptor referenceDescriptor) throws JCodingException {
-        referenceDescriptor.validate();
-        importManagement.registerType(referenceDescriptor);
-
-        if (referenceDescriptor instanceof JTypeReferenceDescriptor) {
-            final JTypeReferenceDescriptor typeReferenceDescriptor = (JTypeReferenceDescriptor) referenceDescriptor;
-            sb.append(typeReferenceDescriptor.getSimpleClassName());
-            if (referenceDescriptor instanceof JInheritableReferenceDescriptor) {
-                final JInheritableReferenceDescriptor inheritableReferenceDescriptor = (JInheritableReferenceDescriptor) referenceDescriptor;
-                if (inheritableReferenceDescriptor.getGenerics().length > 0) {
-                    buildGenericValues(sb, importManagement, inheritableReferenceDescriptor.getGenerics());
-                }
-            }
-        } else if (referenceDescriptor instanceof JGenericReferenceDescriptor) {
-            final JGenericReferenceDescriptor genericReferenceDescriptor = (JGenericReferenceDescriptor) referenceDescriptor;
-            sb.append(genericReferenceDescriptor.getGenericReference().getName());
-        } else
-            throw new RuntimeException("Unknown reference class: " + referenceDescriptor.getClass());
-    }
 
     //region Generics
     private void buildGenerics(final StringBuilder sb, final JCodingImportManagement importManagement, final JGenericDescriptor[] descriptors) throws JCodingException {
@@ -242,6 +232,34 @@ final class JCodingProcessorImpl implements JCodingProcessor {
     }
     //endregion
 
+    //region Fields
+    private void buildFields(final int level, final StringBuilder sb, final JCodingImportManagement importManagement, JFieldDescriptor[] fields) throws JCodingException {
+        for (final JFieldDescriptor field : fields) {
+            buildField(level, sb, importManagement, field);
+        }
+    }
+
+    private void buildField(final int level, final StringBuilder sb, final JCodingImportManagement importManagement, JFieldDescriptor field) throws JCodingException {
+        field.validate();
+
+        sb.append(JCodingProcessorUtils.buildIndent(level));
+        sb.append(field.getVisibility().getKeyword()).append(" ");
+        if (field.isStatic()) {
+            sb.append("static ");
+        }
+        if (field.isFinal()) {
+            sb.append("final ");
+        }
+        buildReference(sb, importManagement, field.getType());
+        sb.append(" ").append(field.getName());
+        if (field.getValue() != null) {
+            sb.append(" = ");
+            buildValue(sb, importManagement, field.getValue());
+        }
+        sb.append(";").append(SystemUtils.LINE_SEPARATOR);
+    }
+    //endregion
+
     //region Methods
     private void buildMethods(final int level, final StringBuilder sb, final JCodingImportManagement importManagement, final JMethodDescriptor[] methodDescriptors) throws JCodingException {
         for (final JMethodDescriptor methodDescriptor : methodDescriptors) {
@@ -284,7 +302,6 @@ final class JCodingProcessorImpl implements JCodingProcessor {
         sb.append(" ");
         sb.append(methodDescriptor.getName());
         buildParameters(sb, importManagement, methodDescriptor.getParameters());
-        sb.append(" ");
         buildThrows(sb, importManagement, methodDescriptor.getThrows());
         if (!methodDescriptor.isAbstract()) {
             sb.append(" {").append(SystemUtils.LINE_SEPARATOR);
@@ -350,6 +367,68 @@ final class JCodingProcessorImpl implements JCodingProcessor {
         sb.append(" ").append(parameterDescriptor.getName());
     }
     //endregion
+
+    //region Values
+    private void buildValue(StringBuilder sb, JCodingImportManagement importManagement, JValueDescriptor valueDescriptor) throws JCodingDescriptorValidationException {
+        valueDescriptor.validate();
+
+        if (valueDescriptor instanceof JSimpleValueDescriptor) {
+            buildSimpleValue(sb, importManagement, (JSimpleValueDescriptor) valueDescriptor);
+        } else
+            throw new RuntimeException("Unknown class: " + valueDescriptor.getClass());
+    }
+
+    private void buildSimpleValue(StringBuilder sb, JCodingImportManagement importManagement, JSimpleValueDescriptor valueDescriptor) {
+        if (valueDescriptor instanceof JStringValueDescriptor) {
+            importManagement.registerType(String.class);
+            sb.append("\"").append(((JStringValueDescriptor) valueDescriptor).getValue()).append("\"");
+        } else if (valueDescriptor instanceof JNumberValueDescriptor) {
+            final JNumberValueDescriptor numberValueDescriptor = (JNumberValueDescriptor) valueDescriptor;
+
+            importManagement.registerType(numberValueDescriptor.getNumber().getNumberClass());
+            if (numberValueDescriptor.isUsePrimitive()) {
+                if (numberValueDescriptor.getNumber().getNumberIndicator() == null) {
+                    //Cast
+                    sb.append("(").append(numberValueDescriptor.getNumber().getNumberClass().getSimpleName()).append(") ")
+                            .append(numberValueDescriptor.getValue());
+                } else {
+                    //Indicator
+                    sb.append(numberValueDescriptor.getValue()).append(numberValueDescriptor.getNumber().getNumberIndicator());
+                }
+            } else {
+                sb.append(numberValueDescriptor.getNumber().getNumberClass().getSimpleName())
+                        .append(".valueOf(").append(numberValueDescriptor.getValue()).append(")");
+            }
+        } else if (valueDescriptor instanceof JCharacterValueDescriptor) {
+            importManagement.registerType(Character.class);
+            sb.append("Character.valueOf('").append(((JCharacterValueDescriptor) valueDescriptor).getValue()).append("')");
+        } else if (valueDescriptor instanceof JBooleanValueDescriptor) {
+            importManagement.registerType(Boolean.class);
+            sb.append("Boolean.valueOf(").append(((JBooleanValueDescriptor) valueDescriptor).getValue()).append(")");
+        } else
+            throw new RuntimeException("Unknown class: " + valueDescriptor.getClass());
+    }
+    //endregion
+
+    private void buildReference(StringBuilder sb, JCodingImportManagement importManagement, JReferenceDescriptor referenceDescriptor) throws JCodingException {
+        referenceDescriptor.validate();
+        importManagement.registerType(referenceDescriptor);
+
+        if (referenceDescriptor instanceof JTypeReferenceDescriptor) {
+            final JTypeReferenceDescriptor typeReferenceDescriptor = (JTypeReferenceDescriptor) referenceDescriptor;
+            sb.append(typeReferenceDescriptor.getSimpleClassName());
+            if (referenceDescriptor instanceof JInheritableReferenceDescriptor) {
+                final JInheritableReferenceDescriptor inheritableReferenceDescriptor = (JInheritableReferenceDescriptor) referenceDescriptor;
+                if (inheritableReferenceDescriptor.getGenerics().length > 0) {
+                    buildGenericValues(sb, importManagement, inheritableReferenceDescriptor.getGenerics());
+                }
+            }
+        } else if (referenceDescriptor instanceof JGenericReferenceDescriptor) {
+            final JGenericReferenceDescriptor genericReferenceDescriptor = (JGenericReferenceDescriptor) referenceDescriptor;
+            sb.append(genericReferenceDescriptor.getGenericReference().getName());
+        } else
+            throw new RuntimeException("Unknown reference class: " + referenceDescriptor.getClass());
+    }
 
     private void buildMethodBody(final int level, final StringBuilder sb, final JCodingImportManagement importManagement, JMethodBodyDescriptor bodyDescriptor) {
 

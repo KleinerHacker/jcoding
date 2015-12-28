@@ -33,4 +33,27 @@ public abstract class JExtensibleTypeBuilder<T extends JExtensibleTypeDescriptor
         }
         return (S) this;
     }
+
+    public S withField(final JFieldDescriptor field) {
+        value.addField(field);
+        return (S) this;
+    }
+
+    public S withField(final JFieldBuilder field) throws JCodingBuilderException {
+        return withField(field.build());
+    }
+
+    public S withFields(final JFieldDescriptor... fields) {
+        for (final JFieldDescriptor field : fields) {
+            value.addField(field);
+        }
+        return (S) this;
+    }
+
+    public S withFields(final JFieldBuilder... fields) throws JCodingBuilderException {
+        for (final JFieldBuilder field : fields) {
+            value.addField(field.build());
+        }
+        return (S) this;
+    }
 }

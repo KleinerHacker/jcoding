@@ -1,9 +1,9 @@
 package org.pcsoft.framework.jcoding.jobject;
 
 /**
- * Created by pfeifchr on 10.12.2015.
+ * Base for a value builder to create a {@link JValueDescriptor}
  */
-public abstract class JValueBuilder<T extends JValueDescriptor, S extends JValueBuilder> extends JObjectBuilderBase<T> {
+public abstract class JValueBuilder<T extends JValueDescriptor, S extends JValueBuilder> extends JCommandBuilder<T, S> {
 
     public JValueBuilder(Class<T> clazz) {
         super(clazz);

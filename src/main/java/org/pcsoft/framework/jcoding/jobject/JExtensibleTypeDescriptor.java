@@ -8,6 +8,7 @@ import java.util.List;
  */
 public abstract class JExtensibleTypeDescriptor extends JTypeDescriptor<JStandardMethodDescriptor> {
     private final List<JInterfaceReferenceDescriptor> interfaceList = new ArrayList<>();
+    private final List<JFieldDescriptor> fieldList = new ArrayList<>();
 
     JExtensibleTypeDescriptor() {
     }
@@ -16,11 +17,23 @@ public abstract class JExtensibleTypeDescriptor extends JTypeDescriptor<JStandar
         return interfaceList.toArray(new JInterfaceReferenceDescriptor[interfaceList.size()]);
     }
 
-    void addInterface(final JInterfaceReferenceDescriptor $interface) {
+    public void addInterface(final JInterfaceReferenceDescriptor $interface) {
         interfaceList.add($interface);
     }
 
-    void removeInterface(final JInterfaceReferenceDescriptor $interface) {
+    public void removeInterface(final JInterfaceReferenceDescriptor $interface) {
         interfaceList.remove($interface);
+    }
+
+    public JFieldDescriptor[] getFields() {
+        return fieldList.toArray(new JFieldDescriptor[fieldList.size()]);
+    }
+
+    public void addField(final JFieldDescriptor field) {
+        fieldList.add(field);
+    }
+
+    public void removeField(final JFieldDescriptor field) {
+        fieldList.remove(field);
     }
 }
