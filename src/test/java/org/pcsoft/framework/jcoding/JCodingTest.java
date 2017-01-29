@@ -1,8 +1,10 @@
 package org.pcsoft.framework.jcoding;
 
+import com.sun.istack.internal.NotNull;
 import org.junit.Test;
 import org.pcsoft.framework.jcoding.exception.JCodingException;
 import org.pcsoft.framework.jcoding.jobject.*;
+import org.pcsoft.framework.jcoding.jobject.type.JAnnotationReference;
 import org.pcsoft.framework.jcoding.jobject.type.JClassReference;
 import org.pcsoft.framework.jcoding.jobject.type.JInterfaceReference;
 import org.pcsoft.framework.jcoding.processor.JCodingProcessorFactory;
@@ -33,6 +35,7 @@ public class JCodingTest {
                 .withParameters(
                         JParameterBuilder.create("key", JTypeReferenceBuilder.create(JClassReference.create(String.class))).withFinal(true),
                         JParameterBuilder.create("value", JGenericReferenceBuilder.create(myListClassStaticMethodGeneric)).withFinal(true)
+                                .withAnnotation(JAnnotationReferenceBuilder.create(JAnnotationReference.create(NotNull.class)))
                 )
                 .withThrow(JClassReferenceBuilder.create(JClassReference.create(IllegalArgumentException.class)))
                 .withBody(JMethodBodyBuilder.create());
@@ -45,6 +48,7 @@ public class JCodingTest {
                         JStandardMethodBuilder.create("getKey", JTypeReferenceBuilder.create(JClassReference.create(String.class)))
                                 .withBody(JMethodBodyBuilder.create()),
                         JStandardMethodBuilder.create("getValue", JGenericReferenceBuilder.create(myListGeneric))
+                                .withAnnotation(JAnnotationReferenceBuilder.create(JAnnotationReference.create(Deprecated.class)))
                                 .withBody(JMethodBodyBuilder.create()),
                         JStandardMethodBuilder.create(JVisibility.Protected, "validate", (JTypeReferenceDescriptor) null)
                 )
@@ -56,6 +60,8 @@ public class JCodingTest {
                                 .withUsePrimitive(false)),
                         JFieldBuilder.create("key", JTypeReferenceBuilder.create(JClassReference.create(String.class))),
                         JFieldBuilder.create("value", JGenericReferenceBuilder.create(myListGeneric))
+                                .withVisibility(JVisibility.Private)
+                        .withAnnotation(JAnnotationReferenceBuilder.create(JAnnotationReference.create(Deprecated.class)))
                 )
                 .build();
 

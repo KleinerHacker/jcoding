@@ -5,7 +5,7 @@ import org.pcsoft.framework.jcoding.exception.JCodingDescriptorValidationExcepti
 /**
  * Represent the base implementation for a java definition descriptor. See {@link JDefinitionBuilder}
  */
-public abstract class JDefinitionDescriptor extends JObjectDescriptorBase {
+public abstract class JDefinitionDescriptor extends JAnnotatedDescriptor {
     //Validate this fields
     private String name;
 

@@ -7,6 +7,9 @@ import org.apache.commons.lang.text.StrBuilder;
 import org.pcsoft.framework.jcoding.exception.JCodingDescriptorValidationException;
 import org.pcsoft.framework.jcoding.exception.JCodingException;
 import org.pcsoft.framework.jcoding.jobject.*;
+import org.pcsoft.framework.jcoding.jobject.type.JAnnotationReference;
+
+import java.util.List;
 
 /**
  * Basic implementation for code generation
@@ -77,6 +80,11 @@ final class JCodingProcessorImpl implements JCodingProcessor {
     private void buildClassType(int level, StringBuilder sb, JCodingImportManagement importManagement,
                                 JClassDescriptor classDescriptor) throws JCodingException {
         sb.append(JCodingProcessorUtils.buildIndent(level));
+
+        if (!classDescriptor.getAnnotationList().isEmpty()) {
+            buildReferences(sb, importManagement, classDescriptor.getAnnotationList());
+            sb.append(SystemUtils.LINE_SEPARATOR).append(JCodingProcessorUtils.buildIndent(level));
+        }
         sb.append(classDescriptor.getVisibility().getKeyword()).append(" ");
         if (classDescriptor.isStatic()) {
             sb.append("static ");
@@ -109,6 +117,11 @@ final class JCodingProcessorImpl implements JCodingProcessor {
     private void buildInterfaceType(int level, StringBuilder sb, JCodingImportManagement importManagement,
                                     JInterfaceDescriptor interfaceDescriptor) throws JCodingException {
         sb.append(JCodingProcessorUtils.buildIndent(level));
+
+        if (!interfaceDescriptor.getAnnotationList().isEmpty()) {
+            buildReferences(sb, importManagement, interfaceDescriptor.getAnnotationList());
+            sb.append(SystemUtils.LINE_SEPARATOR).append(JCodingProcessorUtils.buildIndent(level));
+        }
         sb.append(interfaceDescriptor.getVisibility().getKeyword()).append(" ");
         if (interfaceDescriptor.isStatic()) {
             sb.append("static ");
@@ -133,6 +146,11 @@ final class JCodingProcessorImpl implements JCodingProcessor {
     private void buildEnumerationType(int level, StringBuilder sb, JCodingImportManagement importManagement,
                                       JEnumerationDescriptor enumerationDescriptor) throws JCodingException {
         sb.append(JCodingProcessorUtils.buildIndent(level));
+
+        if (!enumerationDescriptor.getAnnotationList().isEmpty()) {
+            buildReferences(sb, importManagement, enumerationDescriptor.getAnnotationList());
+            sb.append(SystemUtils.LINE_SEPARATOR).append(JCodingProcessorUtils.buildIndent(level));
+        }
         sb.append(enumerationDescriptor.getVisibility().getKeyword()).append(" ");
         if (enumerationDescriptor.isStatic()) {
             sb.append("static ");
@@ -150,6 +168,11 @@ final class JCodingProcessorImpl implements JCodingProcessor {
     private void buildAnnotationType(int level, StringBuilder sb, JCodingImportManagement importManagement,
                                      JAnnotationDescriptor annotationDescriptor) throws JCodingException {
         sb.append(JCodingProcessorUtils.buildIndent(level));
+
+        if (!annotationDescriptor.getAnnotationList().isEmpty()) {
+            buildReferences(sb, importManagement, annotationDescriptor.getAnnotationList());
+            sb.append(SystemUtils.LINE_SEPARATOR).append(JCodingProcessorUtils.buildIndent(level));
+        }
         sb.append(annotationDescriptor.getVisibility().getKeyword()).append(" ");
         if (annotationDescriptor.isStatic()) {
             sb.append("static ");
@@ -243,6 +266,11 @@ final class JCodingProcessorImpl implements JCodingProcessor {
         field.validate();
 
         sb.append(JCodingProcessorUtils.buildIndent(level));
+
+        if (!field.getAnnotationList().isEmpty()) {
+            buildReferences(sb, importManagement, field.getAnnotationList());
+            sb.append(SystemUtils.LINE_SEPARATOR).append(JCodingProcessorUtils.buildIndent(level));
+        }
         sb.append(field.getVisibility().getKeyword()).append(" ");
         if (field.isStatic()) {
             sb.append("static ");
@@ -287,6 +315,11 @@ final class JCodingProcessorImpl implements JCodingProcessor {
     private void buildStandardMethod(int level, StringBuilder sb, JCodingImportManagement importManagement,
                                      JStandardMethodDescriptor methodDescriptor) throws JCodingException {
         sb.append(JCodingProcessorUtils.buildIndent(level));
+
+        if (!methodDescriptor.getAnnotationList().isEmpty()) {
+            buildReferences(sb, importManagement, methodDescriptor.getAnnotationList());
+            sb.append(SystemUtils.LINE_SEPARATOR).append(JCodingProcessorUtils.buildIndent(level));
+        }
         sb.append(methodDescriptor.getVisibility().getKeyword()).append(" ");
         if (methodDescriptor.isStatic()) {
             sb.append("static ");
@@ -329,6 +362,11 @@ final class JCodingProcessorImpl implements JCodingProcessor {
 
     private void buildAnnotationMethod(int level, StringBuilder sb, JCodingImportManagement importManagement, JAnnotationMethodDescriptor methodDescriptor) throws JCodingException {
         sb.append(JCodingProcessorUtils.buildIndent(level));
+
+        if (!methodDescriptor.getAnnotationList().isEmpty()) {
+            buildReferences(sb, importManagement, methodDescriptor.getAnnotationList());
+            sb.append(SystemUtils.LINE_SEPARATOR).append(JCodingProcessorUtils.buildIndent(level));
+        }
         if (methodDescriptor.getReturnTypeDescriptor() != null) {
             buildReference(sb, importManagement, methodDescriptor.getReturnTypeDescriptor());
         } else {
@@ -360,6 +398,9 @@ final class JCodingProcessorImpl implements JCodingProcessor {
     private void buildParameter(final StringBuilder sb, final JCodingImportManagement importManagement, final JParameterDescriptor parameterDescriptor) throws JCodingException {
         parameterDescriptor.validate();
 
+        if (!parameterDescriptor.getAnnotationList().isEmpty()) {
+            buildReferences(sb, importManagement, parameterDescriptor.getAnnotationList());
+        }
         if (parameterDescriptor.isFinal()) {
             sb.append("final ");
         }
@@ -410,12 +451,21 @@ final class JCodingProcessorImpl implements JCodingProcessor {
     }
     //endregion
 
+    private <T extends JReferenceDescriptor> void buildReferences(StringBuilder sb, JCodingImportManagement importManagement, List<T> referenceDescriptors) throws JCodingException {
+        for (final T descriptor : referenceDescriptors) {
+            buildReference(sb, importManagement, descriptor);
+        }
+    }
+
     private void buildReference(StringBuilder sb, JCodingImportManagement importManagement, JReferenceDescriptor referenceDescriptor) throws JCodingException {
         referenceDescriptor.validate();
         importManagement.registerType(referenceDescriptor);
 
         if (referenceDescriptor instanceof JTypeReferenceDescriptor) {
             final JTypeReferenceDescriptor typeReferenceDescriptor = (JTypeReferenceDescriptor) referenceDescriptor;
+            if (typeReferenceDescriptor instanceof JAnnotationReferenceDescriptor) {
+                sb.append("@");
+            }
             sb.append(typeReferenceDescriptor.getSimpleClassName());
             if (referenceDescriptor instanceof JInheritableReferenceDescriptor) {
                 final JInheritableReferenceDescriptor inheritableReferenceDescriptor = (JInheritableReferenceDescriptor) referenceDescriptor;
@@ -423,6 +473,7 @@ final class JCodingProcessorImpl implements JCodingProcessor {
                     buildGenericValues(sb, importManagement, inheritableReferenceDescriptor.getGenerics());
                 }
             }
+            sb.append(" ");
         } else if (referenceDescriptor instanceof JGenericReferenceDescriptor) {
             final JGenericReferenceDescriptor genericReferenceDescriptor = (JGenericReferenceDescriptor) referenceDescriptor;
             sb.append(genericReferenceDescriptor.getGenericReference().getName());
