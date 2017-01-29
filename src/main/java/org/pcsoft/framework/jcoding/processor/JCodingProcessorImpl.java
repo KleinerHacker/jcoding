@@ -473,7 +473,9 @@ final class JCodingProcessorImpl implements JCodingProcessor {
                     buildGenericValues(sb, importManagement, inheritableReferenceDescriptor.getGenerics());
                 }
             }
-            sb.append(" ");
+            if (typeReferenceDescriptor instanceof JAnnotationReferenceDescriptor) {
+                sb.append(" ");
+            }
         } else if (referenceDescriptor instanceof JGenericReferenceDescriptor) {
             final JGenericReferenceDescriptor genericReferenceDescriptor = (JGenericReferenceDescriptor) referenceDescriptor;
             sb.append(genericReferenceDescriptor.getGenericReference().getName());
