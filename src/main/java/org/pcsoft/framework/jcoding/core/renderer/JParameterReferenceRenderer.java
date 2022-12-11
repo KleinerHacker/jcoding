@@ -1,11 +1,14 @@
 package org.pcsoft.framework.jcoding.core.renderer;
 
+import lombok.extern.slf4j.Slf4j;
 import org.pcsoft.framework.jcoding.core.data.JParameterReferenceData;
-import org.pcsoft.framework.jcoding.core.renderer.base.JRenderer;
+import org.pcsoft.framework.jcoding.core.renderer.base.JNamedRenderer;
 
-public final class JParameterReferenceRenderer extends JRenderer<JParameterReferenceData> {
+@Slf4j
+public final class JParameterReferenceRenderer extends JNamedRenderer<JParameterReferenceData> {
     @Override
     protected String doRender(JParameterReferenceData data) {
+        log.debug("Render parameter reference " + data.getName());
         return data.getName() + " = " + generateObjectString(data.getValue());
     }
 

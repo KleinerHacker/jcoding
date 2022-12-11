@@ -13,7 +13,7 @@ class JPackageRendererTest {
                         .build()
         );
 
-        Assertions.assertEquals("\npackage org.pcsoft.framework.jcoding;", code);
+        Assertions.assertEquals("package org.pcsoft.framework.jcoding;", code);
     }
 
     @Test
@@ -24,7 +24,11 @@ class JPackageRendererTest {
                         .build()
         );
 
-        Assertions.assertEquals("@org.junit.jupiter.api.Test()\npackage org.pcsoft.framework.jcoding;", code);
+        Assertions.assertEquals(
+                "@org.junit.jupiter.api.Test()" + System.lineSeparator()
+                        + "package org.pcsoft.framework.jcoding;",
+                code
+        );
     }
 
 }
