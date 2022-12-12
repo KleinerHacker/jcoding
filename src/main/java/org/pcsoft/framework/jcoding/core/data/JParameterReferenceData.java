@@ -13,8 +13,4 @@ import org.pcsoft.framework.jcoding.core.data.base.JNamedData;
 public final class JParameterReferenceData extends JNamedData {
     private Object value;
 
-    public JParameterReferenceData(String name, Object value) {
-        super(name);
-        this.value = value;
-    }
 }

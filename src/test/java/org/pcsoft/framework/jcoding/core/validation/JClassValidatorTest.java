@@ -61,11 +61,35 @@ class JClassValidatorTest {
     }
 
     @Test
-    void testInvalidModifier() {
+    void testInvalidModifierStaticAbstract() {
         Assertions.assertThrows(JCodingValidationException.class, () ->
                 new JClassValidator().validateContent(
                         new JClassBuilder("Test")
                                 .isStatic()
+                                .isAbstract()
+                                .build()
+                )
+        );
+    }
+
+    @Test
+    void testInvalidModifierStaticFinal() {
+        Assertions.assertThrows(JCodingValidationException.class, () ->
+                new JClassValidator().validateContent(
+                        new JClassBuilder("Test")
+                                .isStatic()
+                                .isFinal()
+                                .build()
+                )
+        );
+    }
+
+    @Test
+    void testInvalidModifierAbstractFinal() {
+        Assertions.assertThrows(JCodingValidationException.class, () ->
+                new JClassValidator().validateContent(
+                        new JClassBuilder("Test")
+                                .isFinal()
                                 .isAbstract()
                                 .build()
                 )

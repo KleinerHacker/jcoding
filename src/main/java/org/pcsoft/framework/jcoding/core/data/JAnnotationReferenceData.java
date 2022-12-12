@@ -4,7 +4,6 @@ import lombok.*;
 import org.pcsoft.framework.jcoding.core.data.base.JData;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Getter
@@ -17,9 +16,4 @@ public final class JAnnotationReferenceData extends JData {
     private JTypeReferenceData type;
 
     private final List<JParameterReferenceData> parameterReferences = new ArrayList<>();
-
-    public JAnnotationReferenceData(JTypeReferenceData type, JParameterReferenceData[] parameterReferences) {
-        this.type = type;
-        this.parameterReferences.addAll(Arrays.asList(parameterReferences));
-    }
 }

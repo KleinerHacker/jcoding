@@ -5,7 +5,5 @@ import org.pcsoft.framework.jcoding.core.data.base.JNamedData;
 
 @NoArgsConstructor
 public final class JPackageReferenceData extends JNamedData {
-    public JPackageReferenceData(String name) {
-        super(name);
-    }
+
 }

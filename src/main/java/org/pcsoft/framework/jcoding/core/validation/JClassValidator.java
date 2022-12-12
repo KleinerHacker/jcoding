@@ -11,7 +11,9 @@ public final class JClassValidator extends JTypeValidator<JClassData> {
     protected void validateContent(JClassData data) {
         super.validateContent(data);
         log.debug("Validate class " + data.getName());
-        if (data.isStatic() && data.isAbstract())
-            throw new JCodingValidationException("Modifier abstract and static was set for class " + data.getName());
+        if (data.isStatic() && (data.isAbstract() || data.isFinal()))
+            throw new JCodingValidationException("Modifier abstract / final and static was set for class " + data.getName());
+        if (data.isAbstract() && data.isFinal())
+            throw new JCodingValidationException("Modifier abstract and final was set for class " + data.getName());
     }
 }

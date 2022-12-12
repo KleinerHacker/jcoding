@@ -25,26 +25,14 @@ public abstract class JRenderer<T extends JData> {
         return code;
     }
 
-    public final void render(T data, OutputStream out) throws IOException {
-        render(data, out, false);
-    }
-
     public final void render(T data, OutputStream out, boolean logging) throws IOException {
         final var code = renderToString(data, logging);
         IOUtils.write(code, out, StandardCharsets.UTF_8);
     }
 
-    public final void render(T data, Writer writer) throws IOException {
-        render(data, writer, false);
-    }
-
     public final void render(T data, Writer writer, boolean logging) throws IOException {
         final var code = renderToString(data, logging);
         IOUtils.write(code, writer);
-    }
-
-    public final void render(T data, File file) throws IOException {
-        render(data, file, false);
     }
 
     public final void render(T data, File file, boolean logging) throws IOException {

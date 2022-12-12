@@ -12,8 +12,4 @@ public final class JTypeReferenceData extends JNamedData {
     @EqualsAndHashCode.Include
     private JPackageReferenceData packageReference;
 
-    public JTypeReferenceData(String name, JPackageReferenceData packageReference) {
-        super(name);
-        this.packageReference = packageReference;
-    }
 }

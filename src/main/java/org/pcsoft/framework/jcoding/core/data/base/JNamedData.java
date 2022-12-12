@@ -10,8 +10,4 @@ import lombok.*;
 public abstract class JNamedData extends JData {
     @EqualsAndHashCode.Include
     private String name;
-
-    protected JNamedData(String name) {
-        this.name = name;
-    }
 }

@@ -18,6 +18,8 @@ public final class JClassRenderer extends JAnnotatableRenderer<JClassData> {
             return modifiers + " static";
         else if (data.isAbstract())
             return modifiers + " abstract";
+        else if (data.isFinal())
+            return modifiers + " final";
 
         return modifiers;
     }

@@ -40,6 +40,23 @@ class JClassRendererTest {
     }
 
     @Test
+    void testFinal() {
+        final var renderer = new JClassRenderer();
+        final var code = renderer.renderToString(
+                new JClassBuilder("MyClass")
+                        .hasAccess(JAccessModifier.PACKAGE_INTERNAL)
+                        .isFinal()
+                        .build()
+        );
+
+        Assertions.assertEquals(
+                "final class MyClass {" + System.lineSeparator()
+                        + "}",
+                code
+        );
+    }
+
+    @Test
     void testStatic() {
         final var renderer = new JClassRenderer();
         final var code = renderer.renderToString(

@@ -14,4 +14,10 @@ public final class JClassBuilder extends JTypeBuilder<JClassData, JClassBuilder>
         log.trace("Set abstract modifier for type " + data.getName());
         return this;
     }
+
+    public JClassBuilder isFinal() {
+        data.setFinal(true);
+        log.trace("Set final modifier for type " + data.getName());
+        return this;
+    }
 }
