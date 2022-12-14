@@ -11,6 +11,5 @@ import org.pcsoft.framework.jcoding.core.type.JAccessModifier;
 @NoArgsConstructor
 @ToString
 public abstract class JTypeData extends JAnnotatableData {
-    private boolean isStatic = false;
     private JAccessModifier access = JAccessModifier.PUBLIC;
 }

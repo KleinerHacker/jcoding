@@ -61,8 +61,8 @@ class JClassValidatorTest {
     }
 
     @Test
-    void testInvalidModifierStaticAbstract() {
-        Assertions.assertThrows(JCodingValidationException.class, () ->
+    void testStaticAbstractSuccess() {
+        Assertions.assertDoesNotThrow(() ->
                 new JClassValidator().validateContent(
                         new JClassBuilder("Test")
                                 .isStatic()
@@ -73,8 +73,8 @@ class JClassValidatorTest {
     }
 
     @Test
-    void testInvalidModifierStaticFinal() {
-        Assertions.assertThrows(JCodingValidationException.class, () ->
+    void testStaticFinalSuccess() {
+        Assertions.assertDoesNotThrow(() ->
                 new JClassValidator().validateContent(
                         new JClassBuilder("Test")
                                 .isStatic()

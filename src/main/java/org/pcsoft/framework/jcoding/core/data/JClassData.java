@@ -11,6 +11,7 @@ import org.pcsoft.framework.jcoding.core.data.base.JTypeData;
 @NoArgsConstructor
 @ToString
 public final class JClassData extends JTypeData {
+    private boolean isStatic = false;
     private boolean isAbstract;
     private boolean isFinal;
 }

@@ -30,4 +30,20 @@ public final class JFileBuilder extends JNamedBuilder<JFileData> {
 
         return this;
     }
+
+    public JFileBuilder withInterface(String name, Function<JInterfaceBuilder, JInterfaceBuilder> func) {
+        final var builder = func.apply(new JInterfaceBuilder(name));
+        log.trace("Add interface to file " + name + ": " + builder.build());
+        data.getTypes().add(builder.build());
+
+        return this;
+    }
+
+    public JFileBuilder withEnumeration(String name, Function<JEnumerationBuilder, JEnumerationBuilder> func) {
+        final var builder = func.apply(new JEnumerationBuilder(name));
+        log.trace("Add enumeration to file " + name + ": " + builder.build());
+        data.getTypes().add(builder.build());
+
+        return this;
+    }
 }

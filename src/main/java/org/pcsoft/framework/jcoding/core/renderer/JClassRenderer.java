@@ -2,10 +2,10 @@ package org.pcsoft.framework.jcoding.core.renderer;
 
 import lombok.extern.slf4j.Slf4j;
 import org.pcsoft.framework.jcoding.core.data.JClassData;
-import org.pcsoft.framework.jcoding.core.renderer.base.JAnnotatableRenderer;
+import org.pcsoft.framework.jcoding.core.renderer.base.JTypeRenderer;
 
 @Slf4j
-public final class JClassRenderer extends JAnnotatableRenderer<JClassData> {
+public final class JClassRenderer extends JTypeRenderer<JClassData> {
     @Override
     protected String doRenderContent(JClassData data) {
         log.debug("Render class " + data.getName());

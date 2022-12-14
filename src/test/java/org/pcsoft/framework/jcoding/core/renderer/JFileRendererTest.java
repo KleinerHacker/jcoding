@@ -31,4 +31,52 @@ class JFileRendererTest {
         );
     }
 
+    @Test
+    void testSimpleInterface() {
+        final var renderer = new JFileRenderer();
+        final var code = renderer.renderToString(
+                new JFileBuilder("MyInterface.java")
+                        .inPackage("org.pcsoft.test")
+                        .withInterface("MyInterface", c -> c
+                                .withAnnotation(a -> a
+                                        .ofType(Test.class)
+                                        .withParameter("demo", p -> p.withValue(10))
+                                )
+                        )
+                        .build()
+        );
+
+        Assertions.assertEquals(
+                "package org.pcsoft.test;" + System.lineSeparator()
+                        + "@org.junit.jupiter.api.Test(demo = 10)" + System.lineSeparator()
+                        + "public interface MyInterface {" + System.lineSeparator()
+                        + "}",
+                code
+        );
+    }
+
+    @Test
+    void testSimpleEnumeration() {
+        final var renderer = new JFileRenderer();
+        final var code = renderer.renderToString(
+                new JFileBuilder("MyEnum.java")
+                        .inPackage("org.pcsoft.test")
+                        .withEnumeration("MyEnum", c -> c
+                                .withAnnotation(a -> a
+                                        .ofType(Test.class)
+                                        .withParameter("demo", p -> p.withValue(10))
+                                )
+                        )
+                        .build()
+        );
+
+        Assertions.assertEquals(
+                "package org.pcsoft.test;" + System.lineSeparator()
+                        + "@org.junit.jupiter.api.Test(demo = 10)" + System.lineSeparator()
+                        + "public enum MyEnum {" + System.lineSeparator()
+                        + "}",
+                code
+        );
+    }
+
 }
