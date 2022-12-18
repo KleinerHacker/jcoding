@@ -9,12 +9,6 @@ public final class JClassBuilder extends JTypeBuilder<JClassData, JClassBuilder>
         super(JClassData.class, name);
     }
 
-    public JClassBuilder isStatic() {
-        data.setStatic(true);
-        log.trace("Set static modifier for class " + data.getName());
-        return this;
-    }
-
     public JClassBuilder isAbstract() {
         data.setAbstract(true);
         log.trace("Set abstract modifier for type " + data.getName());

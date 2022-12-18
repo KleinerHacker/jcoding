@@ -12,11 +12,10 @@ public final class JClassRenderer extends JTypeRenderer<JClassData> {
         return buildModifier(data) + " class " + data.getName() + " {" + System.lineSeparator() + "}";
     }
 
-    private String buildModifier(JClassData data) {
-        var modifiers = data.getAccess().getModifier();
-        if (data.isStatic())
-            return modifiers + " static";
-        else if (data.isAbstract())
+    @Override
+    protected String buildModifier(JClassData data) {
+        var modifiers = super.buildModifier(data);
+        if (data.isAbstract())
             return modifiers + " abstract";
         else if (data.isFinal())
             return modifiers + " final";

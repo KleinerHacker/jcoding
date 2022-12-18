@@ -5,8 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.pcsoft.framework.jcoding.core.data.JAnnotationReferenceBuilder;
 import org.pcsoft.framework.jcoding.exceptions.JCodingValidationException;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class JAnnotationReferenceValidatorTest {
 
     @Test
@@ -27,6 +25,17 @@ class JAnnotationReferenceValidatorTest {
                 new JAnnotationReferenceValidator().validate(
                         new JAnnotationReferenceBuilder()
                                 .ofType("123", x -> x.inPackage("org.pcsoft"))
+                                .withParameter("param", p -> p.withValue(10))
+                                .build()
+                )
+        );
+    }
+
+    @Test
+    void testNoType() {
+        Assertions.assertThrows(JCodingValidationException.class, () ->
+                new JAnnotationReferenceValidator().validate(
+                        new JAnnotationReferenceBuilder()
                                 .withParameter("param", p -> p.withValue(10))
                                 .build()
                 )
