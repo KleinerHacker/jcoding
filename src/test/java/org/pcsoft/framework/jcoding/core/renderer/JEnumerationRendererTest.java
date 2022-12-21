@@ -8,7 +8,7 @@ class JEnumerationRendererTest {
 
     @Test
     void testSimple() {
-        final var renderer = new JEnumerationRenderer();
+        final var renderer = JEnumerationRenderer.getInstance();
         final var code = renderer.renderToString(
                 new JEnumerationBuilder("MyEnum")
                         .build()
@@ -16,6 +16,7 @@ class JEnumerationRendererTest {
 
         Assertions.assertEquals(
                 "public enum MyEnum {" + System.lineSeparator()
+                        + System.lineSeparator()
                         + "}",
                 code
         );

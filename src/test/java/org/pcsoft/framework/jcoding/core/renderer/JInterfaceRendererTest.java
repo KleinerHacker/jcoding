@@ -8,7 +8,7 @@ class JInterfaceRendererTest {
 
     @Test
     void testSimple() {
-        final var renderer = new JInterfaceRenderer();
+        final var renderer = JInterfaceRenderer.getInstance();
         final var code = renderer.renderToString(
                 new JInterfaceBuilder("MyInterface")
                         .build()
@@ -16,6 +16,7 @@ class JInterfaceRendererTest {
 
         Assertions.assertEquals(
                 "public interface MyInterface {" + System.lineSeparator()
+                        + System.lineSeparator()
                         + "}",
                 code
         );

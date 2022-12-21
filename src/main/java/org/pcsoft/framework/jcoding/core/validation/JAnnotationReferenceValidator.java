@@ -7,8 +7,14 @@ import org.pcsoft.framework.jcoding.exceptions.JCodingValidationException;
 
 @Slf4j
 public final class JAnnotationReferenceValidator extends JValidator<JAnnotationReferenceData> {
-    private final JTypeReferenceValidator typeReferenceValidator = new JTypeReferenceValidator();
-    private final JParameterReferenceValidator parameterReferenceValidator = new JParameterReferenceValidator();
+    private static final JAnnotationReferenceValidator instance = new JAnnotationReferenceValidator();
+
+    public static JAnnotationReferenceValidator getInstance() {
+        return instance;
+    }
+
+    private JAnnotationReferenceValidator() {
+    }
 
     @Override
     public void validate(JAnnotationReferenceData data) {
@@ -18,9 +24,9 @@ public final class JAnnotationReferenceValidator extends JValidator<JAnnotationR
             throw new JCodingValidationException("The type is set to null");
 
         try {
-            typeReferenceValidator.validate(data.getType());
+            JTypeReferenceValidator.getInstance().validate(data.getType());
             data.getParameterReferences()
-                    .forEach(parameterReferenceValidator::validate);
+                    .forEach(JParameterReferenceValidator.getInstance()::validate);
         } catch (JCodingValidationException e) {
             throw new JCodingValidationException("Validation of annotation reference failed for " + data.getType().getName(), e);
         }

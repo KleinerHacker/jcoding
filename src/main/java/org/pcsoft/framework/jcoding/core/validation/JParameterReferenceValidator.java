@@ -9,6 +9,15 @@ import org.pcsoft.framework.jcoding.exceptions.JCodingValidationException;
 public final class JParameterReferenceValidator extends JNamedValidator<JParameterReferenceData> {
     private static final String PATTERN = "^[A-Za-z_$][A-Za-z0-9_$]*$";
 
+    private static final JParameterReferenceValidator instance = new JParameterReferenceValidator();
+
+    public static JParameterReferenceValidator getInstance() {
+        return instance;
+    }
+
+    private JParameterReferenceValidator() {
+    }
+
     @Override
     public void validate(JParameterReferenceData data) {
         log.debug("Validate parameter reference " + data.getName());

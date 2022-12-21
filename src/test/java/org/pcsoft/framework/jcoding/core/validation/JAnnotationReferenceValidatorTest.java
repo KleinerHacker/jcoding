@@ -10,7 +10,7 @@ class JAnnotationReferenceValidatorTest {
     @Test
     void testSuccess() {
         Assertions.assertDoesNotThrow(() ->
-                new JAnnotationReferenceValidator().validate(
+                JAnnotationReferenceValidator.getInstance().validate(
                         new JAnnotationReferenceBuilder()
                                 .ofType(Test.class)
                                 .withParameter("param", p -> p.withValue(10))
@@ -22,7 +22,7 @@ class JAnnotationReferenceValidatorTest {
     @Test
     void testInvalidType() {
         Assertions.assertThrows(JCodingValidationException.class, () ->
-                new JAnnotationReferenceValidator().validate(
+                JAnnotationReferenceValidator.getInstance().validate(
                         new JAnnotationReferenceBuilder()
                                 .ofType("123", x -> x.inPackage("org.pcsoft"))
                                 .withParameter("param", p -> p.withValue(10))
@@ -34,7 +34,7 @@ class JAnnotationReferenceValidatorTest {
     @Test
     void testNoType() {
         Assertions.assertThrows(JCodingValidationException.class, () ->
-                new JAnnotationReferenceValidator().validate(
+                JAnnotationReferenceValidator.getInstance().validate(
                         new JAnnotationReferenceBuilder()
                                 .withParameter("param", p -> p.withValue(10))
                                 .build()
@@ -45,7 +45,7 @@ class JAnnotationReferenceValidatorTest {
     @Test
     void testInvalidPackage() {
         Assertions.assertThrows(JCodingValidationException.class, () ->
-                new JAnnotationReferenceValidator().validate(
+                JAnnotationReferenceValidator.getInstance().validate(
                         new JAnnotationReferenceBuilder()
                                 .ofType("Test", x -> x.inPackage("123.pcsoft"))
                                 .withParameter("param", p -> p.withValue(10))

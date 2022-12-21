@@ -7,6 +7,15 @@ import org.pcsoft.framework.jcoding.exceptions.JCodingValidationException;
 
 @Slf4j
 public final class JClassValidator extends JTypeValidator<JClassData> {
+    private static final JClassValidator instance = new JClassValidator();
+
+    public static JClassValidator getInstance() {
+        return instance;
+    }
+
+    private JClassValidator() {
+    }
+
     @Override
     protected void validateContent(JClassData data) {
         super.validateContent(data);

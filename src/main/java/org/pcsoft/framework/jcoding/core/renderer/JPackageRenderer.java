@@ -6,6 +6,14 @@ import org.pcsoft.framework.jcoding.core.renderer.base.JAnnotatableRenderer;
 
 @Slf4j
 public final class JPackageRenderer extends JAnnotatableRenderer<JPackageData> {
+    private static final JPackageRenderer instance = new JPackageRenderer();
+
+    public static JPackageRenderer getInstance() {
+        return instance;
+    }
+
+    private JPackageRenderer() {
+    }
     @Override
     protected String doRenderContent(JPackageData data) {
         log.debug("Render package " + data.getName());

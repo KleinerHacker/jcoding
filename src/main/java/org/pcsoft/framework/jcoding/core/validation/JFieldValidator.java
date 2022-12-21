@@ -9,7 +9,14 @@ import org.pcsoft.framework.jcoding.exceptions.JCodingValidationException;
 public final class JFieldValidator extends JMemberValidator<JFieldData> {
     private static final String PATTERN = "^[A-Za-z_$][A-Za-z0-9_$]*$";
 
-    private final JTypeReferenceValidator validator = new JTypeReferenceValidator();
+    private static final JFieldValidator instance = new JFieldValidator();
+
+    public static JFieldValidator getInstance() {
+        return instance;
+    }
+
+    private JFieldValidator() {
+    }
 
     @Override
     protected void validateContent(JFieldData data) {
@@ -20,7 +27,7 @@ public final class JFieldValidator extends JMemberValidator<JFieldData> {
 
         try {
             super.validateContent(data);
-            validator.validate(data.getType());
+            JTypeReferenceValidator.getInstance().validate(data.getType());
         } catch (Exception e) {
             throw new JCodingValidationException("Validation failed for field " + data.getName(), e);
         }

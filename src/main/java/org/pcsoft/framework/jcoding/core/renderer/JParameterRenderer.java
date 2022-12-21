@@ -6,11 +6,18 @@ import org.pcsoft.framework.jcoding.core.renderer.base.JAnnotatableRenderer;
 
 @Slf4j
 public final class JParameterRenderer extends JAnnotatableRenderer<JParameterData> {
-    private final JTypeReferenceRenderer typeReferenceRenderer = new JTypeReferenceRenderer();
+    private static final JParameterRenderer instance = new JParameterRenderer();
+
+    public static JParameterRenderer getInstance() {
+        return instance;
+    }
+
+    private JParameterRenderer() {
+    }
 
     @Override
     protected String doRenderContent(JParameterData data) {
         log.debug("Render parameter " + data.getName());
-        return (data.isFinal() ? "final " : "") + typeReferenceRenderer.renderToString(data.getType()) + " " + data.getName();
+        return (data.isFinal() ? "final " : "") + JTypeReferenceRenderer.getInstance().renderToString(data.getType()) + " " + data.getName();
     }
 }

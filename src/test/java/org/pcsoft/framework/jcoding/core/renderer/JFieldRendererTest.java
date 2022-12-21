@@ -9,19 +9,19 @@ class JFieldRendererTest {
 
     @Test
     void testSimple() {
-        final var renderer = new JFieldRenderer();
+        final var renderer = JFieldRenderer.getInstance();
         final var code = renderer.renderToString(
                 new JFieldBuilder("test")
                         .typeOf(String.class)
                         .build()
         );
 
-        Assertions.assertEquals("public java.lang.String test", code);
+        Assertions.assertEquals("public java.lang.String test;", code);
     }
 
     @Test
     void testStatic() {
-        final var renderer = new JFieldRenderer();
+        final var renderer = JFieldRenderer.getInstance();
         final var code = renderer.renderToString(
                 new JFieldBuilder("test")
                         .typeOf("Test", x -> x.inPackage("org.pcsoft"))
@@ -30,12 +30,12 @@ class JFieldRendererTest {
                         .build()
         );
 
-        Assertions.assertEquals("private static org.pcsoft.Test test", code);
+        Assertions.assertEquals("private static org.pcsoft.Test test;", code);
     }
 
     @Test
     void testFinal() {
-        final var renderer = new JFieldRenderer();
+        final var renderer = JFieldRenderer.getInstance();
         final var code = renderer.renderToString(
                 new JFieldBuilder("test")
                         .typeOf(String.class)
@@ -43,12 +43,12 @@ class JFieldRendererTest {
                         .build()
         );
 
-        Assertions.assertEquals("public final java.lang.String test", code);
+        Assertions.assertEquals("public final java.lang.String test;", code);
     }
 
     @Test
     void testStaticFinal() {
-        final var renderer = new JFieldRenderer();
+        final var renderer = JFieldRenderer.getInstance();
         final var code = renderer.renderToString(
                 new JFieldBuilder("test")
                         .typeOf(String.class)
@@ -57,12 +57,12 @@ class JFieldRendererTest {
                         .build()
         );
 
-        Assertions.assertEquals("public static final java.lang.String test", code);
+        Assertions.assertEquals("public static final java.lang.String test;", code);
     }
 
     @Test
     void testConstant() {
-        final var renderer = new JFieldRenderer();
+        final var renderer = JFieldRenderer.getInstance();
         final var code = renderer.renderToString(
                 new JFieldBuilder("test")
                         .typeOf(String.class)
@@ -72,7 +72,7 @@ class JFieldRendererTest {
                         .build()
         );
 
-        Assertions.assertEquals("public static final java.lang.String test = 10", code);
+        Assertions.assertEquals("public static final java.lang.String test = 10;", code);
     }
 
 }

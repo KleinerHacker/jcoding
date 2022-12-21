@@ -73,6 +73,7 @@ class JCodingTest {
                 "package org.pcsoft.test;" + System.lineSeparator()
                         + "@org.junit.jupiter.api.Test(demo = 10)" + System.lineSeparator()
                         + "public abstract class MyClass {" + System.lineSeparator()
+                        + System.lineSeparator()
                         + "}",
                 code
         );

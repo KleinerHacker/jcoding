@@ -10,7 +10,7 @@ class JTypeReferenceValidatorTest {
     @Test
     void testSuccess() {
         Assertions.assertDoesNotThrow(() ->
-                new JTypeReferenceValidator().validate(
+                JTypeReferenceValidator.getInstance().validate(
                         new JTypeReferenceBuilder("Test")
                                 .inPackage("org.pcsoft")
                                 .build()
@@ -21,7 +21,7 @@ class JTypeReferenceValidatorTest {
     @Test
     void testSuccessNoPackage() {
         Assertions.assertDoesNotThrow(() ->
-                new JTypeReferenceValidator().validate(
+                JTypeReferenceValidator.getInstance().validate(
                         new JTypeReferenceBuilder("Test")
                                 .build()
                 )
@@ -31,7 +31,7 @@ class JTypeReferenceValidatorTest {
     @Test
     void testInvalidName() {
         Assertions.assertThrows(JCodingValidationException.class, () ->
-                new JTypeReferenceValidator().validate(
+                JTypeReferenceValidator.getInstance().validate(
                         new JTypeReferenceBuilder("123")
                                 .inPackage("org.pcsoft")
                                 .build()
@@ -42,7 +42,7 @@ class JTypeReferenceValidatorTest {
     @Test
     void testInvalidPackage() {
         Assertions.assertThrows(JCodingValidationException.class, () ->
-                new JTypeReferenceValidator().validate(
+                JTypeReferenceValidator.getInstance().validate(
                         new JTypeReferenceBuilder("Test")
                                 .inPackage("org.123")
                                 .build()

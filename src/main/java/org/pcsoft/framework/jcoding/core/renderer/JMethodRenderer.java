@@ -8,8 +8,14 @@ import java.util.stream.Collectors;
 
 @Slf4j
 public final class JMethodRenderer extends JMemberRenderer<JMethodData> {
-    private final JTypeReferenceRenderer typeReferenceRenderer = new JTypeReferenceRenderer();
-    private final JParameterRenderer parameterRenderer = new JParameterRenderer();
+    private static final JMethodRenderer instance = new JMethodRenderer();
+
+    public static JMethodRenderer getInstance() {
+        return instance;
+    }
+
+    private JMethodRenderer() {
+    }
 
     @Override
     protected String doRenderContent(JMethodData data) {
@@ -33,7 +39,7 @@ public final class JMethodRenderer extends JMemberRenderer<JMethodData> {
         if (data.getReturnType() == null)
             return "void";
 
-        return typeReferenceRenderer.renderToString(data.getReturnType());
+        return JTypeReferenceRenderer.getInstance().renderToString(data.getReturnType());
     }
 
     private String buildParameterList(JMethodData data) {
@@ -41,7 +47,7 @@ public final class JMethodRenderer extends JMemberRenderer<JMethodData> {
             return "";
 
         return data.getParameters().stream()
-                .map(parameterRenderer::renderToString)
+                .map(JParameterRenderer.getInstance()::renderToString)
                 .collect(Collectors.joining(", "));
     }
 

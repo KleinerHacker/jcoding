@@ -8,15 +8,21 @@ import java.util.stream.Collectors;
 
 @Slf4j
 public final class JAnnotationReferenceRender extends JRenderer<JAnnotationReferenceData> {
-    private final JTypeReferenceRenderer typeReferenceRenderer = new JTypeReferenceRenderer();
-    private final JParameterReferenceRenderer parameterReferenceRenderer = new JParameterReferenceRenderer();
+    private static final JAnnotationReferenceRender instance = new JAnnotationReferenceRender();
+
+    public static JAnnotationReferenceRender getInstance() {
+        return instance;
+    }
+
+    private JAnnotationReferenceRender() {
+    }
 
     @Override
     protected String doRender(JAnnotationReferenceData data) {
         log.debug("Render annotation reference " + data.getType());
-        return "@" + typeReferenceRenderer.renderToString(data.getType()) + "(" +
+        return "@" + JTypeReferenceRenderer.getInstance().renderToString(data.getType()) + "(" +
                 data.getParameterReferences().stream()
-                        .map(parameterReferenceRenderer::renderToString)
+                        .map(JParameterReferenceRenderer.getInstance()::renderToString)
                         .collect(Collectors.joining(", "))
                 + ")";
     }

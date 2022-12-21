@@ -8,7 +8,7 @@ class JFileRendererTest {
 
     @Test
     void testSimpleClass() {
-        final var renderer = new JFileRenderer();
+        final var renderer = JFileRenderer.getInstance();
         final var code = renderer.renderToString(
                 new JFileBuilder("MyClass.java")
                         .inPackage("org.pcsoft.test")
@@ -26,6 +26,7 @@ class JFileRendererTest {
                 "package org.pcsoft.test;" + System.lineSeparator()
                         + "@org.junit.jupiter.api.Test(demo = 10)" + System.lineSeparator()
                         + "public abstract class MyClass {" + System.lineSeparator()
+                        + System.lineSeparator()
                         + "}",
                 code
         );
@@ -33,7 +34,7 @@ class JFileRendererTest {
 
     @Test
     void testSimpleInterface() {
-        final var renderer = new JFileRenderer();
+        final var renderer = JFileRenderer.getInstance();
         final var code = renderer.renderToString(
                 new JFileBuilder("MyInterface.java")
                         .inPackage("org.pcsoft.test")
@@ -50,6 +51,7 @@ class JFileRendererTest {
                 "package org.pcsoft.test;" + System.lineSeparator()
                         + "@org.junit.jupiter.api.Test(demo = 10)" + System.lineSeparator()
                         + "public interface MyInterface {" + System.lineSeparator()
+                        + System.lineSeparator()
                         + "}",
                 code
         );
@@ -57,7 +59,7 @@ class JFileRendererTest {
 
     @Test
     void testSimpleEnumeration() {
-        final var renderer = new JFileRenderer();
+        final var renderer = JFileRenderer.getInstance();
         final var code = renderer.renderToString(
                 new JFileBuilder("MyEnum.java")
                         .inPackage("org.pcsoft.test")
@@ -74,6 +76,7 @@ class JFileRendererTest {
                 "package org.pcsoft.test;" + System.lineSeparator()
                         + "@org.junit.jupiter.api.Test(demo = 10)" + System.lineSeparator()
                         + "public enum MyEnum {" + System.lineSeparator()
+                        + System.lineSeparator()
                         + "}",
                 code
         );

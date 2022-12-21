@@ -10,7 +10,7 @@ class JFieldValidatorTest {
     @Test
     void testSimpleSuccess() {
         Assertions.assertDoesNotThrow(() ->
-                new JFieldValidator().validate(
+                JFieldValidator.getInstance().validate(
                         new JFieldBuilder("test")
                                 .typeOf(int.class)
                                 .build()
@@ -21,7 +21,7 @@ class JFieldValidatorTest {
     @Test
     void testStaticFinalSuccess() {
         Assertions.assertDoesNotThrow(() ->
-                new JFieldValidator().validate(
+                JFieldValidator.getInstance().validate(
                         new JFieldBuilder("test")
                                 .typeOf(int.class)
                                 .isStatic()
@@ -34,7 +34,7 @@ class JFieldValidatorTest {
     @Test
     void testInvalidName() {
         Assertions.assertThrows(JCodingValidationException.class, () ->
-                new JFieldValidator().validate(
+                JFieldValidator.getInstance().validate(
                         new JFieldBuilder("123")
                                 .typeOf(int.class)
                                 .build()
@@ -45,7 +45,7 @@ class JFieldValidatorTest {
     @Test
     void testInvalidType() {
         Assertions.assertThrows(JCodingValidationException.class, () ->
-                new JFieldValidator().validate(
+                JFieldValidator.getInstance().validate(
                         new JFieldBuilder("test")
                                 .typeOf("123", x -> x.inPackage("org.pcsoft"))
                                 .build()
@@ -56,7 +56,7 @@ class JFieldValidatorTest {
     @Test
     void testNoType() {
         Assertions.assertThrows(JCodingValidationException.class, () ->
-                new JFieldValidator().validate(
+                JFieldValidator.getInstance().validate(
                         new JFieldBuilder("test")
                                 .build()
                 )

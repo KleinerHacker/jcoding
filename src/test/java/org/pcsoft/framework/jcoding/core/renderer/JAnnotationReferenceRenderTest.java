@@ -8,7 +8,7 @@ class JAnnotationReferenceRenderTest {
 
     @Test
     void testSimple() {
-        final var renderer = new JAnnotationReferenceRender();
+        final var renderer = JAnnotationReferenceRender.getInstance();
         final var code = renderer.renderToString(
                 new JAnnotationReferenceBuilder()
                         .ofType(Test.class)
@@ -20,7 +20,7 @@ class JAnnotationReferenceRenderTest {
 
     @Test
     void testWithSingleParameter() {
-        final var renderer = new JAnnotationReferenceRender();
+        final var renderer = JAnnotationReferenceRender.getInstance();
         final var code = renderer.renderToString(
                 new JAnnotationReferenceBuilder()
                         .ofType("MyAnnotation", x -> x.inPackage("org.pcsoft"))
@@ -33,7 +33,7 @@ class JAnnotationReferenceRenderTest {
 
     @Test
     void testWithMultipleParameter() {
-        final var renderer = new JAnnotationReferenceRender();
+        final var renderer = JAnnotationReferenceRender.getInstance();
         final var code = renderer.renderToString(
                 new JAnnotationReferenceBuilder()
                         .ofType("MyAnnotation", x -> x.inPackage("org.pcsoft"))

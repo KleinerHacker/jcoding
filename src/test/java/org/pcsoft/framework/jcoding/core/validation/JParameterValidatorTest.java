@@ -10,7 +10,7 @@ class JParameterValidatorTest {
     @Test
     void testSuccess() {
         Assertions.assertDoesNotThrow(() ->
-                new JParameterValidator().validate(
+                JParameterValidator.getInstance().validate(
                         new JParameterBuilder("param")
                                 .ofType(String.class)
                                 .build()
@@ -21,7 +21,7 @@ class JParameterValidatorTest {
     @Test
     void testFinal() {
         Assertions.assertDoesNotThrow(() ->
-                new JParameterValidator().validate(
+                JParameterValidator.getInstance().validate(
                         new JParameterBuilder("param")
                                 .ofType(String.class)
                                 .isFinal()
@@ -33,7 +33,7 @@ class JParameterValidatorTest {
     @Test
     void testInvalidName() {
         Assertions.assertThrows(JCodingValidationException.class, () ->
-                new JParameterValidator().validate(
+                JParameterValidator.getInstance().validate(
                         new JParameterBuilder("123")
                                 .ofType(String.class)
                                 .build()
@@ -44,7 +44,7 @@ class JParameterValidatorTest {
     @Test
     void testNoType() {
         Assertions.assertThrows(JCodingValidationException.class, () ->
-                new JParameterValidator().validate(
+                JParameterValidator.getInstance().validate(
                         new JParameterBuilder("param")
                                 .build()
                 )
@@ -54,7 +54,7 @@ class JParameterValidatorTest {
     @Test
     void testWrongType() {
         Assertions.assertThrows(JCodingValidationException.class, () ->
-                new JParameterValidator().validate(
+                JParameterValidator.getInstance().validate(
                         new JParameterBuilder("param")
                                 .ofType("123", x -> x)
                                 .build()

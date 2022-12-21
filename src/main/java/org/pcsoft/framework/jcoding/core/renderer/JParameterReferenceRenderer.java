@@ -7,6 +7,15 @@ import org.pcsoft.framework.jcoding.core.utils.ObjectConverter;
 
 @Slf4j
 public final class JParameterReferenceRenderer extends JNamedRenderer<JParameterReferenceData> {
+    private static final JParameterReferenceRenderer instance = new JParameterReferenceRenderer();
+
+    public static JParameterReferenceRenderer getInstance() {
+        return instance;
+    }
+
+    private JParameterReferenceRenderer() {
+    }
+
     @Override
     protected String doRender(JParameterReferenceData data) {
         log.debug("Render parameter reference " + data.getName());

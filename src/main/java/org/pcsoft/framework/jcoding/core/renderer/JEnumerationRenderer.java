@@ -4,12 +4,24 @@ import lombok.extern.slf4j.Slf4j;
 import org.pcsoft.framework.jcoding.core.data.JEnumerationData;
 import org.pcsoft.framework.jcoding.core.renderer.base.JTypeRenderer;
 
+import java.util.function.Supplier;
+
 @Slf4j
 public final class JEnumerationRenderer extends JTypeRenderer<JEnumerationData> {
+    private static final JEnumerationRenderer instance = new JEnumerationRenderer();
+
+    public static JEnumerationRenderer getInstance() {
+        return instance;
+    }
+
+    private JEnumerationRenderer() {
+    }
+
     @Override
-    protected String doRenderContent(JEnumerationData data) {
+    protected String doRenderBody(JEnumerationData data, Supplier<String> bodyContent) {
         log.debug("Render enumeration " + data.getName());
         return data.getAccess().getModifier() + " enum " + data.getName() + " {" + System.lineSeparator()
+                + bodyContent.get() + System.lineSeparator()
                 + "}";
     }
 }

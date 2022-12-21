@@ -8,7 +8,7 @@ class JParameterRendererTest {
 
     @Test
     void testSimple() {
-        final var renderer = new JParameterRenderer();
+        final var renderer = JParameterRenderer.getInstance();
         final var code = renderer.renderToString(
                 new JParameterBuilder("param")
                         .ofType(String.class)
@@ -20,7 +20,7 @@ class JParameterRendererTest {
 
     @Test
     void testFinal() {
-        final var renderer = new JParameterRenderer();
+        final var renderer = JParameterRenderer.getInstance();
         final var code = renderer.renderToString(
                 new JParameterBuilder("param")
                         .ofType("Demo", x -> x.inPackage("org.pcsoft"))

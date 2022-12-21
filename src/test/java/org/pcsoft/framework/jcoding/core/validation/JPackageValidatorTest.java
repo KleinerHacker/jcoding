@@ -10,7 +10,7 @@ class JPackageValidatorTest {
     @Test
     void testSuccess() {
         Assertions.assertDoesNotThrow(() ->
-                new JPackageValidator().validate(
+                JPackageValidator.getInstance().validate(
                         new JPackageBuilder("org.pcsoft")
                                 .build()
                 )
@@ -20,7 +20,7 @@ class JPackageValidatorTest {
     @Test
     void testSuccessOne() {
         Assertions.assertDoesNotThrow(() ->
-                new JPackageValidator().validate(
+                JPackageValidator.getInstance().validate(
                         new JPackageBuilder("org")
                                 .build()
                 )
@@ -30,7 +30,7 @@ class JPackageValidatorTest {
     @Test
     void testInvalidName() {
         Assertions.assertThrows(JCodingValidationException.class, () ->
-                new JPackageValidator().validate(
+                JPackageValidator.getInstance().validate(
                         new JPackageBuilder("org.123")
                                 .build()
                 )
@@ -40,7 +40,7 @@ class JPackageValidatorTest {
     @Test
     void testInvalidNameOne() {
         Assertions.assertThrows(JCodingValidationException.class, () ->
-                new JPackageValidator().validate(
+                JPackageValidator.getInstance().validate(
                         new JPackageBuilder("123")
                                 .build()
                 )

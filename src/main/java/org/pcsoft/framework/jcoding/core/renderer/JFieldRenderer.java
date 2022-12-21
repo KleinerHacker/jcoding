@@ -7,12 +7,19 @@ import org.pcsoft.framework.jcoding.core.utils.ObjectConverter;
 
 @Slf4j
 public final class JFieldRenderer extends JMemberRenderer<JFieldData> {
-    private final JTypeReferenceRenderer typeReferenceRenderer = new JTypeReferenceRenderer();
+    private static final JFieldRenderer instance = new JFieldRenderer();
+
+    public static JFieldRenderer getInstance() {
+        return instance;
+    }
+
+    private JFieldRenderer() {
+    }
 
     @Override
     protected String doRenderContent(JFieldData data) {
         log.debug("Render field " + data.getName());
-        return buildModifier(data) + " " + typeReferenceRenderer.renderToString(data.getType()) + " " + data.getName() + buildValue(data);
+        return buildModifier(data) + " " + JTypeReferenceRenderer.getInstance().renderToString(data.getType()) + " " + data.getName() + buildValue(data) + ";";
     }
 
     @Override

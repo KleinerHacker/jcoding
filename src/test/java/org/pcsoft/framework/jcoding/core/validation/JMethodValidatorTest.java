@@ -10,7 +10,7 @@ class JMethodValidatorTest {
     @Test
     void testSuccess() {
         Assertions.assertDoesNotThrow(() ->
-                new JMethodValidator().validateContent(
+                JMethodValidator.getInstance().validateContent(
                         new JMethodBuilder("doAny")
                                 .build()
                 )
@@ -20,7 +20,7 @@ class JMethodValidatorTest {
     @Test
     void testSuccessWithType() {
         Assertions.assertDoesNotThrow(() ->
-                new JMethodValidator().validateContent(
+                JMethodValidator.getInstance().validateContent(
                         new JMethodBuilder("doAny")
                                 .withReturnType(String.class)
                                 .build()
@@ -31,7 +31,7 @@ class JMethodValidatorTest {
     @Test
     void testInvalidName() {
         Assertions.assertThrows(JCodingValidationException.class, () ->
-                new JMethodValidator().validateContent(
+                JMethodValidator.getInstance().validateContent(
                         new JMethodBuilder("123")
                                 .build()
                 )
@@ -41,7 +41,7 @@ class JMethodValidatorTest {
     @Test
     void testStaticWithAbstract() {
         Assertions.assertThrows(JCodingValidationException.class, () ->
-                new JMethodValidator().validateContent(
+                JMethodValidator.getInstance().validateContent(
                         new JMethodBuilder("doAny")
                                 .isAbstract()
                                 .isStatic()
@@ -53,7 +53,7 @@ class JMethodValidatorTest {
     @Test
     void testStaticWithFinal() {
         Assertions.assertThrows(JCodingValidationException.class, () ->
-                new JMethodValidator().validateContent(
+                JMethodValidator.getInstance().validateContent(
                         new JMethodBuilder("doAny")
                                 .isFinal()
                                 .isStatic()
@@ -65,7 +65,7 @@ class JMethodValidatorTest {
     @Test
     void testAbstractAndFinal() {
         Assertions.assertThrows(JCodingValidationException.class, () ->
-                new JMethodValidator().validateContent(
+                JMethodValidator.getInstance().validateContent(
                         new JMethodBuilder("doAny")
                                 .isAbstract()
                                 .isFinal()

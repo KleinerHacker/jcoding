@@ -6,6 +6,14 @@ import org.pcsoft.framework.jcoding.core.validation.base.JTypeValidator;
 
 @Slf4j
 public final class JInterfaceValidator extends JTypeValidator<JInterfaceData> {
+    private static final JInterfaceValidator instance = new JInterfaceValidator();
+
+    public static JInterfaceValidator getInstance() {
+        return instance;
+    }
+
+    private JInterfaceValidator() {
+    }
 
     @Override
     protected void validateContent(JInterfaceData data) {

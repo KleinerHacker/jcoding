@@ -9,7 +9,14 @@ import org.pcsoft.framework.jcoding.exceptions.JCodingValidationException;
 public final class JParameterValidator extends JAnnotatableValidator<JParameterData> {
     private static final String PATTERN = "^[A-Za-z_$][A-Za-z0-9_$]*$";
 
-    private final JTypeReferenceValidator typeReferenceValidator = new JTypeReferenceValidator();
+    private static final JParameterValidator instance = new JParameterValidator();
+
+    public static JParameterValidator getInstance() {
+        return instance;
+    }
+
+    private JParameterValidator() {
+    }
 
     @Override
     protected void validateContent(JParameterData data) {
@@ -21,7 +28,7 @@ public final class JParameterValidator extends JAnnotatableValidator<JParameterD
             throw new JCodingValidationException("The type of parameter " + data.getName() + " is set to null");
 
         try {
-            typeReferenceValidator.validate(data.getType());
+            JTypeReferenceValidator.getInstance().validate(data.getType());
         } catch (Exception e) {
             throw new JCodingValidationException("Validation failed for parameter " + data.getName(), e);
         }

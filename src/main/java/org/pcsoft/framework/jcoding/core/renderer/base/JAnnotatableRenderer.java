@@ -8,13 +8,12 @@ import java.util.stream.Collectors;
 
 @Slf4j
 public abstract class JAnnotatableRenderer<T extends JAnnotatableData> extends JNamedRenderer<T> {
-    private final JAnnotationReferenceRender annotationReferenceRender = new JAnnotationReferenceRender();
 
     @Override
     protected final String doRender(T data) {
         log.debug("Render annotatable object " + data.getName());
         return data.getAnnotationReferences().stream()
-                .map(annotationReferenceRender::renderToString)
+                .map(JAnnotationReferenceRender.getInstance()::renderToString)
                 .collect(Collectors.joining(System.lineSeparator())) +
                 System.lineSeparator() + doRenderContent(data);
     }

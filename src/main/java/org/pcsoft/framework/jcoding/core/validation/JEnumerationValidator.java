@@ -6,6 +6,15 @@ import org.pcsoft.framework.jcoding.core.validation.base.JTypeValidator;
 
 @Slf4j
 public final class JEnumerationValidator extends JTypeValidator<JEnumerationData> {
+    private static final JEnumerationValidator instance = new JEnumerationValidator();
+
+    public static JEnumerationValidator getInstance() {
+        return instance;
+    }
+
+    private JEnumerationValidator() {
+    }
+
     @Override
     protected void validateContent(JEnumerationData data) {
         super.validateContent(data);

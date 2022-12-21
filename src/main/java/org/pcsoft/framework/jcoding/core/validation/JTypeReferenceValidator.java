@@ -9,7 +9,14 @@ import org.pcsoft.framework.jcoding.exceptions.JCodingValidationException;
 public final class JTypeReferenceValidator extends JNamedValidator<JTypeReferenceData> {
     private static final String PATTERN = "^[A-Za-z_$][A-Za-z0-9_$]*$";
 
-    private final JPackageReferenceValidator packageReferenceValidator = new JPackageReferenceValidator();
+    private static final JTypeReferenceValidator instance = new JTypeReferenceValidator();
+
+    public static JTypeReferenceValidator getInstance() {
+        return instance;
+    }
+
+    private JTypeReferenceValidator() {
+    }
 
     @Override
     public void validate(JTypeReferenceData data) {
@@ -17,7 +24,7 @@ public final class JTypeReferenceValidator extends JNamedValidator<JTypeReferenc
 
         try {
             if (data.getPackageReference() != null) {
-                packageReferenceValidator.validate(data.getPackageReference());
+                JPackageReferenceValidator.getInstance().validate(data.getPackageReference());
             } else {
                 log.warn("Type referecne " + data.getName() + " contains no package");
             }

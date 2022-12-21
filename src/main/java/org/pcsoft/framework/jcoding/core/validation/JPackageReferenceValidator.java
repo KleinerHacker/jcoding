@@ -9,6 +9,15 @@ import org.pcsoft.framework.jcoding.exceptions.JCodingValidationException;
 public final class JPackageReferenceValidator extends JNamedValidator<JPackageReferenceData> {
     public static final String PATTERN = "^([A-Za-z_][A-Za-z0-9_]*)(\\.[A-Za-z_][A-Za-z0-9_]*)*$";
 
+    private static final JPackageReferenceValidator instance = new JPackageReferenceValidator();
+
+    public static JPackageReferenceValidator getInstance() {
+        return instance;
+    }
+
+    private JPackageReferenceValidator() {
+    }
+
     @Override
     public void validate(JPackageReferenceData data) {
         log.debug("Validate package reference " + data.getName());

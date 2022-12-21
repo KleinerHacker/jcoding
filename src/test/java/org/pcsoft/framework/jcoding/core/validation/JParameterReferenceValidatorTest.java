@@ -10,7 +10,7 @@ class JParameterReferenceValidatorTest {
     @Test
     void testSuccess() {
         Assertions.assertDoesNotThrow(() ->
-                new JParameterReferenceValidator().validate(
+                JParameterReferenceValidator.getInstance().validate(
                         new JParameterReferenceBuilder("name")
                                 .withValue(10)
                                 .build()
@@ -21,7 +21,7 @@ class JParameterReferenceValidatorTest {
     @Test
     void testSuccessNull() {
         Assertions.assertDoesNotThrow(() ->
-                new JParameterReferenceValidator().validate(
+                JParameterReferenceValidator.getInstance().validate(
                         new JParameterReferenceBuilder("name")
                                 .build()
                 )
@@ -31,7 +31,7 @@ class JParameterReferenceValidatorTest {
     @Test
     void testInvalidName() {
         Assertions.assertThrows(JCodingValidationException.class, () ->
-                new JParameterReferenceValidator().validate(
+                JParameterReferenceValidator.getInstance().validate(
                         new JParameterReferenceBuilder("123")
                                 .withValue(10)
                                 .build()

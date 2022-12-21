@@ -6,6 +6,15 @@ import org.pcsoft.framework.jcoding.core.renderer.base.JNamedRenderer;
 
 @Slf4j
 public final class JPackageReferenceRenderer extends JNamedRenderer<JPackageReferenceData> {
+    private static final JPackageReferenceRenderer instance = new JPackageReferenceRenderer();
+
+    public static JPackageReferenceRenderer getInstance() {
+        return instance;
+    }
+
+    private JPackageReferenceRenderer() {
+    }
+
     @Override
     protected String doRender(JPackageReferenceData data) {
         log.debug("Render package reference " + data.getName());

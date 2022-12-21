@@ -8,7 +8,7 @@ class JMethodRendererTest {
 
     @Test
     void testSimple() {
-        final var renderer = new JMethodRenderer();
+        final var renderer = JMethodRenderer.getInstance();
         final var code = renderer.renderToString(
                 new JMethodBuilder("doAny")
                         .build()
@@ -19,7 +19,7 @@ class JMethodRendererTest {
 
     @Test
     void testStatic() {
-        final var renderer = new JMethodRenderer();
+        final var renderer = JMethodRenderer.getInstance();
         final var code = renderer.renderToString(
                 new JMethodBuilder("doAny")
                         .isStatic()
@@ -31,7 +31,7 @@ class JMethodRendererTest {
 
     @Test
     void testAbstract() {
-        final var renderer = new JMethodRenderer();
+        final var renderer = JMethodRenderer.getInstance();
         final var code = renderer.renderToString(
                 new JMethodBuilder("doAny")
                         .isAbstract()
@@ -43,7 +43,7 @@ class JMethodRendererTest {
 
     @Test
     void testFinal() {
-        final var renderer = new JMethodRenderer();
+        final var renderer = JMethodRenderer.getInstance();
         final var code = renderer.renderToString(
                 new JMethodBuilder("doAny")
                         .isFinal()
@@ -55,7 +55,7 @@ class JMethodRendererTest {
 
     @Test
     void testType() {
-        final var renderer = new JMethodRenderer();
+        final var renderer = JMethodRenderer.getInstance();
         final var code = renderer.renderToString(
                 new JMethodBuilder("doAny")
                         .withReturnType(String.class)
@@ -67,7 +67,7 @@ class JMethodRendererTest {
 
     @Test
     void testCustomType() {
-        final var renderer = new JMethodRenderer();
+        final var renderer = JMethodRenderer.getInstance();
         final var code = renderer.renderToString(
                 new JMethodBuilder("doAny")
                         .withReturnType("Demo", x -> x.inPackage("org.pcsoft"))
@@ -79,7 +79,7 @@ class JMethodRendererTest {
 
     @Test
     void testSingleParameter() {
-        final var renderer = new JMethodRenderer();
+        final var renderer = JMethodRenderer.getInstance();
         final var code = renderer.renderToString(
                 new JMethodBuilder("doAny")
                         .withParameter("param", x -> x.ofType(int.class))
@@ -91,7 +91,7 @@ class JMethodRendererTest {
 
     @Test
     void testMultipleParameter() {
-        final var renderer = new JMethodRenderer();
+        final var renderer = JMethodRenderer.getInstance();
         final var code = renderer.renderToString(
                 new JMethodBuilder("doAny")
                         .withParameter("key", x -> x.ofType(String.class).isFinal())

@@ -10,7 +10,7 @@ class JFileValidatorTest {
     @Test
     public void testSuccess() {
         Assertions.assertDoesNotThrow(() ->
-                new JFileValidator().validate(
+                JFileValidator.getInstance().validate(
                         new JFileBuilder("Test.java")
                                 .build()
                 )
@@ -20,7 +20,7 @@ class JFileValidatorTest {
     @Test
     public void testInvalidName() {
         Assertions.assertThrows(JCodingValidationException.class, () ->
-                new JFileValidator().validate(
+                JFileValidator.getInstance().validate(
                         new JFileBuilder("123.java")
                                 .build()
                 )

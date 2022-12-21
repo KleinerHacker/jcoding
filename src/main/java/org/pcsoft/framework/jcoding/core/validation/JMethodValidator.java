@@ -9,7 +9,14 @@ import org.pcsoft.framework.jcoding.exceptions.JCodingValidationException;
 public final class JMethodValidator extends JMemberValidator<JMethodData> {
     private static final String PATTERN = "^[A-Za-z_$][A-Za-z0-9_$]*$";
 
-    private final JTypeReferenceValidator validator = new JTypeReferenceValidator();
+    private static final JMethodValidator instance = new JMethodValidator();
+
+    public static JMethodValidator getInstance() {
+        return instance;
+    }
+
+    private JMethodValidator() {
+    }
 
     @Override
     protected void validateContent(JMethodData data) {
@@ -23,7 +30,7 @@ public final class JMethodValidator extends JMemberValidator<JMethodData> {
         try {
             super.validateContent(data);
             if (data.getReturnType() != null) {
-                validator.validate(data.getReturnType());
+                JTypeReferenceValidator.getInstance().validate(data.getReturnType());
             }
         } catch (Exception e) {
             throw new JCodingValidationException("Validation failed for method " + data.getName(), e);

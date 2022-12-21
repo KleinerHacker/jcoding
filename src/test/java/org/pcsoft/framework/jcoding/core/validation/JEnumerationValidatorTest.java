@@ -10,7 +10,7 @@ class JEnumerationValidatorTest {
     @Test
     void testSuccessSimple() {
         Assertions.assertDoesNotThrow(() ->
-                new JEnumerationValidator().validateContent(
+                JEnumerationValidator.getInstance().validateContent(
                         new JEnumerationBuilder("MyEnum")
                                 .build()
                 )
@@ -20,7 +20,7 @@ class JEnumerationValidatorTest {
     @Test
     void testInvalidName() {
         Assertions.assertThrows(JCodingValidationException.class, () ->
-                new JEnumerationValidator().validateContent(
+                JEnumerationValidator.getInstance().validateContent(
                         new JEnumerationBuilder("123")
                                 .build()
                 )
@@ -30,7 +30,7 @@ class JEnumerationValidatorTest {
     @Test
     void testInvalidModifier() {
         Assertions.assertThrows(JCodingValidationException.class, () ->
-                new JEnumerationValidator().validateContent(
+                JEnumerationValidator.getInstance().validateContent(
                         new JEnumerationBuilder("123")
                                 .hasAccess(null)
                                 .build()

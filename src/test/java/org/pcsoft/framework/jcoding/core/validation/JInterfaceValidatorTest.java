@@ -10,7 +10,7 @@ class JInterfaceValidatorTest {
     @Test
     void testSuccessSimple() {
         Assertions.assertDoesNotThrow(() ->
-                new JInterfaceValidator().validateContent(
+                JInterfaceValidator.getInstance().validateContent(
                         new JInterfaceBuilder("MyInterface")
                                 .build()
                 )
@@ -20,7 +20,7 @@ class JInterfaceValidatorTest {
     @Test
     void testInvalidName() {
         Assertions.assertThrows(JCodingValidationException.class, () ->
-                new JInterfaceValidator().validateContent(
+                JInterfaceValidator.getInstance().validateContent(
                         new JInterfaceBuilder("123")
                                 .build()
                 )
@@ -30,7 +30,7 @@ class JInterfaceValidatorTest {
     @Test
     void testInvalidModifier() {
         Assertions.assertThrows(JCodingValidationException.class, () ->
-                new JInterfaceValidator().validateContent(
+                JInterfaceValidator.getInstance().validateContent(
                         new JInterfaceBuilder("123")
                                 .hasAccess(null)
                                 .build()

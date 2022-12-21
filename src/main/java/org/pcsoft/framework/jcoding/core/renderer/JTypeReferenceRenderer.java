@@ -6,7 +6,14 @@ import org.pcsoft.framework.jcoding.core.renderer.base.JNamedRenderer;
 
 @Slf4j
 public final class JTypeReferenceRenderer extends JNamedRenderer<JTypeReferenceData> {
-    private final JPackageReferenceRenderer packageReferenceRenderer = new JPackageReferenceRenderer();
+    private static final JTypeReferenceRenderer instance = new JTypeReferenceRenderer();
+
+    public static JTypeReferenceRenderer getInstance() {
+        return instance;
+    }
+
+    private JTypeReferenceRenderer() {
+    }
 
     @Override
     protected String doRender(JTypeReferenceData data) {
@@ -18,6 +25,6 @@ public final class JTypeReferenceRenderer extends JNamedRenderer<JTypeReferenceD
         if (data.getPackageReference() == null)
             return "";
 
-        return packageReferenceRenderer.renderToString(data.getPackageReference()) + ".";
+        return JPackageReferenceRenderer.getInstance().renderToString(data.getPackageReference()) + ".";
     }
 }

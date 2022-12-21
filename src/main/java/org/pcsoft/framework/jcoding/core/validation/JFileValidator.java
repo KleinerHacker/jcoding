@@ -1,21 +1,25 @@
 package org.pcsoft.framework.jcoding.core.validation;
 
 import lombok.extern.slf4j.Slf4j;
-import org.pcsoft.framework.jcoding.core.data.JClassData;
-import org.pcsoft.framework.jcoding.core.data.JEnumerationData;
-import org.pcsoft.framework.jcoding.core.data.JFileData;
-import org.pcsoft.framework.jcoding.core.data.JInterfaceData;
+import org.pcsoft.framework.jcoding.core.data.*;
+import org.pcsoft.framework.jcoding.core.data.base.JTypeData;
 import org.pcsoft.framework.jcoding.core.validation.base.JNamedValidator;
 import org.pcsoft.framework.jcoding.exceptions.JCodingValidationException;
+
+import java.util.function.Consumer;
 
 @Slf4j
 public final class JFileValidator extends JNamedValidator<JFileData> {
     private static final String PATTERN = "^([A-Za-z_][A-Za-z0-9_]*)\\.java$";
 
-    private final JPackageValidator packageValidator = new JPackageValidator();
-    private final JClassValidator classValidator = new JClassValidator();
-    private final JInterfaceValidator interfaceValidator = new JInterfaceValidator();
-    private final JEnumerationValidator enumerationValidator = new JEnumerationValidator();
+    private static final JFileValidator instance = new JFileValidator();
+
+    public static JFileValidator getInstance() {
+        return instance;
+    }
+
+    private JFileValidator() {
+    }
 
     @Override
     public void validate(JFileData data) {
@@ -23,30 +27,26 @@ public final class JFileValidator extends JNamedValidator<JFileData> {
 
         try {
             if (data.getPackageData() != null) {
-                packageValidator.validate(data.getPackageData());
+                JPackageValidator.getInstance().validate(data.getPackageData());
             } else {
                 log.warn("File has no package: " + data.getName());
             }
-            //Classes
-            data.getTypes().stream()
-                    .filter(x -> x instanceof JClassData)
-                    .map(x -> (JClassData) x)
-                    .forEach(classValidator::validateContent);
-            //Interfaces
-            data.getTypes().stream()
-                    .filter(x -> x instanceof JInterfaceData)
-                    .map(x -> (JInterfaceData) x)
-                    .forEach(interfaceValidator::validateContent);
-            //Enumeration
-            data.getTypes().stream()
-                    .filter(x -> x instanceof JEnumerationData)
-                    .map(x -> (JEnumerationData) x)
-                    .forEach(enumerationValidator::validateContent);
+            validateType(JClassData.class, data, JClassValidator.getInstance()::validate);
+            validateType(JInterfaceData.class, data, JInterfaceValidator.getInstance()::validate);
+            validateType(JEnumerationData.class, data, JEnumerationValidator.getInstance()::validate);
         } catch (JCodingValidationException e) {
             throw new JCodingValidationException("Validation failed for file " + data.getName(), e);
         }
 
         if (!data.getName().matches(PATTERN))
             throw new JCodingValidationException("File with name '" + data.getName() + "' is wrong");
+    }
+
+    @SuppressWarnings({"FunctionalExpressionCanBeFolded", "unchecked"})
+    private <T extends JTypeData>void validateType(Class<T> clazz, JFileData data, Consumer<T> validator) {
+        data.getTypes().stream()
+                .filter(x -> clazz.isAssignableFrom(x.getClass()))
+                .map(x -> (T) x)
+                .forEach(validator::accept);
     }
 }

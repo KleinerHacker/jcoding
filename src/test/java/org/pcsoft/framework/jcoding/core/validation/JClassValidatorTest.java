@@ -10,7 +10,7 @@ class JClassValidatorTest {
     @Test
     void testSimpleSuccess() {
         Assertions.assertDoesNotThrow(() ->
-                new JClassValidator().validateContent(
+                JClassValidator.getInstance().validateContent(
                         new JClassBuilder("Test")
                                 .build()
                 )
@@ -20,7 +20,7 @@ class JClassValidatorTest {
     @Test
     void testStaticSuccess() {
         Assertions.assertDoesNotThrow(() ->
-                new JClassValidator().validateContent(
+                JClassValidator.getInstance().validateContent(
                         new JClassBuilder("Test")
                                 .isStatic()
                                 .build()
@@ -31,7 +31,7 @@ class JClassValidatorTest {
     @Test
     void testAbstractSuccess() {
         Assertions.assertDoesNotThrow(() ->
-                new JClassValidator().validateContent(
+                JClassValidator.getInstance().validateContent(
                         new JClassBuilder("Test")
                                 .isAbstract()
                                 .build()
@@ -42,7 +42,7 @@ class JClassValidatorTest {
     @Test
     void testInvalidName() {
         Assertions.assertThrows(JCodingValidationException.class, () ->
-                new JClassValidator().validateContent(
+                JClassValidator.getInstance().validateContent(
                         new JClassBuilder("123")
                                 .build()
                 )
@@ -52,7 +52,7 @@ class JClassValidatorTest {
     @Test
     void testInvalidAccessModifier() {
         Assertions.assertThrows(JCodingValidationException.class, () ->
-                new JClassValidator().validateContent(
+                JClassValidator.getInstance().validateContent(
                         new JClassBuilder("Test")
                                 .hasAccess(null)
                                 .build()
@@ -63,7 +63,7 @@ class JClassValidatorTest {
     @Test
     void testStaticAbstractSuccess() {
         Assertions.assertDoesNotThrow(() ->
-                new JClassValidator().validateContent(
+                JClassValidator.getInstance().validateContent(
                         new JClassBuilder("Test")
                                 .isStatic()
                                 .isAbstract()
@@ -75,7 +75,7 @@ class JClassValidatorTest {
     @Test
     void testStaticFinalSuccess() {
         Assertions.assertDoesNotThrow(() ->
-                new JClassValidator().validateContent(
+                JClassValidator.getInstance().validateContent(
                         new JClassBuilder("Test")
                                 .isStatic()
                                 .isFinal()
@@ -87,7 +87,7 @@ class JClassValidatorTest {
     @Test
     void testInvalidModifierAbstractFinal() {
         Assertions.assertThrows(JCodingValidationException.class, () ->
-                new JClassValidator().validateContent(
+                JClassValidator.getInstance().validateContent(
                         new JClassBuilder("Test")
                                 .isFinal()
                                 .isAbstract()
