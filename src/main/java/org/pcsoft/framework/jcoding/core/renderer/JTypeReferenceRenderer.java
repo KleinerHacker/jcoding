@@ -11,6 +11,13 @@ public final class JTypeReferenceRenderer extends JNamedRenderer<JTypeReferenceD
     @Override
     protected String doRender(JTypeReferenceData data) {
         log.debug("Render package reference " + data.getName());
-        return packageReferenceRenderer.renderToString(data.getPackageReference()) + "." + data.getName();
+        return buildPackage(data) + data.getName();
+    }
+
+    private String buildPackage(JTypeReferenceData data) {
+        if (data.getPackageReference() == null)
+            return "";
+
+        return packageReferenceRenderer.renderToString(data.getPackageReference()) + ".";
     }
 }

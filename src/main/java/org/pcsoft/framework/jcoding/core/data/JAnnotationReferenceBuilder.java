@@ -2,6 +2,7 @@ package org.pcsoft.framework.jcoding.core.data;
 
 import lombok.extern.slf4j.Slf4j;
 import org.pcsoft.framework.jcoding.core.data.base.JBuilder;
+import org.pcsoft.framework.jcoding.core.utils.TypeConverter;
 
 import java.util.function.Function;
 
@@ -12,11 +13,7 @@ public final class JAnnotationReferenceBuilder extends JBuilder<JAnnotationRefer
     }
 
     public JAnnotationReferenceBuilder ofType(Class<?> type) {
-        data.setType(
-                new JTypeReferenceBuilder(type.getSimpleName())
-                        .inPackage(type.getPackageName())
-                        .build()
-        );
+        data.setType(TypeConverter.toTypeReference(type));
         log.trace("Set annotation reference type to " + type.getCanonicalName());
 
         return this;

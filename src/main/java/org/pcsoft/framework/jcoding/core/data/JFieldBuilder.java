@@ -2,6 +2,7 @@ package org.pcsoft.framework.jcoding.core.data;
 
 import lombok.extern.slf4j.Slf4j;
 import org.pcsoft.framework.jcoding.core.data.base.JMemberBuilder;
+import org.pcsoft.framework.jcoding.core.utils.TypeConverter;
 
 import java.util.function.Function;
 
@@ -18,7 +19,9 @@ public final class JFieldBuilder extends JMemberBuilder<JFieldData, JFieldBuilde
     }
 
     public JFieldBuilder typeOf(Class<?> type) {
-        return typeOf(type.getSimpleName(), x -> x.inPackage(type.getPackageName()));
+        data.setType(TypeConverter.toTypeReference(type));
+        log.debug("Set field " + data.getName() + " to type " + data.getType());
+        return this;
     }
 
     public JFieldBuilder typeOf(String name, Function<JTypeReferenceBuilder, JTypeReferenceBuilder> func) {

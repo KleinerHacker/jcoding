@@ -1,15 +1,21 @@
 package org.pcsoft.framework.jcoding.core.renderer;
 
+import lombok.extern.slf4j.Slf4j;
 import org.pcsoft.framework.jcoding.core.data.JMethodData;
 import org.pcsoft.framework.jcoding.core.renderer.base.JMemberRenderer;
 
+import java.util.stream.Collectors;
+
+@Slf4j
 public final class JMethodRenderer extends JMemberRenderer<JMethodData> {
     private final JTypeReferenceRenderer typeReferenceRenderer = new JTypeReferenceRenderer();
+    private final JParameterRenderer parameterRenderer = new JParameterRenderer();
 
     @Override
     protected String doRenderContent(JMethodData data) {
+        log.debug("Render method " + data.getName());
         return buildModifier(data) + " " + buildTypeReference(data)
-                + " " + data.getName() + "()" + buildBody(data);
+                + " " + data.getName() + "(" + buildParameterList(data) + ")" + buildBody(data);
     }
 
     @Override
@@ -28,6 +34,15 @@ public final class JMethodRenderer extends JMemberRenderer<JMethodData> {
             return "void";
 
         return typeReferenceRenderer.renderToString(data.getReturnType());
+    }
+
+    private String buildParameterList(JMethodData data) {
+        if (data.getParameters().isEmpty())
+            return "";
+
+        return data.getParameters().stream()
+                .map(parameterRenderer::renderToString)
+                .collect(Collectors.joining(", "));
     }
 
     private String buildBody(JMethodData data) {

@@ -7,7 +7,7 @@ import org.pcsoft.framework.jcoding.core.data.JTypeReferenceBuilder;
 class JTypeReferenceRendererTest {
 
     @Test
-    void test() {
+    void testSimple() {
         final var renderer = new JTypeReferenceRenderer();
         final var code = renderer.renderToString(
                 new JTypeReferenceBuilder("String")
@@ -16,6 +16,17 @@ class JTypeReferenceRendererTest {
         );
 
         Assertions.assertEquals("java.lang.String", code);
+    }
+
+    @Test
+    void testNoPackage() {
+        final var renderer = new JTypeReferenceRenderer();
+        final var code = renderer.renderToString(
+                new JTypeReferenceBuilder("int")
+                        .build()
+        );
+
+        Assertions.assertEquals("int", code);
     }
 
 }
