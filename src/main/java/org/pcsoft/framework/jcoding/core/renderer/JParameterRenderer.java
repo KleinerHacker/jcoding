@@ -16,8 +16,8 @@ public final class JParameterRenderer extends JAnnotatableRenderer<JParameterDat
     }
 
     @Override
-    protected String doRenderContent(JParameterData data) {
+    protected String doRenderContent(int indent, JParameterData data) {
         log.debug("Render parameter " + data.getName());
-        return (data.isFinal() ? "final " : "") + JTypeReferenceRenderer.getInstance().renderToString(data.getType()) + " " + data.getName();
+        return (data.isFinal() ? "final " : "") + JTypeReferenceRenderer.getInstance().renderUntrimmedToString(indent, data.getType()) + " " + data.getName();
     }
 }

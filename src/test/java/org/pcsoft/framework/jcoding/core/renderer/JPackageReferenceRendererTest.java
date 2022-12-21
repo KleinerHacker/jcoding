@@ -9,7 +9,7 @@ class JPackageReferenceRendererTest {
     @Test
     void test() {
         final var renderer = JPackageReferenceRenderer.getInstance();
-        final var code = renderer.renderToString(
+        final var code = renderer.renderToString(0,
                 new JPackageReferenceBuilder("org.pcsoft.framework.jcoding")
                         .build()
         );

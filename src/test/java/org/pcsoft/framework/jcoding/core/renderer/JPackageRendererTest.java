@@ -8,7 +8,7 @@ class JPackageRendererTest {
 
     @Test
     void testSimple() {
-        final var code = JPackageRenderer.getInstance().renderToString(
+        final var code = JPackageRenderer.getInstance().renderToString(0,
                 new JPackageBuilder("org.pcsoft.framework.jcoding")
                         .build()
         );
@@ -18,7 +18,7 @@ class JPackageRendererTest {
 
     @Test
     void testWithAnnotation() {
-        final var code = JPackageRenderer.getInstance().renderToString(
+        final var code = JPackageRenderer.getInstance().renderToString(0,
                 new JPackageBuilder("org.pcsoft.framework.jcoding")
                         .withAnnotation(x -> x.ofType(Test.class))
                         .build()

@@ -10,7 +10,7 @@ class JFieldRendererTest {
     @Test
     void testSimple() {
         final var renderer = JFieldRenderer.getInstance();
-        final var code = renderer.renderToString(
+        final var code = renderer.renderToString(0,
                 new JFieldBuilder("test")
                         .typeOf(String.class)
                         .build()
@@ -22,7 +22,7 @@ class JFieldRendererTest {
     @Test
     void testStatic() {
         final var renderer = JFieldRenderer.getInstance();
-        final var code = renderer.renderToString(
+        final var code = renderer.renderToString(0,
                 new JFieldBuilder("test")
                         .typeOf("Test", x -> x.inPackage("org.pcsoft"))
                         .hasAccess(JAccessModifier.PRIVATE)
@@ -36,7 +36,7 @@ class JFieldRendererTest {
     @Test
     void testFinal() {
         final var renderer = JFieldRenderer.getInstance();
-        final var code = renderer.renderToString(
+        final var code = renderer.renderToString(0,
                 new JFieldBuilder("test")
                         .typeOf(String.class)
                         .isFinal()
@@ -49,7 +49,7 @@ class JFieldRendererTest {
     @Test
     void testStaticFinal() {
         final var renderer = JFieldRenderer.getInstance();
-        final var code = renderer.renderToString(
+        final var code = renderer.renderToString(0,
                 new JFieldBuilder("test")
                         .typeOf(String.class)
                         .isStatic()
@@ -63,7 +63,7 @@ class JFieldRendererTest {
     @Test
     void testConstant() {
         final var renderer = JFieldRenderer.getInstance();
-        final var code = renderer.renderToString(
+        final var code = renderer.renderToString(0,
                 new JFieldBuilder("test")
                         .typeOf(String.class)
                         .isStatic()

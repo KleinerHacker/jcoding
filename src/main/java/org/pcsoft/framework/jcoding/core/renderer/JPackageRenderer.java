@@ -15,8 +15,8 @@ public final class JPackageRenderer extends JAnnotatableRenderer<JPackageData> {
     private JPackageRenderer() {
     }
     @Override
-    protected String doRenderContent(JPackageData data) {
+    protected String doRenderContent(int indent, JPackageData data) {
         log.debug("Render package " + data.getName());
-        return "package " + data.getName() + ";";
+        return buildIndent(indent) + "package " + data.getName() + ";";
     }
 }

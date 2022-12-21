@@ -9,7 +9,7 @@ class JEnumerationRendererTest {
     @Test
     void testSimple() {
         final var renderer = JEnumerationRenderer.getInstance();
-        final var code = renderer.renderToString(
+        final var code = renderer.renderToString(0,
                 new JEnumerationBuilder("MyEnum")
                         .build()
         );

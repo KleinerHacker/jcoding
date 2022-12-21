@@ -24,24 +24,24 @@ public final class JFileRenderer extends JRenderer<JFileData> {
     }
 
     @Override
-    protected String doRender(JFileData data) {
+    protected String doRender(int indent, JFileData data) {
         log.debug("Render file " + data.getName());
-        return JPackageRenderer.getInstance().renderToString(data.getPackageData()) + System.lineSeparator() //
-                + renderType(JClassData.class, data, JClassRenderer.getInstance()::renderToString) //
-                + renderType(JInterfaceData.class, data, JInterfaceRenderer.getInstance()::renderToString) //
-                + renderType(JEnumerationData.class, data, JEnumerationRenderer.getInstance()::renderToString);
+        return JPackageRenderer.getInstance().renderUntrimmedToString(indent, data.getPackageData()) + System.lineSeparator() //
+                + renderType(JClassData.class, data, x -> JClassRenderer.getInstance().renderUntrimmedToString(indent, x)) //
+                + renderType(JInterfaceData.class, data, x -> JInterfaceRenderer.getInstance().renderUntrimmedToString(indent, x)) //
+                + renderType(JEnumerationData.class, data, x -> JEnumerationRenderer.getInstance().renderUntrimmedToString(indent, x));
     }
 
     @SuppressWarnings({"FunctionalExpressionCanBeFolded", "unchecked"})
     private <T extends JTypeData> String renderType(Class<T> clazz, JFileData data, Function<T, String> renderer) {
-        final var s = data.getTypes().stream() //
-                .filter(x -> clazz.isAssignableFrom(x.getClass())) //
-                .map(x -> (T) x) //
-                .map(renderer::apply) //
+        final var s = data.getTypes().stream()
+                .filter(x -> clazz.isAssignableFrom(x.getClass()))
+                .map(x -> (T) x)
+                .map(renderer::apply)
                 .collect(Collectors.joining(System.lineSeparator()));
         if (StringUtils.isBlank(s))
             return "";
 
-        return s + System.lineSeparator();
+        return System.lineSeparator() + s + System.lineSeparator();
     }
 }

@@ -12,17 +12,17 @@ import java.util.stream.Collectors;
 
 public abstract class JTypeRenderer<T extends JTypeData> extends JMemberRenderer<T> {
     @Override
-    protected final String doRenderContent(T data) {
-        return doRenderBody(data, () -> //
-                renderMember(JFieldData.class, data, JFieldRenderer.getInstance()::renderToString) //
-                        + renderMember(JMethodData.class, data, JMethodRenderer.getInstance()::renderToString) //
-                        + renderMember(JClassData.class, data, JClassRenderer.getInstance()::renderToString) //
-                        + renderMember(JInterfaceData.class, data, JInterfaceRenderer.getInstance()::renderToString) //
-                        + renderMember(JEnumerationData.class, data, JEnumerationRenderer.getInstance()::renderToString) //
+    protected final String doRenderContent(int indent, T data) {
+        return doRenderBody(indent, data, () -> //
+                renderMember(JFieldData.class, data, x -> JFieldRenderer.getInstance().renderUntrimmedToString(indent + 1, x)) //
+                        + renderMember(JMethodData.class, data, x -> JMethodRenderer.getInstance().renderUntrimmedToString(indent + 1, x)) //
+                        + renderMember(JClassData.class, data, x -> JClassRenderer.getInstance().renderUntrimmedToString(indent + 1, x)) //
+                        + renderMember(JInterfaceData.class, data, x -> JInterfaceRenderer.getInstance().renderUntrimmedToString(indent + 1, x)) //
+                        + renderMember(JEnumerationData.class, data, x -> JEnumerationRenderer.getInstance().renderUntrimmedToString(indent + 1, x)) //
         );
     }
 
-    protected abstract String doRenderBody(T data, Supplier<String> bodyContent);
+    protected abstract String doRenderBody(int indent, T data, Supplier<String> bodyContent);
 
     @SuppressWarnings({"unchecked", "FunctionalExpressionCanBeFolded"})
     private <M extends JMemberData> String renderMember(Class<M> clazz, T data, Function<M, String> renderer) {
@@ -35,6 +35,6 @@ public abstract class JTypeRenderer<T extends JTypeData> extends JMemberRenderer
         if (StringUtils.isBlank(s))
             return "";
 
-        return s + System.lineSeparator();
+        return System.lineSeparator() + s + System.lineSeparator();
     }
 }

@@ -18,11 +18,11 @@ public final class JClassRenderer extends JTypeRenderer<JClassData> {
     }
 
     @Override
-    protected String doRenderBody(JClassData data, Supplier<String> bodyContent) {
+    protected String doRenderBody(int indent, JClassData data, Supplier<String> bodyContent) {
         log.debug("Render class " + data.getName());
-        return buildModifier(data) + " class " + data.getName() + " {" + System.lineSeparator()
+        return buildIndent(indent) + buildModifier(data) + " class " + data.getName() + " {" + System.lineSeparator()
                 + bodyContent.get() + System.lineSeparator()
-                + "}";
+                + buildIndent(indent) + "}";
     }
 
     @Override

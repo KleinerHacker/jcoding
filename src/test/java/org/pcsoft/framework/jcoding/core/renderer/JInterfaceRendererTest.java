@@ -9,7 +9,7 @@ class JInterfaceRendererTest {
     @Test
     void testSimple() {
         final var renderer = JInterfaceRenderer.getInstance();
-        final var code = renderer.renderToString(
+        final var code = renderer.renderToString(0,
                 new JInterfaceBuilder("MyInterface")
                         .build()
         );

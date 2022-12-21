@@ -10,7 +10,7 @@ class JClassRendererTest {
     @Test
     void testSimple() {
         final var renderer = JClassRenderer.getInstance();
-        final var code = renderer.renderToString(
+        final var code = renderer.renderToString(0,
                 new JClassBuilder("MyClass")
                         .build()
         );
@@ -26,7 +26,7 @@ class JClassRendererTest {
     @Test
     void testAbstract() {
         final var renderer = JClassRenderer.getInstance();
-        final var code = renderer.renderToString(
+        final var code = renderer.renderToString(0,
                 new JClassBuilder("MyClass")
                         .hasAccess(JAccessModifier.PACKAGE_INTERNAL)
                         .isAbstract()
@@ -44,7 +44,7 @@ class JClassRendererTest {
     @Test
     void testFinal() {
         final var renderer = JClassRenderer.getInstance();
-        final var code = renderer.renderToString(
+        final var code = renderer.renderToString(0,
                 new JClassBuilder("MyClass")
                         .hasAccess(JAccessModifier.PACKAGE_INTERNAL)
                         .isFinal()
@@ -62,7 +62,7 @@ class JClassRendererTest {
     @Test
     void testStatic() {
         final var renderer = JClassRenderer.getInstance();
-        final var code = renderer.renderToString(
+        final var code = renderer.renderToString(0,
                 new JClassBuilder("MyClass")
                         .hasAccess(JAccessModifier.PROTECTED)
                         .isStatic()
@@ -80,10 +80,10 @@ class JClassRendererTest {
     @Test
     void testWithContent() {
         final var renderer = JClassRenderer.getInstance();
-        final var code = renderer.renderToString(
+        final var code = renderer.renderToString(0,
                 new JClassBuilder("MyClass")
                         .withField("myField", x -> x.typeOf(int.class).hasAccess(JAccessModifier.PRIVATE))
-                        .withMethod("doAny", x -> x.withParameter("value", y -> y.ofType(double.class)))
+                        .withMethod("doAny", x -> x.withParameter("value", y -> y.ofType(double.class).isFinal()))
                         .withClass("MySubClass", x -> x)
                         .withInterface("MySubInterface", x -> x)
                         .withEnumeration("MySubEnum", x -> x)
@@ -92,18 +92,23 @@ class JClassRendererTest {
 
         Assertions.assertEquals(
                 "public class MyClass {" + System.lineSeparator()
-                        + "private int myField;" + System.lineSeparator()
-                        + "public void doAny(double value) {" + System.lineSeparator()
-                        + "}" + System.lineSeparator()
-                        + "public class MySubClass {" + System.lineSeparator()
                         + System.lineSeparator()
-                        + "}" + System.lineSeparator()
-                        + "public interface MySubInterface {" + System.lineSeparator()
+                        + "  private int myField;" + System.lineSeparator()
                         + System.lineSeparator()
-                        + "}" + System.lineSeparator()
-                        + "public enum MySubEnum {" + System.lineSeparator()
+                        + "  public void doAny(final double value) {" + System.lineSeparator()
+                        + "  }" + System.lineSeparator()
                         + System.lineSeparator()
-                        + "}" + System.lineSeparator()
+                        + "  public class MySubClass {" + System.lineSeparator()
+                        + System.lineSeparator()
+                        + "  }" + System.lineSeparator()
+                        + System.lineSeparator()
+                        + "  public interface MySubInterface {" + System.lineSeparator()
+                        + System.lineSeparator()
+                        + "  }" + System.lineSeparator()
+                        + System.lineSeparator()
+                        + "  public enum MySubEnum {" + System.lineSeparator()
+                        + System.lineSeparator()
+                        + "  }" + System.lineSeparator()
                         + System.lineSeparator()
                         + "}",
                 code

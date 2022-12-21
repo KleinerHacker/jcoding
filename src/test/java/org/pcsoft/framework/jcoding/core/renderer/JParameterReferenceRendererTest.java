@@ -11,7 +11,7 @@ class JParameterReferenceRendererTest {
     @Test
     void testInteger() {
         final var renderer = JParameterReferenceRenderer.getInstance();
-        final var code = renderer.renderToString(
+        final var code = renderer.renderToString(0,
                 new JParameterReferenceBuilder("number")
                         .withValue(10)
                         .build()
@@ -23,7 +23,7 @@ class JParameterReferenceRendererTest {
     @Test
     void testLong() {
         final var renderer = JParameterReferenceRenderer.getInstance();
-        final var code = renderer.renderToString(
+        final var code = renderer.renderToString(0,
                 new JParameterReferenceBuilder("number")
                         .withValue(10L)
                         .build()
@@ -35,7 +35,7 @@ class JParameterReferenceRendererTest {
     @Test
     void testDouble() {
         final var renderer = JParameterReferenceRenderer.getInstance();
-        final var code = renderer.renderToString(
+        final var code = renderer.renderToString(0,
                 new JParameterReferenceBuilder("number")
                         .withValue(1.1d)
                         .build()
@@ -47,7 +47,7 @@ class JParameterReferenceRendererTest {
     @Test
     void testFloat() {
         final var renderer = JParameterReferenceRenderer.getInstance();
-        final var code = renderer.renderToString(
+        final var code = renderer.renderToString(0,
                 new JParameterReferenceBuilder("number")
                         .withValue(1.1f)
                         .build()
@@ -59,7 +59,7 @@ class JParameterReferenceRendererTest {
     @Test
     void testString() {
         final var renderer = JParameterReferenceRenderer.getInstance();
-        final var code = renderer.renderToString(
+        final var code = renderer.renderToString(0,
                 new JParameterReferenceBuilder("text")
                         .withValue("demo")
                         .build()
@@ -71,7 +71,7 @@ class JParameterReferenceRendererTest {
     @Test
     void testCharacter() {
         final var renderer = JParameterReferenceRenderer.getInstance();
-        final var code = renderer.renderToString(
+        final var code = renderer.renderToString(0,
                 new JParameterReferenceBuilder("text")
                         .withValue('c')
                         .build()
@@ -83,7 +83,7 @@ class JParameterReferenceRendererTest {
     @Test
     void testBoolean() {
         final var renderer = JParameterReferenceRenderer.getInstance();
-        final var code = renderer.renderToString(
+        final var code = renderer.renderToString(0,
                 new JParameterReferenceBuilder("active")
                         .withValue(true)
                         .build()
@@ -95,7 +95,7 @@ class JParameterReferenceRendererTest {
     @Test
     void testClass() {
         final var renderer = JParameterReferenceRenderer.getInstance();
-        final var code = renderer.renderToString(
+        final var code = renderer.renderToString(0,
                 new JParameterReferenceBuilder("clazz")
                         .withValue(String.class)
                         .build()
@@ -107,7 +107,7 @@ class JParameterReferenceRendererTest {
     @Test
     void testEnum() {
         final var renderer = JParameterReferenceRenderer.getInstance();
-        final var code = renderer.renderToString(
+        final var code = renderer.renderToString(0,
                 new JParameterReferenceBuilder("select")
                         .withValue(Proxy.Type.HTTP)
                         .build()

@@ -16,7 +16,7 @@ public final class JPackageReferenceRenderer extends JNamedRenderer<JPackageRefe
     }
 
     @Override
-    protected String doRender(JPackageReferenceData data) {
+    protected String doRender(int indent, JPackageReferenceData data) {
         log.debug("Render package reference " + data.getName());
         return data.getName();
     }

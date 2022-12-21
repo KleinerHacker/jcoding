@@ -71,6 +71,7 @@ class JCodingTest {
     private void assetCode(String code) {
         Assertions.assertEquals(
                 "package org.pcsoft.test;" + System.lineSeparator()
+                        + System.lineSeparator()
                         + "@org.junit.jupiter.api.Test(demo = 10)" + System.lineSeparator()
                         + "public abstract class MyClass {" + System.lineSeparator()
                         + System.lineSeparator()

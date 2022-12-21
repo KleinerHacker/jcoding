@@ -16,15 +16,15 @@ public final class JTypeReferenceRenderer extends JNamedRenderer<JTypeReferenceD
     }
 
     @Override
-    protected String doRender(JTypeReferenceData data) {
+    protected String doRender(int indent, JTypeReferenceData data) {
         log.debug("Render package reference " + data.getName());
-        return buildPackage(data) + data.getName();
+        return buildPackage(indent, data) + data.getName();
     }
 
-    private String buildPackage(JTypeReferenceData data) {
+    private String buildPackage(int indent, JTypeReferenceData data) {
         if (data.getPackageReference() == null)
             return "";
 
-        return JPackageReferenceRenderer.getInstance().renderToString(data.getPackageReference()) + ".";
+        return JPackageReferenceRenderer.getInstance().renderUntrimmedToString(indent, data.getPackageReference()) + ".";
     }
 }

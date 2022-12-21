@@ -10,14 +10,18 @@ import java.nio.charset.StandardCharsets;
 
 @Slf4j
 public abstract class JRenderer<T extends JData> {
-    protected abstract String doRender(T data);
+    protected abstract String doRender(int indent, T data);
 
-    public final String renderToString(T data) {
-        return renderToString(data, false);
+    public final String renderUntrimmedToString(int indent, T data) {
+        return doRender(indent, data);
     }
 
-    public final String renderToString(T data, boolean logging) {
-        final var code = StringUtils.trim(doRender(data));
+    public final String renderToString(int indent, T data) {
+        return renderToString(indent, data, false);
+    }
+
+    public final String renderToString(int indent, T data, boolean logging) {
+        final var code = StringUtils.trim(doRender(indent, data));
         if (logging) {
             log.trace(code);
         }
@@ -25,19 +29,23 @@ public abstract class JRenderer<T extends JData> {
         return code;
     }
 
-    public final void render(T data, OutputStream out, boolean logging) throws IOException {
-        final var code = renderToString(data, logging);
+    public final void render(int indent, T data, OutputStream out, boolean logging) throws IOException {
+        final var code = renderToString(indent, data, logging);
         IOUtils.write(code, out, StandardCharsets.UTF_8);
     }
 
-    public final void render(T data, Writer writer, boolean logging) throws IOException {
-        final var code = renderToString(data, logging);
+    public final void render(int indent, T data, Writer writer, boolean logging) throws IOException {
+        final var code = renderToString(indent, data, logging);
         IOUtils.write(code, writer);
     }
 
-    public final void render(T data, File file, boolean logging) throws IOException {
+    public final void render(int indent, T data, File file, boolean logging) throws IOException {
         try (final var out = new FileOutputStream(file)) {
-            render(data, out, logging);
+            render(indent, data, out, logging);
         }
+    }
+
+    protected final String buildIndent(int indent) {
+        return StringUtils.repeat(" ", indent * 2);
     }
 }

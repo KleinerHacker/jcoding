@@ -18,10 +18,10 @@ public final class JMethodRenderer extends JMemberRenderer<JMethodData> {
     }
 
     @Override
-    protected String doRenderContent(JMethodData data) {
+    protected String doRenderContent(int indent, JMethodData data) {
         log.debug("Render method " + data.getName());
-        return buildModifier(data) + " " + buildTypeReference(data)
-                + " " + data.getName() + "(" + buildParameterList(data) + ")" + buildBody(data);
+        return buildIndent(indent) + buildModifier(data) + " " + buildTypeReference(indent, data)
+                + " " + data.getName() + "(" + buildParameterList(indent, data) + ")" + buildBody(indent, data);
     }
 
     @Override
@@ -35,27 +35,27 @@ public final class JMethodRenderer extends JMemberRenderer<JMethodData> {
         return modifier;
     }
 
-    private String buildTypeReference(JMethodData data) {
+    private String buildTypeReference(int indent, JMethodData data) {
         if (data.getReturnType() == null)
             return "void";
 
-        return JTypeReferenceRenderer.getInstance().renderToString(data.getReturnType());
+        return JTypeReferenceRenderer.getInstance().renderUntrimmedToString(indent, data.getReturnType());
     }
 
-    private String buildParameterList(JMethodData data) {
+    private String buildParameterList(int indent, JMethodData data) {
         if (data.getParameters().isEmpty())
             return "";
 
         return data.getParameters().stream()
-                .map(JParameterRenderer.getInstance()::renderToString)
+                .map(x -> JParameterRenderer.getInstance().renderUntrimmedToString(indent, x))
                 .collect(Collectors.joining(", "));
     }
 
-    private String buildBody(JMethodData data) {
+    private String buildBody(int indent, JMethodData data) {
         if (data.isAbstract())
             return ";";
 
         return " {" + System.lineSeparator()
-                + "}";
+                + buildIndent(indent) + "}";
     }
 }

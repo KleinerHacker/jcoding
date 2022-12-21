@@ -9,7 +9,7 @@ class JFileRendererTest {
     @Test
     void testSimpleClass() {
         final var renderer = JFileRenderer.getInstance();
-        final var code = renderer.renderToString(
+        final var code = renderer.renderToString(0,
                 new JFileBuilder("MyClass.java")
                         .inPackage("org.pcsoft.test")
                         .withClass("MyClass", c -> c
@@ -24,6 +24,7 @@ class JFileRendererTest {
 
         Assertions.assertEquals(
                 "package org.pcsoft.test;" + System.lineSeparator()
+                        + System.lineSeparator()
                         + "@org.junit.jupiter.api.Test(demo = 10)" + System.lineSeparator()
                         + "public abstract class MyClass {" + System.lineSeparator()
                         + System.lineSeparator()
@@ -35,7 +36,7 @@ class JFileRendererTest {
     @Test
     void testSimpleInterface() {
         final var renderer = JFileRenderer.getInstance();
-        final var code = renderer.renderToString(
+        final var code = renderer.renderToString(0,
                 new JFileBuilder("MyInterface.java")
                         .inPackage("org.pcsoft.test")
                         .withInterface("MyInterface", c -> c
@@ -49,6 +50,7 @@ class JFileRendererTest {
 
         Assertions.assertEquals(
                 "package org.pcsoft.test;" + System.lineSeparator()
+                        + System.lineSeparator()
                         + "@org.junit.jupiter.api.Test(demo = 10)" + System.lineSeparator()
                         + "public interface MyInterface {" + System.lineSeparator()
                         + System.lineSeparator()
@@ -60,7 +62,7 @@ class JFileRendererTest {
     @Test
     void testSimpleEnumeration() {
         final var renderer = JFileRenderer.getInstance();
-        final var code = renderer.renderToString(
+        final var code = renderer.renderToString(0,
                 new JFileBuilder("MyEnum.java")
                         .inPackage("org.pcsoft.test")
                         .withEnumeration("MyEnum", c -> c
@@ -74,6 +76,7 @@ class JFileRendererTest {
 
         Assertions.assertEquals(
                 "package org.pcsoft.test;" + System.lineSeparator()
+                        + System.lineSeparator()
                         + "@org.junit.jupiter.api.Test(demo = 10)" + System.lineSeparator()
                         + "public enum MyEnum {" + System.lineSeparator()
                         + System.lineSeparator()

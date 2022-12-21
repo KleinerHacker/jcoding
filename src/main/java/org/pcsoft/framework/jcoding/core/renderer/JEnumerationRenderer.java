@@ -18,10 +18,10 @@ public final class JEnumerationRenderer extends JTypeRenderer<JEnumerationData> 
     }
 
     @Override
-    protected String doRenderBody(JEnumerationData data, Supplier<String> bodyContent) {
+    protected String doRenderBody(int indent, JEnumerationData data, Supplier<String> bodyContent) {
         log.debug("Render enumeration " + data.getName());
-        return data.getAccess().getModifier() + " enum " + data.getName() + " {" + System.lineSeparator()
+        return buildIndent(indent) + data.getAccess().getModifier() + " enum " + data.getName() + " {" + System.lineSeparator()
                 + bodyContent.get() + System.lineSeparator()
-                + "}";
+                + buildIndent(indent) + "}";
     }
 }

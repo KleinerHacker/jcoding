@@ -25,27 +25,27 @@ public final class JCoding {
         log.info("Validate file " + file.getName());
         JFileValidator.getInstance().validate(file);
         log.info("Render file " + file.getName());
-        return JFileRenderer.getInstance().renderToString(file, true);
+        return JFileRenderer.getInstance().renderToString(0, file, true);
     }
 
     public static void renderFile(JFileData file, OutputStream out) throws IOException {
         log.info("Validate file " + file.getName());
         JFileValidator.getInstance().validate(file);
         log.info("Render file " + file.getName());
-        JFileRenderer.getInstance().render(file, out, true);
+        JFileRenderer.getInstance().render(0, file, out, true);
     }
 
     public static void renderFile(JFileData file, Writer writer) throws IOException {
         log.info("Validate file " + file.getName());
         JFileValidator.getInstance().validate(file);
         log.info("Render file " + file.getName());
-        JFileRenderer.getInstance().render(file, writer, true);
+        JFileRenderer.getInstance().render(0, file, writer, true);
     }
 
     public static void renderFile(JFileData file, File f) throws IOException {
         log.info("Validate file " + file.getName());
         JFileValidator.getInstance().validate(file);
         log.info("Render file " + file.getName());
-        JFileRenderer.getInstance().render(file, f, true);
+        JFileRenderer.getInstance().render(0, file, f, true);
     }
 }

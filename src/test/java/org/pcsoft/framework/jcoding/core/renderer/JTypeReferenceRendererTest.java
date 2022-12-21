@@ -9,7 +9,7 @@ class JTypeReferenceRendererTest {
     @Test
     void testSimple() {
         final var renderer = JTypeReferenceRenderer.getInstance();
-        final var code = renderer.renderToString(
+        final var code = renderer.renderToString(0,
                 new JTypeReferenceBuilder("String")
                         .inPackage("java.lang")
                         .build()
@@ -21,7 +21,7 @@ class JTypeReferenceRendererTest {
     @Test
     void testNoPackage() {
         final var renderer = JTypeReferenceRenderer.getInstance();
-        final var code = renderer.renderToString(
+        final var code = renderer.renderToString(0,
                 new JTypeReferenceBuilder("int")
                         .build()
         );
