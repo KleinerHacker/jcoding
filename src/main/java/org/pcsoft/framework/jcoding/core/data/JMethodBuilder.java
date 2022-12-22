@@ -14,32 +14,32 @@ public final class JMethodBuilder extends JMemberBuilder<JMethodData, JMethodBui
 
     public JMethodBuilder isFinal() {
         data.setFinal(true);
-        log.debug("Set method " + data.getName() + " to final");
+        log.trace("Set method " + data.getName() + " to final");
         return this;
     }
 
     public JMethodBuilder isAbstract() {
         data.setAbstract(true);
-        log.debug("Set method " + data.getName() + " to abstract");
+        log.trace("Set method " + data.getName() + " to abstract");
         return this;
     }
 
     public JMethodBuilder withReturnType(Class<?> type) {
         data.setReturnType(TypeConverter.toTypeReference(type));
-        log.debug("Set return value of method " + data.getName() + " to " + data.getReturnType());
+        log.trace("Set return value of method " + data.getName() + " to " + data.getReturnType());
         return this;
     }
 
     public JMethodBuilder withReturnType(String name, Function<JTypeReferenceBuilder, JTypeReferenceBuilder> func) {
         data.setReturnType(func.apply(new JTypeReferenceBuilder(name)).build());
-        log.debug("Set return value of method " + data.getName() + " to " + data.getReturnType());
+        log.trace("Set return value of method " + data.getName() + " to " + data.getReturnType());
         return this;
     }
 
     public JMethodBuilder withParameter(String name, Function<JParameterBuilder, JParameterBuilder> func) {
         final var parameterData = func.apply(new JParameterBuilder(name)).build();
         data.getParameters().add(parameterData);
-        log.debug("Add parameter " + parameterData + " to method " + data.getName());
+        log.trace("Add parameter " + parameterData + " to method " + data.getName());
         return this;
     }
 }

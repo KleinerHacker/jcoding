@@ -19,13 +19,13 @@ public final class JParameterBuilder extends JAnnotatableBuilder<JParameterData,
 
     public JParameterBuilder ofType(Class<?> type) {
         data.setType(TypeConverter.toTypeReference(type));
-        log.debug("Set type of parameter " + data.getName() + " to " + data.getType());
+        log.trace("Set type of parameter " + data.getName() + " to " + data.getType());
         return this;
     }
 
     public JParameterBuilder ofType(String name, Function<JTypeReferenceBuilder, JTypeReferenceBuilder> func) {
         data.setType(func.apply(new JTypeReferenceBuilder(name)).build());
-        log.debug("Set type of parameter " + data.getName() + " to " + data.getType());
+        log.trace("Set type of parameter " + data.getName() + " to " + data.getType());
         return this;
     }
 }

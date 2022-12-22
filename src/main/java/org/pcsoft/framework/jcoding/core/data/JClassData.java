@@ -13,4 +13,5 @@ import org.pcsoft.framework.jcoding.core.data.base.JTypeData;
 public final class JClassData extends JTypeData {
     private boolean isAbstract;
     private boolean isFinal;
+    private JTypeReferenceData superType;
 }

@@ -5,6 +5,9 @@ import org.junit.jupiter.api.Test;
 import org.pcsoft.framework.jcoding.core.data.JClassBuilder;
 import org.pcsoft.framework.jcoding.core.type.JAccessModifier;
 
+import java.io.Serializable;
+import java.util.List;
+
 class JClassRendererTest {
 
     @Test
@@ -71,6 +74,60 @@ class JClassRendererTest {
 
         Assertions.assertEquals(
                 "protected static class MyClass {" + System.lineSeparator()
+                        + System.lineSeparator()
+                        + "}",
+                code
+        );
+    }
+
+    @Test
+    void testExtends() {
+        final var renderer = JClassRenderer.getInstance();
+        final var code = renderer.renderToString(0,
+                new JClassBuilder("MyClass")
+                        .useSuperType("Demo", x -> x.inPackage("org.pcsoft"))
+                        .build()
+        );
+
+        Assertions.assertEquals(
+                "public class MyClass extends org.pcsoft.Demo {" + System.lineSeparator()
+                        + System.lineSeparator()
+                        + "}",
+                code
+        );
+    }
+
+    @Test
+    void testImplements() {
+        final var renderer = JClassRenderer.getInstance();
+        final var code = renderer.renderToString(0,
+                new JClassBuilder("MyClass")
+                        .useInterface(List.class)
+                        .useInterface(Serializable.class)
+                        .build()
+        );
+
+        Assertions.assertEquals(
+                "public class MyClass implements java.util.List, java.io.Serializable {" + System.lineSeparator()
+                        + System.lineSeparator()
+                        + "}",
+                code
+        );
+    }
+
+    @Test
+    void testExtendsAndImplements() {
+        final var renderer = JClassRenderer.getInstance();
+        final var code = renderer.renderToString(0,
+                new JClassBuilder("MyClass")
+                        .useSuperType("Demo", x -> x.inPackage("org.pcsoft"))
+                        .useInterface(List.class)
+                        .useInterface(Serializable.class)
+                        .build()
+        );
+
+        Assertions.assertEquals(
+                "public class MyClass extends org.pcsoft.Demo implements java.util.List, java.io.Serializable {" + System.lineSeparator()
                         + System.lineSeparator()
                         + "}",
                 code
