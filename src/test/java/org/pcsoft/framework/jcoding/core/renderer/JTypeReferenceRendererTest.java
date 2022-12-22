@@ -29,4 +29,18 @@ class JTypeReferenceRendererTest {
         Assertions.assertEquals("int", code);
     }
 
+    @Test
+    void testGenerics() {
+        final var renderer = JTypeReferenceRenderer.getInstance();
+        final var code = renderer.renderToString(0,
+                new JTypeReferenceBuilder("Map")
+                        .inPackage("java.lang")
+                        .withGeneric(String.class)
+                        .withGeneric(Integer.class)
+                        .build()
+        );
+
+        Assertions.assertEquals("java.lang.Map<java.lang.String, java.lang.Integer>", code);
+    }
+
 }
