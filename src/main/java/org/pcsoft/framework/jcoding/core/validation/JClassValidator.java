@@ -18,9 +18,17 @@ public final class JClassValidator extends JTypeValidator<JClassData> {
 
     @Override
     protected void validateContent(JClassData data) {
-        super.validateContent(data);
-        log.debug("Validate class " + data.getName());
+        log.trace("Validate class " + data.getName());
         if (data.isAbstract() && data.isFinal())
             throw new JCodingValidationException("Modifier abstract and final was set for class " + data.getName());
+
+        try {
+            super.validateContent(data);
+            if (data.getSuperType() != null) {
+                JTypeReferenceValidator.getInstance().validate(data.getSuperType());
+            }
+        } catch (Exception e) {
+            throw new JCodingValidationException("Validation failed for class " + data.getName(), e);
+        }
     }
 }

@@ -20,7 +20,7 @@ public final class JParameterReferenceValidator extends JNamedValidator<JParamet
 
     @Override
     public void validate(JParameterReferenceData data) {
-        log.debug("Validate parameter reference " + data.getName());
+        log.trace("Validate parameter reference " + data.getName());
         if (!data.getName().matches(PATTERN))
             throw new JCodingValidationException("Parameter reference with name '" + data.getName() + "' is not allowed");
     }

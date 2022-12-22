@@ -18,7 +18,7 @@ public final class JParameterReferenceRenderer extends JNamedRenderer<JParameter
 
     @Override
     protected String doRender(int indent, JParameterReferenceData data) {
-        log.debug("Render parameter reference " + data.getName());
+        log.trace("Render parameter reference " + data.getName());
         return data.getName() + " = " + ObjectConverter.generateObjectString(data.getValue());
     }
 }

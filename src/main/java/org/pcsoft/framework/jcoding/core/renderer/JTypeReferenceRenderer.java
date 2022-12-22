@@ -19,7 +19,7 @@ public final class JTypeReferenceRenderer extends JNamedRenderer<JTypeReferenceD
 
     @Override
     protected String doRender(int indent, JTypeReferenceData data) {
-        log.debug("Render package reference " + data.getName());
+        log.trace("Render package reference " + data.getName());
         return buildPackage(indent, data) + data.getName() + buildGenerics(indent, data);
     }
 

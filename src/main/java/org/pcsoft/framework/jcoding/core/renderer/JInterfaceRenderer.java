@@ -20,7 +20,7 @@ public final class JInterfaceRenderer extends JTypeRenderer<JInterfaceData> {
 
     @Override
     protected String doRenderBody(int indent, JInterfaceData data, Supplier<String> bodyContent) {
-        log.debug("Render interface " + data.getName());
+        log.trace("Render interface " + data.getName());
         return buildIndent(indent) + data.getAccess().getModifier() + " interface " + data.getName() + buildExtensions(indent, data) + " {" + System.lineSeparator()
                 + bodyContent.get() + System.lineSeparator()
                 + buildIndent(indent) + "}";

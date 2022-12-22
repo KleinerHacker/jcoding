@@ -18,7 +18,7 @@ public final class JAnnotationReferenceValidator extends JValidator<JAnnotationR
 
     @Override
     public void validate(JAnnotationReferenceData data) {
-        log.debug("Validate type reference " + data.getType());
+        log.trace("Validate type reference " + data.getType());
 
         if (data.getType() == null)
             throw new JCodingValidationException("The type is set to null");

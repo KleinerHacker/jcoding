@@ -19,7 +19,7 @@ public final class JAnnotationReferenceRender extends JRenderer<JAnnotationRefer
 
     @Override
     protected String doRender(int indent, JAnnotationReferenceData data) {
-        log.debug("Render annotation reference " + data.getType());
+        log.trace("Render annotation reference " + data.getType());
         return buildIndent(indent) + "@" + JTypeReferenceRenderer.getInstance().renderUntrimmedToString(indent, data.getType()) + "(" +
                 data.getParameterReferences().stream()
                         .map(x -> JParameterReferenceRenderer.getInstance().renderUntrimmedToString(indent, x))

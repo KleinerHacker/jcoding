@@ -20,7 +20,7 @@ public final class JMethodValidator extends JMemberValidator<JMethodData> {
 
     @Override
     protected void validateContent(JMethodData data) {
-        log.debug("Validate method " + data.getName());
+        log.trace("Validate method " + data.getName());
 
         if (data.isStatic() && (data.isFinal() || data.isAbstract()))
             throw new JCodingValidationException("Cannot set static in combination with abstract or final in method " + data.getName());
@@ -32,6 +32,7 @@ public final class JMethodValidator extends JMemberValidator<JMethodData> {
             if (data.getReturnType() != null) {
                 JTypeReferenceValidator.getInstance().validate(data.getReturnType());
             }
+            data.getParameters().forEach(JParameterValidator.getInstance()::validate);
         } catch (Exception e) {
             throw new JCodingValidationException("Validation failed for method " + data.getName(), e);
         }

@@ -20,7 +20,7 @@ public final class JFieldValidator extends JMemberValidator<JFieldData> {
 
     @Override
     protected void validateContent(JFieldData data) {
-        log.debug("Validate field " + data.getName());
+        log.trace("Validate field " + data.getName());
 
         if (data.getType() == null)
             throw new JCodingValidationException("The type of field " + data.getName() + " is set to null");

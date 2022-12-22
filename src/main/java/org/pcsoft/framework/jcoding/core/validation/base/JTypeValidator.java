@@ -23,6 +23,8 @@ public abstract class JTypeValidator<T extends JTypeData> extends JMemberValidat
             validateMember(JClassData.class, data, JClassValidator.getInstance()::validate);
             validateMember(JInterfaceData.class, data, JInterfaceValidator.getInstance()::validate);
             validateMember(JEnumerationData.class, data, JEnumerationValidator.getInstance()::validate);
+
+            data.getSuperInterfaces().forEach(JTypeReferenceValidator.getInstance()::validate);
         } catch (Exception e) {
             throw new JCodingValidationException("Failed to validate type " + data.getName(), e);
         }

@@ -20,7 +20,7 @@ public final class JPackageValidator extends JAnnotatableValidator<JPackageData>
 
     @Override
     protected void validateContent(JPackageData data) {
-        log.debug("Validate package " + data.getName());
+        log.trace("Validate package " + data.getName());
         if (!data.getName().matches(PATTERN))
             throw new JCodingValidationException("Package name '" + data.getName() + "' not allowed");
     }

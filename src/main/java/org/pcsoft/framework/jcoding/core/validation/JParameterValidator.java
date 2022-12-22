@@ -20,7 +20,7 @@ public final class JParameterValidator extends JAnnotatableValidator<JParameterD
 
     @Override
     protected void validateContent(JParameterData data) {
-        log.debug("Validate parameter " + data.getName());
+        log.trace("Validate parameter " + data.getName());
 
         if (!data.getName().matches(PATTERN))
             throw new JCodingValidationException("The name '" + data.getName() + "' is not allowed for parameter");

@@ -19,7 +19,7 @@ public final class JMethodRenderer extends JMemberRenderer<JMethodData> {
 
     @Override
     protected String doRenderContent(int indent, JMethodData data) {
-        log.debug("Render method " + data.getName());
+        log.trace("Render method " + data.getName());
         return buildIndent(indent) + buildModifier(data) + " " + buildTypeReference(indent, data)
                 + " " + data.getName() + "(" + buildParameterList(indent, data) + ")" + buildBody(indent, data);
     }

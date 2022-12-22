@@ -20,7 +20,7 @@ public final class JClassRenderer extends JTypeRenderer<JClassData> {
 
     @Override
     protected String doRenderBody(int indent, JClassData data, Supplier<String> bodyContent) {
-        log.debug("Render class " + data.getName());
+        log.trace("Render class " + data.getName());
         return buildIndent(indent) + buildModifier(data) + " class " + data.getName() + buildExtensions(indent, data) + " {" + System.lineSeparator()
                 + bodyContent.get() + System.lineSeparator()
                 + buildIndent(indent) + "}";

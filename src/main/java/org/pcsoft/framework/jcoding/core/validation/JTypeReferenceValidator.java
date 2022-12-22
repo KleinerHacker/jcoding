@@ -20,7 +20,7 @@ public final class JTypeReferenceValidator extends JNamedValidator<JTypeReferenc
 
     @Override
     public void validate(JTypeReferenceData data) {
-        log.debug("Validate type reference " + data.getName());
+        log.trace("Validate type reference " + data.getName());
 
         try {
             if (data.getPackageReference() != null) {

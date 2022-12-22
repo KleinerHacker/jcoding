@@ -20,7 +20,7 @@ public final class JPackageReferenceValidator extends JNamedValidator<JPackageRe
 
     @Override
     public void validate(JPackageReferenceData data) {
-        log.debug("Validate package reference " + data.getName());
+        log.trace("Validate package reference " + data.getName());
         if (!data.getName().matches(PATTERN))
             throw new JCodingValidationException("package reference name '" + data.getName() + "' not allowed");
     }

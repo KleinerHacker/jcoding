@@ -18,7 +18,7 @@ public final class JFieldRenderer extends JMemberRenderer<JFieldData> {
 
     @Override
     protected String doRenderContent(int indent, JFieldData data) {
-        log.debug("Render field " + data.getName());
+        log.trace("Render field " + data.getName());
         return buildIndent(indent) + buildModifier(data) + " " + JTypeReferenceRenderer.getInstance().renderUntrimmedToString(indent, data.getType()) + " " + data.getName() + buildValue(data) + ";";
     }
 
